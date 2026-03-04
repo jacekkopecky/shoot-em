@@ -9,6 +9,7 @@ body {
   width: 100svw;
   display: flex;
   flex-direction: column;
+  font-family: sans-serif;
 }
 
 header {
@@ -42,4 +43,24 @@ button {
 #startBtn {
   margin: 1em 0 2em;
   align-self: center;
+}
+
+#log {
+  white-space: pre-line;
+  font-size: 11px;
+  font-family: monospace;
+  position: fixed;
+  bottom: 5%;
+  left: 5%;
+}
+
+#player {
+  position: fixed;
+  inset: 75% 0 25% 0;
+  font-size: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(0%);
+  transition: transform 0.05s;
 }

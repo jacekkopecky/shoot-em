@@ -4,7 +4,7 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## todo
 
-- [ ] try going fullscreen on the phone
+- [x] try going fullscreen on the phone
+- [x] try reacting to touch
 - [ ] try browser 3d performance
-- [ ] try reacting to touch
 - [ ] make the game
