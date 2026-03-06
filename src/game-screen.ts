@@ -29,7 +29,6 @@ function start() {
       onMove(currX) {
         playerX = currX;
         updateView();
-        log(`${currX}`);
       },
     });
   }

@@ -27,6 +27,7 @@ main {
 
   background-color: white;
   font-size: 6vmin;
+  perspective: 50vh;
 }
 
 button {
@@ -55,9 +56,25 @@ button {
   left: 5%;
 }
 
+#track {
+  background-color: #ccac90;
+  height: 350vh;
+  width: 100vw;
+  transform-origin: center 84%;
+  position: absolute;
+  bottom: -50vh;
+  left: 0;
+  transition: transform 1s;
+  transform: rotate3d(1, 0, 0, 60deg);
+}
+
 #player {
   position: fixed;
-  inset: 75% 0 25% 0;
+  top: 81%;
+  left: 0;
+  right: 0;
+  height: 0;
+
   font-size: 2em;
   display: flex;
   justify-content: center;
