@@ -10,11 +10,19 @@ This was inspired by Timeline Up, but without any spending of real money.
 - [x] split out splash-screen.ts and game-main.ts
 - [x] split out log.ts
   - [ ] only log in dev mode somehow?
-- [ ] draw a static game
+- [x] try using browser 3d
+  - [x] draw a static game
   - [x] make a track element that will be shown tilted away
   - [x] make the camera 3d
-  - [ ] use emoji for everything
-  - [ ] put things on the track, tilt them back towards me
-  - [ ] put a few haze elements at some distance
-- [ ] try browser 3d performance
+  - [x] put an onclick on the track that switches touch on/off (add a toggle in touch handler)
+  - [x] same onclick will make the track switch between tilted away and vertical but a bit further
+        in Z axis
+    - [x] it could always be that much further in Z axis anyway
+  - [x] use emoji for everything?
+  - [x] put things on the track, tilt them back towards me
+  - [x] put a few haze elements at some distance
+- [x] check browser 3d performance when the elements are moving towards us
+  - with DOM 3d transforms and small-ish images, we can have about 120 objects for 6fps on my phone
+  - type of object doesn't seem to matter: svg, bitmap 30px wide, text, emoji
+  - this is with 80vh of 10 haze planes
 - [ ] make the game
