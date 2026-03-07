@@ -2,9 +2,11 @@ export class TouchHandler {
   private lastTouchPercent: number | null = null;
   private currentX: number;
   private marginX: number;
+  private enabled = true;
 
   constructor(
     private el: HTMLElement,
+
     private opts: {
       initialX?: number;
       marginX?: number;
@@ -19,14 +21,17 @@ export class TouchHandler {
   }
 
   handleTouchStart = (e: TouchEvent) => {
+    if (!this.enabled) return;
     this.lastTouchPercent = this.getTouchPercent(e);
   };
 
   handleTouchEnd = (e: TouchEvent) => {
+    if (!this.enabled) return;
     this.lastTouchPercent = this.getTouchPercent(e);
   };
 
   handleTouchMove = (e: TouchEvent) => {
+    if (!this.enabled) return;
     const touchPercent = this.getTouchPercent(e);
     if (touchPercent != null && this.lastTouchPercent != null) {
       this.currentX += touchPercent - this.lastTouchPercent;
@@ -37,6 +42,10 @@ export class TouchHandler {
       this.opts.onMove?.(this.currentX);
     }
   };
+
+  toggle(value?: boolean) {
+    this.enabled = value == null ? !this.enabled : value;
+  }
 
   shutdown() {
     this.el.removeEventListener('touchstart', this.handleTouchStart);
