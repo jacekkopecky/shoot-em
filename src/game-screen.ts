@@ -43,9 +43,11 @@ function start() {
   }
 }
 
+const START_BEYOND = true;
+
+const N = 300;
 const MAX_OBJECT_INITIAL_Y_VH = 260;
 const OBJECT_SPEED_VHPS = 10;
-const N = 120;
 
 const objects: { el: HTMLElement; x: number; y: number }[] = [];
 
@@ -71,9 +73,11 @@ function setupObjects() {
   el.objects.textContent = '';
   objects.length = 0;
 
+  objectsPos = 0;
+
   for (let i = 0; i < N; i++) {
     const x = Math.random() * 80 - 40;
-    const y = (MAX_OBJECT_INITIAL_Y_VH / N) * i - MAX_OBJECT_INITIAL_Y_VH;
+    const y = (MAX_OBJECT_INITIAL_Y_VH / N) * i - (START_BEYOND ? MAX_OBJECT_INITIAL_Y_VH : 0);
 
     const objDiv = document.createElement('div');
 
@@ -120,18 +124,23 @@ function setObjectElPosition(objDiv: HTMLElement, x: number, y: number) {
 }
 
 let frames = 0;
+let objectsPos = 0;
 function moveObjectsOnAnimationFrame(ms: number) {
   if (isPlaying()) {
     if (lastTimeMs != null) {
       const msElapsed = ms - lastTimeMs;
-      for (const obj of objects) {
-        obj.y += (OBJECT_SPEED_VHPS * msElapsed) / 1000;
-        setObjectElPosition(obj.el, obj.x, obj.y);
-      }
+      const delta = (OBJECT_SPEED_VHPS * msElapsed) / 1000;
+      // for (const obj of objects) {
+      //   obj.y += delta;
+      //   setObjectElPosition(obj.el, obj.x, obj.y);
+      // }
+      objectsPos += delta;
+
+      setObjectElPosition(el.objects, 0, objectsPos);
 
       frames += 1;
       if (lastTimeMs % 1000 > ms % 1000) {
-        log(String(frames));
+        log(`${N}: ${frames}`);
         frames = 0;
       }
     }

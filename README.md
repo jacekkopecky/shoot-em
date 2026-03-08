@@ -22,7 +22,8 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [x] put things on the track, tilt them back towards me
   - [x] put a few haze elements at some distance
 - [x] check browser 3d performance when the elements are moving towards us
-  - with DOM 3d transforms and small-ish images, we can have about 120 objects for 6fps on my phone
-  - type of object doesn't seem to matter: svg, bitmap 30px wide, text, emoji
-  - this is with 80vh of 10 haze planes
+  - with DOM 3d transforms and small-ish images, we can have about 120 objects for 60fps on my phone
+    - type of object doesn't seem to matter: svg, bitmap 30px wide, text, emoji
+    - this is with 80vh of 10 haze planes
+  - same as above but moving the whole #objects element, 300 objects at 60fps
 - [ ] make the game
