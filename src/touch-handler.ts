@@ -1,7 +1,6 @@
 export class TouchHandler {
   private lastTouchPercent: number | null = null;
   private currentX: number;
-  private marginX: number;
   private enabled = true;
 
   constructor(
@@ -9,15 +8,13 @@ export class TouchHandler {
 
     private opts: {
       initialX?: number;
-      marginX?: number;
       onMove?(currX: number): void;
     },
   ) {
     el.addEventListener('touchstart', this.handleTouchStart, { passive: true });
     el.addEventListener('touchend', this.handleTouchEnd, { passive: true });
     el.addEventListener('touchmove', this.handleTouchMove, { passive: true });
-    this.currentX = opts.initialX || 50;
-    this.marginX = opts.marginX || 0;
+    this.currentX = opts.initialX ?? 50;
   }
 
   handleTouchStart = (e: TouchEvent) => {
@@ -34,12 +31,15 @@ export class TouchHandler {
     if (!this.enabled) return;
     const touchPercent = this.getTouchPercent(e);
     if (touchPercent != null && this.lastTouchPercent != null) {
+      const oldX = this.currentX;
       this.currentX += touchPercent - this.lastTouchPercent;
       this.lastTouchPercent = touchPercent;
-      if (this.currentX < this.marginX) this.currentX = this.marginX;
-      if (this.currentX > 100 - this.marginX) this.currentX = 100 - this.marginX;
+      if (this.currentX < 0) this.currentX = 0;
+      if (this.currentX > 100) this.currentX = 100;
 
-      this.opts.onMove?.(this.currentX);
+      if (oldX !== this.currentX && this.opts.onMove) {
+        this.opts.onMove(this.currentX);
+      }
     }
   };
 

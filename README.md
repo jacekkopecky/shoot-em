@@ -31,6 +31,18 @@ This was inspired by Timeline Up, but without any spending of real money.
 - [.] check browser performance with a canvas? or use three.js?
   - three.js seems to be happy with a couple thousand objects
   - [ ] rebuild what I have so far in three.js
+    - [x] planar mesh for the track
+    - [x] appropriate fog
+    - [x] sprite for player
+    - [x] sprites for objects, in a group that can be moved in animation
+    - [x] make sure I have a good understanding of my coordinates
+      - I'm not making the player yet right?
+      - 0,0,0 could be starting point for player
+      - camera could be looking towards 0,0,100 or somesuch?
+      - x,0,y (y positive) could be starting point of things
+    - [ ] smileys
+    - [ ] moving the player
 - [ ] make the game
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one?
+- [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?

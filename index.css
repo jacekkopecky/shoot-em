@@ -31,9 +31,10 @@ main {
     inset: 0;
   }
 
-  background-color: var(--haze-bg);
+  background-color: white;
   font-size: 6vmin;
   perspective: 50vh;
+  position: relative;
 
   * {
     transform-style: preserve-3d;
@@ -66,80 +67,7 @@ button {
   left: 5%;
 }
 
-#track {
-  background-color: #ccac90;
-  /* background: linear-gradient(var(--haze-bg), #ccac90 50vh, black 50vh, black 51vh, #ccac90 51vh, #ccac90); */
-
-  height: 350vh;
-  width: 100vw;
-  transform-origin: center 79%;
+#webgl-canvas {
   position: absolute;
-  bottom: -50vh;
-  left: 0;
-  transition: transform 1s;
-  transform: translateZ(-20vh) rotate3d(1, 0, 0, 0deg);
-
-  --tilt: 60deg;
-
-  &.playing {
-    transform: translateZ(-20vh) rotate3d(1, 0, 0, var(--tilt));
-  }
-  font-size: 2em;
-}
-
-#objects > *,
-#player {
-  position: absolute;
-
-  left: 0;
-  right: 0;
-  height: 0;
-
-  &#player {
-    top: 83%;
-  }
-
-  display: flex;
-  justify-content: center;
-  align-items: end;
-  transition: transform 0.05s;
-  /* it gets a transform translate to move/position left/right */
-
-  & > * {
-    /* make the actual object _stand_ on the line */
-    transition: transform 1s;
-    transform-origin: center bottom;
-
-    .playing & {
-      transform: rotate3d(1, 0, 0, calc(0deg - var(--tilt)));
-    }
-  }
-}
-
-#hazePlanes > * {
-  position: absolute;
-
-  left: 0;
-  right: 0;
-  height: 0;
-
-  position: relative;
-
-  & > * {
-    position: absolute;
-    left: -100%;
-    right: -100%;
-    bottom: 0;
-    height: 100vh;
-
-    background-color: var(--haze-bg);
-
-    /* border: solid thin black; */
-
-    transform-origin: center bottom;
-
-    .playing & {
-      transform: rotate3d(1, 0, 0, calc(0deg - var(--tilt)));
-    }
-  }
+  inset: 0;
 }

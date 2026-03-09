@@ -1,47 +1,41 @@
+import * as Three from 'three';
+
+import { cameraToTrackEndLength, objectSpeedPerSecond, trackLength } from './dimensions.js';
 import { log } from './log.js';
+import { camera, dispose, renderer, setupThree } from './three.js';
+import { createObject, createTrack } from './three-resources.js';
 import { TouchHandler } from './touch-handler.js';
 
 const el = {
-  track: document.querySelector<HTMLElement>('#track')!,
-  player: document.querySelector<HTMLElement>('#player')!,
-  objects: document.querySelector<HTMLElement>('#objects')!,
-  hazePlanes: document.querySelector<HTMLElement>('#hazePlanes')!,
   main: document.querySelector('main')!,
+  canvas: document.querySelector<HTMLCanvasElement>('#webgl-canvas')!,
 };
 
-const N = 300;
-const MAX_OBJECT_INITIAL_Y_VH = 260;
-const OBJECT_SPEED_VHPS = 10;
-const START_BEYOND = true;
-
-const playerMargin = 10;
-let playerX = 50;
+const N = 1000;
+const START_BEYOND = false;
 
 let handler: TouchHandler | null = null;
 
 export function start() {
   if (!handler) {
     handler = new TouchHandler(el.main, {
-      initialX: playerX,
-      marginX: playerMargin,
-      onMove(currX) {
-        playerX = currX;
-        updateView();
-      },
+      initialX: 50,
+      onMove: updatePlayerPosition,
     });
-    el.track.addEventListener('click', () => togglePlaying());
+    el.canvas.addEventListener('click', () => togglePlaying());
+    setupThree(el.main);
+    setupScene();
     setupObjects();
-    setupHazePlanes();
   }
 }
 
 function isPlaying() {
-  return el.track.classList.contains('playing');
+  return el.canvas.classList.contains('playing');
 }
 
 function togglePlaying(value?: boolean) {
   const playing = value ?? !isPlaying();
-  el.track.classList.toggle('playing', playing);
+  el.canvas.classList.toggle('playing', playing);
   handler?.toggle(playing);
 
   if (!playing) {
@@ -53,68 +47,56 @@ function togglePlaying(value?: boolean) {
 }
 
 let lastTimeMs: number | null = null;
-function setupObjects() {
-  el.objects.textContent = '';
+let scene: Three.Scene;
+let objectsGroup: Three.Group;
 
-  objectsPos = 0;
+function setupScene() {
+  if (scene) return;
+
+  scene = new Three.Scene();
+  scene.background = new Three.Color(0xb0b0b0);
+
+  scene.fog = new Three.Fog(
+    scene.background,
+    cameraToTrackEndLength - trackLength * 0.2,
+    cameraToTrackEndLength,
+  );
+
+  scene.add(createTrack());
+
+  const player = createObject('player');
+  scene.add(player);
+}
+
+function setupObjects() {
+  if (objectsGroup) {
+    scene.remove(objectsGroup);
+    dispose(objectsGroup);
+  }
+
+  objectsGroup = new Three.Group();
+  scene.add(objectsGroup);
 
   for (let i = 0; i < N; i++) {
     const x = Math.random() * 80 - 40;
-    const y = (MAX_OBJECT_INITIAL_Y_VH / N) * i - (START_BEYOND ? MAX_OBJECT_INITIAL_Y_VH : 50);
+    const y = -(trackLength / N) * i - (START_BEYOND ? trackLength : 50);
 
-    const objDiv = document.createElement('div');
-
-    const charDiv = document.createElement('div');
-    // charDiv.textContent = String(i + 1);
-    charDiv.textContent = '😀';
-
-    // const charDiv = document.createElement('img');
-    // charDiv.src = 'https://jacekkopecky.github.io/jewel-board/svgs/1x2-aqua.svg';
-    // charDiv.src = 'https://equations.jacek.cz/cherries.47ab7f9b.png';
-    // charDiv.width = 30;
-
-    objDiv.append(charDiv);
-    setObjectElPosition(objDiv, x, y);
-    el.objects.append(objDiv);
+    const obj = createObject('object');
+    obj.position.x = x;
+    obj.position.z = y;
+    objectsGroup.add(obj);
   }
-}
-
-const N_HAZE_STEPS = 9;
-const HAZE_DEPTH_VH = 80;
-
-function setupHazePlanes() {
-  el.hazePlanes.textContent = '';
-
-  // building haze planes from front to back so incoming stuff will come from the haze
-  for (let i = 0; i <= N_HAZE_STEPS; i++) {
-    const y = (HAZE_DEPTH_VH * (N_HAZE_STEPS - i)) / N_HAZE_STEPS;
-
-    const hazeLineDiv = document.createElement('div');
-    const hazeDiv = document.createElement('div');
-
-    const opacity = 1 / (N_HAZE_STEPS + 1 - i);
-    hazeDiv.style.opacity = String(opacity);
-
-    hazeLineDiv.append(hazeDiv);
-    setObjectElPosition(hazeLineDiv, 0, y);
-    el.hazePlanes.append(hazeLineDiv);
-  }
-}
-
-function setObjectElPosition(objDiv: HTMLElement, x: number, y: number) {
-  objDiv.style.transform = `translate(${x}%, ${y}vh)`;
 }
 
 let frames = 0;
-let objectsPos = 0;
 function moveObjectsOnAnimationFrame(ms: number) {
   if (isPlaying()) {
     if (lastTimeMs != null) {
       const msElapsed = ms - lastTimeMs;
-      const delta = (OBJECT_SPEED_VHPS * msElapsed) / 1000;
+      const delta = (objectSpeedPerSecond * msElapsed) / 1000;
 
-      objectsPos += delta;
-      setObjectElPosition(el.objects, 0, objectsPos);
+      objectsGroup.position.z += delta;
+      renderer.render(scene, camera);
 
       frames += 1;
       if (lastTimeMs % 1000 > ms % 1000) {
@@ -133,6 +115,6 @@ export function end() {
   togglePlaying(false);
 }
 
-function updateView() {
-  el.player.style.transform = `translateX(${playerX - 50}%)`;
+function updatePlayerPosition(playerX: number) {
+  // todo move player, take into account playerMargin
 }
