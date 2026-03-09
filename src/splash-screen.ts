@@ -4,6 +4,12 @@
 
 import { end, start } from './game-screen.js';
 
+const useFullscreen = false;
+
+if (useFullscreen) {
+  document.body.classList.add('fs');
+}
+
 const el = {
   startBtn: document.querySelector('#startBtn')!,
   endBtn: document.querySelector('#exitBtn')!,
@@ -11,21 +17,26 @@ const el = {
 };
 
 export function init() {
-  document.body.addEventListener('keyup', handleTopLevelSpaceKey);
-  el.startBtn.addEventListener('click', goFullscreen);
-  el.endBtn.addEventListener('click', exit);
+  if (useFullscreen) {
+    document.body.addEventListener('keyup', handleTopLevelSpaceKey);
+    el.startBtn.addEventListener('click', goFullscreen);
+    el.endBtn.addEventListener('click', exit);
 
-  el.main.addEventListener('fullscreenchange', () => {
-    if (document.fullscreenElement) {
-      start();
-    } else {
-      end();
-    }
-  });
+    el.main.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        start();
+      } else {
+        end();
+      }
+    });
+  } else {
+    start();
+  }
 }
 
 function goFullscreen() {
   el.main.requestFullscreen();
+  start();
 }
 
 function exit() {

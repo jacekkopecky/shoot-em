@@ -19,16 +19,20 @@ header {
   flex-direction: column;
   font-size: 8vmin;
 
-  /* display: none; */
+  body:not(.fs) & {
+    display: none;
+  }
 }
 
 main {
-  --haze-bg: #bbb;
-
-  &:not(:fullscreen) {
+  body.fs &:not(:fullscreen) {
     display: none;
     position: fixed;
     inset: 0;
+  }
+  body:not(.fs) & {
+    min-height: 100dvh;
+    min-width: 100dvw;
   }
 
   background-color: white;
