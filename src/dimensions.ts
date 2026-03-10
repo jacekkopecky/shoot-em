@@ -1,6 +1,8 @@
 export const sizes: Record<string, [number, number]> = {
-  defaultSize: [6, 10],
+  defaultSize: [10, 10],
+  player: [12, 12],
 } as const;
+export const spriteResolution = 64;
 
 export const trackLength = 400;
 export const trackWidth = 100;
