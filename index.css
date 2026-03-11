@@ -19,7 +19,7 @@ header {
   flex-direction: column;
   font-size: 8vmin;
 
-  body:not(.fs) & {
+  body:not(.using-fullscreen) & {
     display: none;
   }
 
@@ -30,12 +30,12 @@ header {
 }
 
 main {
-  body.fs &:not(:fullscreen) {
+  body.using-fullscreen &:not(:fullscreen) {
     display: none;
     position: fixed;
     inset: 0;
   }
-  body:not(.fs) & {
+  body:not(.using-fullscreen) & {
     min-height: 100dvh;
     min-width: 100dvw;
   }
@@ -49,7 +49,7 @@ main {
     transform-style: preserve-3d;
   }
 
-  &.playing > :not(.in-run) {
+  &.run > :not(.in-run) {
     opacity: 0;
     transition: opacity 0.5s;
     pointer-events: none;

@@ -7,11 +7,11 @@ import * as THREE from 'three';
 
 import { sizes, spriteResolution, trackLength, trackWidth } from './dimensions.js';
 
-// todo maybe also use some of these: 🍄‍🟫 🟡 😵
+// todo maybe also use some of these: 🍄‍🟫 🟡 😵‍💫
 const materials = {
   player: emojiSpriteMaterial('🍄'),
   object: emojiSpriteMaterial('😀'),
-  objectDying: emojiSpriteMaterial('😵‍💫'),
+  objectDying: emojiSpriteMaterial('😵'),
   bullet: emojiSpriteMaterial('⚫️'),
   defaultMaterial: new THREE.SpriteMaterial({ color: 0x00dddd }),
 } as const;

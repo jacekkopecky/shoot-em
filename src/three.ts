@@ -9,7 +9,7 @@ export let scene = new THREE.Scene();
 export const timer = new THREE.Timer();
 timer.connect(document);
 
-export function setupThree(main: HTMLElement) {
+export function init(main: HTMLElement) {
   const canvas = main.querySelector('canvas');
   if (!canvas) {
     throw new Error('cannot work without a canvas');
@@ -46,10 +46,6 @@ export function setupThree(main: HTMLElement) {
   };
 }
 
-export function setScene(s: THREE.Scene) {
-  scene = s;
-}
-
 export function render() {
   if (!scene) {
     console.warn('render called before setting the scene');
@@ -62,9 +58,10 @@ export function dispose(group: THREE.Object3D) {
   group.traverse(function (obj) {
     if (hasDisposables(obj)) {
       obj.geometry.dispose();
-      for (const mat of Array.isArray(obj.material) ? obj.material : [obj.material]) {
-        mat.dispose();
-      }
+      // not disposing materials, they are reused
+      // for (const mat of Array.isArray(obj.material) ? obj.material : [obj.material]) {
+      //   mat.dispose();
+      // }
     }
   });
 }
@@ -75,4 +72,12 @@ function hasDisposables(obj: unknown): obj is Pick<THREE.Mesh, 'geometry' | 'mat
     typeof obj === 'object' &&
     ((obj as THREE.Mesh).isMesh || (obj as THREE.Line).isLine)
   );
+}
+
+export function getObjectZ(obj: THREE.Object3D) {
+  return (obj.parent?.position?.z ?? 0) + obj.position.z;
+}
+
+export function isSprite(obj?: THREE.Object3D): obj is THREE.Sprite {
+  return Boolean(obj && 'isSprite' in obj && obj.isSprite);
 }
