@@ -14,6 +14,11 @@ export const N = 100;
 export const objectSpeedPerSecond = 10;
 export const objectDyingDuration = 0.3;
 
+export const playerShotTime = 1;
+export const playerBulletRange = 40;
+export const playerBulletLength = 10;
+export const playerBulletSpeed = 40;
+
 export const cameraPosition = [0, 130, 50] as const;
 export const cameraTarget = [0, 0, -100] as const;
 export const cameraFoV = 90;

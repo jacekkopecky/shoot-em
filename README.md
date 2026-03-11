@@ -5,12 +5,13 @@ This was inspired by Timeline Up, but without any spending of real money.
 ## todo
 
 - [ ] add bullets
-  - [ ] in their own group, starting from player (neg group Z) at fixed time intervals
+  - [x] in their own group, starting from player (neg group Z) at fixed time intervals
     - move the group every animation update
-    - every bullet has minZ (computed from range and initial position)
+    - [ ] change bullet range to minGroupZ: every bullet has minZ (computed from range and initial
+          position)
     - remove bullets that have reached their minZ
     - [ ] when I have more players and they aren't in line, make sure that a bullet is added to the
-          array in reverse Z order
+          array in minZ order so we can check only farthest few bullets
   - [ ] finding hits
     - have both bullets and objects sorted in Z axis
     - bullets have lengths (going forwards to -Z) so bullet ends (nearer player) are sorted
@@ -20,6 +21,7 @@ This was inspired by Timeline Up, but without any spending of real money.
     - using indexes, go through all ojects that are at the bullet's Z minus length or larger
     - the first that matches in X is hit, break to next bullet
       - on hit, decrease object health by bullet hit points, remove bullet
+  - [ ] stagger shooting for player groups? or shoot in waves?
 - [ ] some kinds of income
 - [ ] add main-screen elements: currencies, upgrade buttons
   - [ ] in showMainScreen, update the screen from state - wallet, possible upgrades etc.
@@ -36,6 +38,7 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
   - [ ] use SpriteMixer? https://github.com/felixmariotto/three-SpriteMixer/
     - probably can be done with AnimationMixer and discrete tracks?
+- [ ] error handling - unhandled exceptions and promises
 
 ---
 

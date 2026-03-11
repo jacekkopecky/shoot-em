@@ -8,19 +8,25 @@ import {
   N,
   objectDyingDuration,
   objectSpeedPerSecond,
+  playerBulletLength,
+  playerBulletRange,
+  playerBulletSpeed,
+  playerShotTime,
   startDistance,
   trackLength,
   trackWidth,
 } from './dimensions.js';
 import { logFps } from './log.js';
-import { dispose, getObjectZ, isSprite, render, scene, timer } from './three.js';
+import { showMainScreen } from './main-screen.js';
+import { dispose, getObjectX, getObjectZ, isSprite, render, scene, timer } from './three.js';
 import { createObject, createTrack, getSpriteMaterial } from './three-resources.js';
 import { TouchHandler } from './touch-handler.js';
-import { showMainScreen } from './main-screen.js';
+import { getBulletData, getPlayerData, getPlayerGroupData } from './types.js';
 
 let handler: TouchHandler;
 let objectsGroup: THREE.Group;
-let playerGroup: THREE.Object3D;
+let playerGroup: THREE.Group;
+let bulletsGroup: THREE.Group;
 
 let playing = false;
 let fullscreenPaused = false;
@@ -107,7 +113,6 @@ function endRun() {
   // show final stats of this run - gained currencies
   // when the user confirms that, move back to main screen
 
-  // todo use history.back() here?
   setTimeout(showMainScreen, 1000);
 }
 
@@ -124,12 +129,31 @@ function setupPlayer() {
     dispose(playerGroup);
   }
 
-  playerGroup = createObject('player');
+  playerGroup = new THREE.Group();
+  playerGroup.userData.type = 'playerGroup';
+
+  const player = createObject('player');
+  const pData = getPlayerData(player);
+  pData.shotTime = playerShotTime;
+  pData.remainingShotTime = playerShotTime / 2;
+  pData.range = playerBulletRange;
+  pData.bulletLength = playerBulletLength;
+  playerGroup.add(player);
+
+  const pgData = getPlayerGroupData(playerGroup);
+  pgData.width = pData.width;
+
   scene.add(playerGroup);
 }
 
 function setupBullets() {
-  // todo
+  if (bulletsGroup) {
+    scene.remove(bulletsGroup);
+    dispose(bulletsGroup);
+  }
+
+  bulletsGroup = new THREE.Group();
+  scene.add(bulletsGroup);
 }
 
 function setupObjects() {
@@ -154,7 +178,7 @@ function setupObjects() {
 
 function updatePlayerPosition(playerPercent: number) {
   let x = ((playerPercent - 50) * trackWidth) / 100;
-  const bound = (trackWidth - (playerGroup.userData.width ?? 0)) / 2;
+  const bound = (trackWidth - (getPlayerGroupData(playerGroup).width ?? 0)) / 2;
   if (x < -bound) x = -bound;
   if (x > bound) x = bound;
   playerGroup.position.x = x;
@@ -176,21 +200,39 @@ function moveObjects(delta: number) {
 }
 
 function moveBullets(delta: number) {
-  for (const child of objectsGroup.children) {
-    if (isSprite(child) && getObjectZ(child) > -20) {
-      if (!child.userData.dying && isObjectBeforePlayer(child)) {
-        child.material = getSpriteMaterial('objectDying');
-        child.userData.dying = true;
-        shrinkToGone(child, objectDyingDuration);
-      }
-    } else {
-      // no more children close enough;
-      break;
+  const deltaZ = playerBulletSpeed * delta;
+  // todo check for hits, with deltaZ added to each bullet's length, but only up to the bullet's minZ minus length
+
+  bulletsGroup.position.z -= deltaZ;
+
+  // remove bullets that are now past their range
+  for (const bullet of bulletsGroup.children) {
+    const bData = getBulletData(bullet);
+    if (getObjectZ(bullet) < -bData.range) {
+      bullet.removeFromParent();
     }
   }
+}
 
-  // first check for hits
-  // then move bulletGroup
+function shoot(delta: number) {
+  for (const player of playerGroup.children) {
+    const pData = getPlayerData(player);
+    pData.remainingShotTime -= delta;
+    if (pData.remainingShotTime <= 0) {
+      console.log(pData.remainingShotTime, pData.shotTime, delta);
+      pData.remainingShotTime += pData.shotTime;
+
+      const bullet = createObject('bullet');
+      const bData = getBulletData(bullet);
+      bData.range = pData.range;
+      bData.length = pData.bulletLength;
+      bullet.position.z = -bulletsGroup.position.z;
+      bullet.position.y = player.position.y / 2;
+      bullet.position.x = getObjectX(player);
+
+      bulletsGroup.add(bullet);
+    }
+  }
 }
 
 function isGameFinished() {
@@ -215,6 +257,7 @@ function animationFrame(ms?: number) {
     const delta = timer.getDelta();
     updateAnimations(delta);
     moveObjects(delta);
+    shoot(delta);
     moveBullets(delta);
 
     if (isGameFinished()) {

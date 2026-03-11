@@ -26,6 +26,7 @@ export function createObject(type: string): THREE.Object3D {
   sprite.scale.set(...size, 1);
   sprite.position.y = size[1] / 2;
   sprite.userData.width = size[0];
+  sprite.userData.type = type;
   return sprite;
 }
 
