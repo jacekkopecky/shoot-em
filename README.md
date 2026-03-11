@@ -46,7 +46,23 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [x] make objects die when too close
     - [x] have an animation manager
   - [ ] add bullets
+    - [ ] in their own group, starting from player (neg group Z) at fixed time intervals
+      - move the group every animation update
+      - every bullet has minZ (computed from range and initial position)
+      - remove bullets that have reached their minZ
+      - [ ] when I have more players and they aren't in line, make sure that a bullet is added to
+            the array in reverse Z order
+    - [ ] finding hits
+      - have both bullets and objects sorted in Z axis
+      - bullets have lengths (going forwards to -Z) so bullet ends (nearer player) are sorted
+      - bullets have hit points
+      - for each bullet find first object that's at the bullet's Z or smaller, starting from last
+        bullet's first object
+      - using indexes, go through all ojects that are at the bullet's Z minus length or larger
+      - the first that matches in X is hit, break to next bullet
+        - on hit, decrease object health by bullet hit points, remove bullet
 - [ ] make the game
+  - [ ] some kinds of income
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one?
 - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?

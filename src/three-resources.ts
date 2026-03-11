@@ -7,16 +7,16 @@ import * as THREE from 'three';
 
 import { sizes, spriteResolution, trackLength, trackWidth } from './dimensions.js';
 
+// todo maybe also use some of these: 🍄‍🟫 🟡 😵
 const materials = {
   player: emojiSpriteMaterial('🍄'),
   object: emojiSpriteMaterial('😀'),
   objectDying: emojiSpriteMaterial('😵‍💫'),
+  bullet: emojiSpriteMaterial('⚫️'),
   defaultMaterial: new THREE.SpriteMaterial({ color: 0x00dddd }),
 } as const;
 
 const trackMaterial = new THREE.MeshBasicMaterial({ color: 0xccac90 });
-
-// todo use some of these: 🍄 🍄‍🟫 🟡 😀 😵 😵‍💫 ⚫️
 
 export function createObject(type: string): THREE.Object3D {
   const material = materials[type as keyof typeof materials] ?? materials.defaultMaterial;
