@@ -18,6 +18,7 @@ export function shrinkToGone(obj: THREE.Object3D, duration: number) {
   const mixer = new THREE.AnimationMixer(obj);
   const clip = new THREE.AnimationClip('shrink', duration, [
     new THREE.KeyframeTrack('.scale', [0, duration], [...obj.scale, 0, 0, 0]),
+    new THREE.KeyframeTrack('.position[y]', [0, duration], [obj.position.y, 0]),
   ]);
   const action = mixer.clipAction(clip);
   action.loop = THREE.LoopOnce;
