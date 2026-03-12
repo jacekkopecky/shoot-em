@@ -7,6 +7,10 @@ export const spriteResolution = 64;
 
 export const trackLength = 400;
 export const trackWidth = 100;
+export const trackDecorationN = 20;
+export const trackDecorationLength = 8;
+export const trackDecorationThickness = 3;
+
 export const startDistance = -50; // -trackLength;
 export const behindCamera = 50;
 

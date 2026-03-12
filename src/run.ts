@@ -8,9 +8,11 @@ import { dispose, getObjectX, getObjectZ, isSprite, render, scene, timer } from 
 import {
   createObject,
   createTrack,
+  createTrackDecorations,
   doObjectsOverlapInX,
   getObjectWidth,
   getSpriteMaterial,
+  moveTrackDecorations,
 } from './three-resources.js';
 import { TouchHandler } from './touch-handler.js';
 import {
@@ -25,6 +27,7 @@ let handler: TouchHandler;
 let objectsGroup: THREE.Group;
 let playerGroup: THREE.Group;
 let bulletsGroup: THREE.Group;
+let trackDecorationsGroup: THREE.Group;
 
 let playing = false;
 let fullscreenPaused = false;
@@ -68,7 +71,7 @@ function toggleTouchHandler() {
 
 function setupScene() {
   scene.clear();
-  scene.background = new THREE.Color(0xb0b0b0);
+  scene.background = new THREE.Color(0xb0c0d0);
 
   scene.fog = new THREE.Fog(
     scene.background,
@@ -77,6 +80,16 @@ function setupScene() {
   );
 
   scene.add(createTrack());
+  trackDecorationsGroup = createTrackDecorations();
+  scene.add(trackDecorationsGroup);
+
+  // lights
+  const skylight = new THREE.HemisphereLight(0xffffff, 0xb97a20, 1);
+  scene.add(skylight);
+
+  const sunlight = new THREE.DirectionalLight(0xffffff, 3);
+  sunlight.position.set(10, 10, 5);
+  scene.add(sunlight);
 }
 
 /**
@@ -274,6 +287,7 @@ function shoot(delta: number) {
       bData.minZ = bulletsGroup.position.z - pData.range;
       bData.length = pData.bulletLength;
       bData.hitPoints = dim.playerBulletHitPoints;
+      bData.width = 0; // let bullets just graze the target without hitting it
       bullet.position.z = -bulletsGroup.position.z;
       bullet.position.y = player.position.y;
       bullet.position.x = getObjectX(player);
@@ -303,6 +317,7 @@ function animationFrame(ms?: number) {
     const delta = timer.getDelta();
     updateAnimations(delta);
     moveObjects(delta);
+    moveTrackDecorations(trackDecorationsGroup, delta);
     shoot(delta);
     moveBullets(delta);
 

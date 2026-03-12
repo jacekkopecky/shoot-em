@@ -5,8 +5,8 @@
 
 import * as THREE from 'three';
 
-import { sizes, spriteResolution, trackLength, trackWidth } from './dimensions.js';
-import { getObjectX } from './three.js';
+import * as dim from './dimensions.js';
+import { getObjectX, makeHalfCubeGeometry } from './three.js';
 
 // todo maybe also use some of these: 🍄‍🟫 🟡 😵‍💫
 const materials = {
@@ -17,11 +17,15 @@ const materials = {
   defaultMaterial: new THREE.SpriteMaterial({ color: 0x00dddd }),
 } as const;
 
-const trackMaterial = new THREE.MeshBasicMaterial({ color: 0xccac90 });
+const trackMaterial = new THREE.MeshLambertMaterial({ color: 0xccac90 });
+const trackDecorationsMaterial = new THREE.MeshLambertMaterial({
+  color: 0xaa8a70,
+  flatShading: true,
+});
 
 export function createObject(type: string): THREE.Object3D {
   const material = materials[type as keyof typeof materials] ?? materials.defaultMaterial;
-  const size = sizes[type as keyof typeof sizes] ?? sizes.defaultSize!;
+  const size = dim.sizes[type as keyof typeof dim.sizes] ?? dim.sizes.defaultSize!;
 
   const sprite = new THREE.Sprite(material);
   sprite.scale.set(...size, 1);
@@ -40,11 +44,58 @@ export function getSpriteMaterial(type: string): THREE.SpriteMaterial {
 export function createTrack(): THREE.Object3D {
   const material = trackMaterial;
 
-  const geometry = new THREE.PlaneGeometry(trackWidth, trackLength * 2);
+  const geometry = new THREE.PlaneGeometry(dim.trackWidth, dim.trackLength * 2);
   geometry.rotateX(-Math.PI / 2);
 
   const track = new THREE.Mesh(geometry, material);
   return track;
+}
+
+export function createTrackDecorations(): THREE.Group {
+  const group = new THREE.Group();
+  const dist = dim.trackLength / dim.trackDecorationN;
+
+  const length = dim.trackDecorationLength;
+  const thickness = dim.trackDecorationThickness;
+
+  const leftGeometry = makeHalfCubeGeometry(false, thickness, thickness, length);
+  const rightGeometry = makeHalfCubeGeometry(true, thickness, thickness, length);
+
+  let z = dim.behindCamera + length / 2;
+  while (z >= -dim.trackLength - dist * 2) {
+    const left = new THREE.Mesh(leftGeometry, trackDecorationsMaterial);
+    const right = new THREE.Mesh(rightGeometry, trackDecorationsMaterial);
+
+    left.position.set(-dim.trackWidth / 2 + thickness / 2, thickness / 2, z);
+    right.position.set(dim.trackWidth / 2 - thickness / 2, thickness / 2, z);
+
+    group.add(left);
+    group.add(right);
+
+    z -= dist;
+  }
+
+  group.userData.dist = dist;
+  group.userData.nextZ = z;
+  return group;
+}
+
+export function moveTrackDecorations(decoGroup: THREE.Group, delta: number) {
+  decoGroup.position.z += delta * dim.objectSpeedPerSecond;
+  const maxZ = dim.behindCamera - decoGroup.position.z;
+  const nextZ: number = decoGroup.userData.nextZ;
+
+  let moved = false;
+  for (const decoration of decoGroup.children) {
+    if (decoration.position.z > maxZ) {
+      decoration.position.z = nextZ;
+      moved = true;
+    }
+  }
+
+  if (moved) {
+    decoGroup.userData.nextZ -= decoGroup.userData.dist;
+  }
 }
 
 function emojiSpriteMaterial(emojiCharacter: string): THREE.SpriteMaterial {
@@ -52,15 +103,15 @@ function emojiSpriteMaterial(emojiCharacter: string): THREE.SpriteMaterial {
   const ctx = canvas.getContext('2d')!;
 
   // Set the canvas size
-  canvas.width = spriteResolution;
-  canvas.height = spriteResolution;
+  canvas.width = dim.spriteResolution;
+  canvas.height = dim.spriteResolution;
 
-  ctx.font = `${spriteResolution}px serif`;
+  ctx.font = `${dim.spriteResolution}px serif`;
   ctx.textAlign = 'center';
   const measure = ctx.measureText(emojiCharacter);
   // adapt measure to actual size as emoji seem to be rendered too big on Android
-  ctx.font = `${spriteResolution ** 2 / measure.width}px serif`;
-  ctx.fillText(emojiCharacter, spriteResolution / 2, measure.actualBoundingBoxAscent);
+  ctx.font = `${dim.spriteResolution ** 2 / measure.width}px serif`;
+  ctx.fillText(emojiCharacter, dim.spriteResolution / 2, measure.actualBoundingBoxAscent);
 
   const texture = new THREE.Texture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;

@@ -4,6 +4,46 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## todo
 
+- [ ] add playerThickness so the bullets start that far in front of the player
+  - [ ] add collision detection between player (with thickness) and objects, react accordingly
+- [ ] some kinds of income
+  - [ ] when currency is gained, make it fly towards the wallet?
+- [ ] add main-screen elements: currencies, upgrade buttons
+  - [ ] in showMainScreen, update the screen from state - wallet, possible upgrades etc.
+- [ ] add daily energy?
+- [ ] add multi-stage objects (like a pile of jewels)
+  - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
+        smaller one? or a pile?
+  - well, a pile could just be a bunch of jewels closely behind each other
+- [ ] add possibility of more players
+  - [ ] stagger shooting for player groups? or shoot in waves?
+- [ ] add objects with a visible damage countdown
+- [ ] when items are gained (like a better gun), make it fly towards player?
+- [ ] add objects that shoot towards us?
+- [ ] state should have a current seed for track generation?
+- [ ] add gates?
+  - bonus, malus, variable shoot-to-increase?, end gates?
+- [ ] quests?
+  - with timeout - daily, weekly?, monthly
+  - add a give-up possibility to remove clutter
+- others?
+  - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
+  - [ ] use SpriteMixer? https://github.com/felixmariotto/three-SpriteMixer/
+    - probably can be done with AnimationMixer and discrete tracks?
+- [ ] error handling - unhandled exceptions and promises
+- [ ] add objects beside the road in the fog
+- [ ] add slow-down areas so we can have big bosses
+  - [ ] first add possibility of markings on the track?
+  - when in a slow-down area, objects are updated by a different delta
+  - [ ] should the camera reposition itself a bit?
+- [ ] should camera reposition itself on main screen and in run?
+- [ ] add particles for damage?
+
+---
+
+## done by 2026-03-12
+
+- [x] add road decorations so you can see the road moving
 - [x] add bullets
   - [x] in their own group, starting from player (neg group Z) at fixed time intervals
     - move the group every animation update
@@ -18,36 +58,8 @@ This was inspired by Timeline Up, but without any spending of real money.
     - using indexes, go through all ojects that are at the bullet's Z minus length or larger
     - the first that matches in X is hit, break to next bullet
       - on hit, kill objects, remove bullet
-    - [ ] make bullets have hit points
+    - [x] make bullets have hit points
       - add health to objects, kill only when out of health
-- [ ] when I have more players and they aren't in line:
-  - [ ] stagger shooting for player groups? or shoot in waves?
-  - make sure that a bullet is added to the array in minZ order so we can check only farthest few
-    bullets
-  - make sure this logic also works for finding hits
-  - [ ] if I start getting bullets with different ranges, either hits or bullet expiration can get
-        more complicated so rethink minZ ordering
-- [ ] add playerThickness so the bullets start that far in front of the player
-  - [ ] add collision detection between player (with thickness) and objects, react accordingly
-- [ ] some kinds of income
-- [ ] add main-screen elements: currencies, upgrade buttons
-  - [ ] in showMainScreen, update the screen from state - wallet, possible upgrades etc.
-- [ ] state should have a current seed for track generation?
-- [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
-      smaller one?
-- [ ] add daily energy?
-- [ ] add gates?
-  - bonus, malus, variable shoot-to-increase?, end gates?
-- [ ] quests?
-  - with timeout - daily, weekly?, monthly
-  - add a give-up possibility to remove clutter
-- others?
-  - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
-  - [ ] use SpriteMixer? https://github.com/felixmariotto/three-SpriteMixer/
-    - probably can be done with AnimationMixer and discrete tracks?
-- [ ] error handling - unhandled exceptions and promises
-
----
 
 ## done by 2026-03-11
 

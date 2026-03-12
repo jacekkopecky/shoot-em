@@ -84,3 +84,42 @@ export function getObjectX(obj: THREE.Object3D) {
 export function isSprite(obj?: THREE.Object3D): obj is THREE.Sprite {
   return Boolean(obj && 'isSprite' in obj && obj.isSprite);
 }
+
+// a cube with only three sides, only visible from the outside
+// useful for boxes that are only visible from one direction
+export function makeHalfCubeGeometry(
+  hasLeftSide: boolean,
+  w = 1,
+  h = 1,
+  d = 1,
+): THREE.BufferGeometry {
+  const geometry = new THREE.BufferGeometry();
+
+  // prettier-ignore
+  const vertices = new Float32Array([
+    // front
+    -1,-1,1, 1,-1,1, -1,1,1,
+    -1, 1,1, 1,-1,1,  1,1,1,
+    ...(hasLeftSide ?
+      [
+        // left
+        -1,-1,-1, -1,-1,1, -1,1,-1,
+        -1, 1,-1, -1,-1,1, -1,1, 1,
+      ] : [
+        // right
+        1,-1,1, 1,-1,-1, 1,1, 1,
+        1, 1,1, 1,-1,-1, 1,1,-1,
+      ]
+    ),
+    // top
+    1,1,-1, -1,1,-1,  1,1,1,
+    1,1, 1, -1,1,-1, -1,1,1,
+  ])
+
+  geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+
+  // the geometry starts as a 2x2x2 cube
+  geometry.scale(w / 2, h / 2, d / 2);
+
+  return geometry;
+}
