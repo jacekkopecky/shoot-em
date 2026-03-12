@@ -1,21 +1,7 @@
 import * as THREE from 'three';
 
 import { disposeAnimations, shrinkToGone, updateAnimations } from './animations.js';
-import {
-  behindCamera,
-  cameraToTrackEndLength,
-  FINGER_WIDTH_PERCENT,
-  N,
-  objectDyingDuration,
-  objectSpeedPerSecond,
-  playerBulletLength,
-  playerBulletRange,
-  playerBulletSpeed,
-  playerShotTime,
-  startDistance,
-  trackLength,
-  trackWidth,
-} from './dimensions.js';
+import * as dim from './dimensions.js';
 import { logFps } from './log.js';
 import { showMainScreen } from './main-screen.js';
 import { dispose, getObjectX, getObjectZ, isSprite, render, scene, timer } from './three.js';
@@ -51,7 +37,7 @@ export function init() {
 
   handler = new TouchHandler(el.canvas, {
     initialX: 50,
-    speedUp: 1 + FINGER_WIDTH_PERCENT / 100,
+    speedUp: 1 + dim.FINGER_WIDTH_PERCENT / 100,
     onMove: updatePlayerPosition,
   });
   toggleTouchHandler();
@@ -80,8 +66,8 @@ function setupScene() {
 
   scene.fog = new THREE.Fog(
     scene.background,
-    cameraToTrackEndLength - trackLength * 0.2,
-    cameraToTrackEndLength,
+    dim.cameraToTrackEndLength - dim.trackLength * 0.2,
+    dim.cameraToTrackEndLength,
   );
 
   scene.add(createTrack());
@@ -140,10 +126,10 @@ function setupPlayer() {
 
   const player = createObject('player');
   const pData = getPlayerData(player);
-  pData.shotTime = playerShotTime;
-  pData.remainingShotTime = playerShotTime / 2;
-  pData.range = playerBulletRange;
-  pData.bulletLength = playerBulletLength;
+  pData.shotTime = dim.playerShotTime;
+  pData.remainingShotTime = dim.playerShotTime / 2;
+  pData.range = dim.playerBulletRange;
+  pData.bulletLength = dim.playerBulletLength;
   playerGroup.add(player);
 
   const pgData = getPlayerGroupData(playerGroup);
@@ -171,9 +157,9 @@ function setupObjects() {
   objectsGroup = new THREE.Group();
   scene.add(objectsGroup);
 
-  for (let i = 0; i < N; i++) {
+  for (let i = 0; i < dim.N; i++) {
     const x = Math.random() * 80 - 40;
-    const y = -(trackLength / N) * i + startDistance;
+    const y = -(dim.trackLength / dim.N) * i + dim.startDistance;
 
     const obj = createObject('object');
     obj.position.x = x;
@@ -183,20 +169,20 @@ function setupObjects() {
 }
 
 function updatePlayerPosition(playerPercent: number) {
-  let x = ((playerPercent - 50) * trackWidth) / 100;
-  const bound = (trackWidth - getObjectWidth(playerGroup)) / 2;
+  let x = ((playerPercent - 50) * dim.trackWidth) / 100;
+  const bound = (dim.trackWidth - getObjectWidth(playerGroup)) / 2;
   if (x < -bound) x = -bound;
   if (x > bound) x = bound;
   playerGroup.position.x = x;
 }
 
 function moveObjects(delta: number) {
-  const deltaZ = objectSpeedPerSecond * delta;
+  const deltaZ = dim.objectSpeedPerSecond * delta;
   objectsGroup.position.z += deltaZ;
 
   // remove objects that are now behind the camera
   for (const child of objectsGroup.children) {
-    if (getObjectZ(child) > behindCamera) {
+    if (getObjectZ(child) > dim.behindCamera) {
       child.removeFromParent();
     } else {
       // the objects are sorted front-to-back so no more will be behind camera
@@ -213,7 +199,7 @@ function hitObject(obj: THREE.Object3D, bullet: THREE.Object3D): boolean {
 
   obj.material = getSpriteMaterial('objectDying');
   oData.dying = true;
-  shrinkToGone(obj, objectDyingDuration);
+  shrinkToGone(obj, dim.objectDyingDuration);
 
   return true;
 }
@@ -243,7 +229,7 @@ function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
 }
 
 function moveBullets(delta: number) {
-  const deltaZ = playerBulletSpeed * delta;
+  const deltaZ = dim.playerBulletSpeed * delta;
 
   for (const bullet of bulletsGroup.children) {
     checkBulletHit(bullet, deltaZ);
