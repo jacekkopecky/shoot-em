@@ -16,11 +16,13 @@ export interface BulletData extends AnyObjectData {
   type: 'bullet';
   minZ: number;
   length: number;
+  hitPoints: number;
 }
 
 export interface ObjectData extends AnyObjectData {
   type: 'object';
   dying?: boolean;
+  hitPoints: number;
 }
 
 export interface PlayerGroupData extends AnyObjectData {

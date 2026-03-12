@@ -13,7 +13,13 @@ import {
   getSpriteMaterial,
 } from './three-resources.js';
 import { TouchHandler } from './touch-handler.js';
-import { getBulletData, getObjectData, getPlayerData, getPlayerGroupData } from './types.js';
+import {
+  getBulletData,
+  getObjectData,
+  getPlayerData,
+  getPlayerGroupData,
+  type BulletData,
+} from './types.js';
 
 let handler: TouchHandler;
 let objectsGroup: THREE.Group;
@@ -162,8 +168,10 @@ function setupObjects() {
     const y = -(dim.trackLength / dim.N) * i + dim.startDistance;
 
     const obj = createObject('object');
+    const oData = getObjectData(obj);
     obj.position.x = x;
     obj.position.z = y;
+    oData.hitPoints = dim.objectHitPoints;
     objectsGroup.add(obj);
   }
 }
@@ -191,15 +199,18 @@ function moveObjects(delta: number) {
   }
 }
 
-function hitObject(obj: THREE.Object3D, bullet: THREE.Object3D): boolean {
+function hitObject(obj: THREE.Object3D, bData: BulletData): boolean {
   const oData = getObjectData(obj);
   if (oData.dying) return false;
 
-  if (!isSprite(obj)) throw new TypeError('cannot kill object that is not a sprite');
+  oData.hitPoints -= bData.hitPoints;
 
-  obj.material = getSpriteMaterial('objectDying');
-  oData.dying = true;
-  shrinkToGone(obj, dim.objectDyingDuration);
+  if (oData.hitPoints <= 0) {
+    if (!isSprite(obj)) throw new TypeError('cannot kill object that is not a sprite');
+    obj.material = getSpriteMaterial('objectDying');
+    oData.dying = true;
+    shrinkToGone(obj, dim.objectDyingDuration);
+  }
 
   return true;
 }
@@ -214,12 +225,12 @@ function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
   const bulletTip = bulletButt - bData.length - deltaZ;
 
   // check all objects
-  for (const object of objectsGroup.children) {
-    const objZ = getObjectZ(object);
+  for (const obj of objectsGroup.children) {
+    const objZ = getObjectZ(obj);
     if (objZ < bulletTip) return; // we're done, remaining objects are too far for this bullet to hit
 
-    if (objZ < bulletButt && doObjectsOverlapInX(object, bullet)) {
-      const isHit = hitObject(object, bullet);
+    if (objZ < bulletButt && doObjectsOverlapInX(obj, bullet)) {
+      const isHit = hitObject(obj, bData);
       if (isHit) {
         bullet.removeFromParent();
         return;
@@ -261,6 +272,7 @@ function shoot(delta: number) {
       const bData = getBulletData(bullet);
       bData.minZ = bulletsGroup.position.z - pData.range;
       bData.length = pData.bulletLength;
+      bData.hitPoints = dim.playerBulletHitPoints;
       bullet.position.z = -bulletsGroup.position.z;
       bullet.position.y = player.position.y;
       bullet.position.x = getObjectX(player);
