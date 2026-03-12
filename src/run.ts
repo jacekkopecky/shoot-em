@@ -5,13 +5,13 @@ import * as dim from './dimensions.js';
 import { logFps } from './log.js';
 import { showMainScreen } from './main-screen.js';
 import { dispose, getObjectX, getObjectZ, isSprite, render, scene, timer } from './three.js';
+import { getSpriteMaterial } from './three-materials.js';
 import {
   createObject,
   createTrack,
   createTrackDecorations,
   doObjectsOverlapInX,
   getObjectWidth,
-  getSpriteMaterial,
   moveTrackDecorations,
 } from './three-resources.js';
 import { TouchHandler } from './touch-handler.js';
