@@ -4,7 +4,7 @@ import { disposeAnimations, shrinkToGone, updateAnimations } from './animations.
 import * as dim from './dimensions.js';
 import { logFps } from './log.js';
 import { showMainScreen } from './main-screen.js';
-import { dispose, getObjectX, getObjectZ, isSprite, render, scene, timer } from './three.js';
+import { getObjectX, getObjectZ, isSprite, render, scene, timer } from './three.js';
 import { getSpriteMaterial } from './three-materials.js';
 import {
   createObject,
@@ -138,7 +138,6 @@ function toggleFullscreenPause(value: boolean) {
 function setupPlayer() {
   if (playerGroup) {
     scene.remove(playerGroup);
-    dispose(playerGroup);
   }
 
   playerGroup = new THREE.Group();
@@ -161,7 +160,6 @@ function setupPlayer() {
 function setupBullets() {
   if (bulletsGroup) {
     scene.remove(bulletsGroup);
-    dispose(bulletsGroup);
   }
 
   bulletsGroup = new THREE.Group();
@@ -171,7 +169,6 @@ function setupBullets() {
 function setupObjects() {
   if (objectsGroup) {
     scene.remove(objectsGroup);
-    dispose(objectsGroup);
   }
 
   objectsGroup = new THREE.Group();

@@ -53,26 +53,6 @@ export function render() {
   renderer.render(scene, camera);
 }
 
-export function dispose(group: THREE.Object3D) {
-  group.traverse(function (obj) {
-    if (hasDisposables(obj)) {
-      obj.geometry.dispose();
-      // not disposing materials, they are reused
-      // for (const mat of Array.isArray(obj.material) ? obj.material : [obj.material]) {
-      //   mat.dispose();
-      // }
-    }
-  });
-}
-
-function hasDisposables(obj: unknown): obj is Pick<THREE.Mesh, 'geometry' | 'material'> {
-  return (
-    obj != null &&
-    typeof obj === 'object' &&
-    ((obj as THREE.Mesh).isMesh || (obj as THREE.Line).isLine)
-  );
-}
-
 export function getObjectZ(obj: THREE.Object3D) {
   return (obj.parent?.position?.z ?? 0) + obj.position.z;
 }
