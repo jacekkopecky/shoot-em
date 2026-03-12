@@ -24,8 +24,12 @@ import {
   getObjectData,
   getPlayerData,
   getPlayerGroupData,
+  type Currency,
   type ObjectData,
+  type PlayerData,
 } from './types.js';
+import { formatCurrencyNumber } from './utils.js';
+import { Wallet } from './wallet.js';
 
 let handler: TouchHandler;
 let objectsGroup: THREE.Group;
@@ -37,12 +41,15 @@ let trackDecorationsGroup: THREE.Group;
 let playing = false;
 let ending = false;
 let fullscreenPaused = false;
+let wallet = new Wallet();
 
 const el = {
   main: document.querySelector('main')!,
   canvas: document.querySelector<HTMLCanvasElement>('#webgl-canvas')!,
   exitBtn: document.querySelector('#exitBtn')!,
   endRunScreen: document.querySelector('#endRunScreen')!,
+  endRunScreenCoins: document.querySelector('#endRunScreen .value.coin')!,
+  endRunScreenGems: document.querySelector('#endRunScreen .value.gem')!,
 };
 
 /**
@@ -112,6 +119,8 @@ export function prepareRun() {
   playing = false;
   toggleTouchHandler();
 
+  wallet.reset();
+
   toggleEndRunScreen(false);
 
   render();
@@ -119,6 +128,15 @@ export function prepareRun() {
 
 function toggleEndRunScreen(value?: boolean) {
   el.endRunScreen.classList.toggle('visible', value);
+}
+
+function giveAward(what: Currency) {
+  wallet.add(what);
+}
+
+function updateEndRunScreen() {
+  el.endRunScreenCoins.textContent = formatCurrencyNumber(wallet.read('coin'));
+  el.endRunScreenGems.textContent = formatCurrencyNumber(wallet.read('gem'));
 }
 
 export function startRun() {
@@ -133,6 +151,7 @@ function endRun() {
   if (!playing || ending) return;
   ending = true;
   toggleTouchHandler();
+  updateEndRunScreen();
 
   setTimeout(() => {
     toggleEndRunScreen(true);
@@ -210,11 +229,33 @@ function setupObjects() {
     const x = Math.random() * 80 - 40;
     const y = -(dim.trackLength / dim.N) * i + dim.startDistance;
 
-    const obj = createObject('object');
+    const r = Math.random();
+    const type =
+      r < dim.gemProbability
+        ? 'gem'
+        : r < dim.gemProbability + dim.coinProbability
+          ? 'coins'
+          : 'object';
+
+    const obj = createObject(type, 'object');
     const oData = getObjectData(obj);
     obj.position.x = x;
     obj.position.z = y;
-    oData.hitPoints = dim.objectHitPoints;
+
+    switch (type) {
+      case 'gem':
+        oData.hitPoints = dim.gemHitPoints;
+        oData.benign = true;
+        oData.award = { type: 'gem', amount: 1 };
+        break;
+      case 'coins':
+        oData.collectible = true;
+        oData.award = { type: 'coin', amount: Math.floor(Math.random() * dim.coinAwardMax + 1) };
+        break;
+      default:
+        oData.hitPoints = dim.objectHitPoints;
+    }
+
     objectsGroup.add(obj);
   }
 }
@@ -242,27 +283,33 @@ function moveObjects(delta: number) {
   }
 }
 
-function hitObject(obj: THREE.Object3D, hitPoints: number): boolean {
+function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = false): boolean {
   const oData = getObjectData(obj);
   if (oData.dying) return false;
 
+  // cannot shoot a collectible
+  if (!playerHit && oData.collectible) return false;
+
   oData.hitPoints -= hitPoints;
 
-  if (oData.hitPoints <= 0) {
+  if (oData.collectible || oData.hitPoints <= 0) {
     killObject(obj, oData);
+
+    // don't award from benign objects when we walk into them
+    if (oData.award && !(oData.benign && playerHit)) giveAward(oData.award);
   }
 
   return true;
 }
 
 function killObject(obj: THREE.Object3D, oData: ObjectData) {
-  setSpriteMaterial(obj, 'objectDying');
+  setSpriteMaterial(obj, oData.dyingMaterial);
   oData.dying = true;
   shrinkToGone(obj, dim.objectDyingDuration);
 }
 
-function killPlayer(player: THREE.Object3D) {
-  setSpriteMaterial(player, 'playerDying');
+function killPlayer(player: THREE.Object3D, pData: PlayerData) {
+  setSpriteMaterial(player, pData.dyingMaterial);
   shrinkToGone(player, dim.playerDyingDuration / 2);
 
   // move the player out of playersGroup so it isn't moved left and right anymore
@@ -365,13 +412,13 @@ function checkPlayerHit(player: THREE.Object3D) {
     // use 0.8 reach to allow the player to rub shoulders with objects
     if (objFar < playerNear && doObjectsOverlapInX(obj, player, 0.8)) {
       const objHP = oData.hitPoints;
-      const isHit = hitObject(obj, pData.hitPoints);
-      if (isHit) {
+      const isHit = hitObject(obj, pData.hitPoints, true);
+      if (isHit && !oData.collectible && !oData.benign) {
         pData.hitPoints -= objHP;
       }
 
       if (pData.hitPoints <= 0) {
-        killPlayer(player);
+        killPlayer(player, pData);
         repositionPlayers();
         return; // this player is done
       }
@@ -386,7 +433,6 @@ function checkPlayersHit() {
 }
 
 function isGameFinished() {
-  // todo
   return (
     objectsGroup.children.length === 0 ||
     (playersGroup.children.length === 0 && playersDyingGroup.children.length === 0)

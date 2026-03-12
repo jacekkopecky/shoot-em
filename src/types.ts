@@ -1,5 +1,14 @@
 import * as THREE from 'three';
 
+import { sprites } from './three-materials.js';
+
+export type CurrencyType = 'coin' | 'gem';
+
+export interface Currency {
+  type: CurrencyType;
+  amount: number;
+}
+
 interface AnyObjectData {
   width: number;
   depth: number;
@@ -12,6 +21,7 @@ export interface PlayerData extends AnyObjectData {
   range: number;
   bulletLength: number;
   hitPoints: number;
+  dyingMaterial: keyof typeof sprites;
 }
 
 export interface BulletData extends AnyObjectData {
@@ -24,7 +34,14 @@ export interface BulletData extends AnyObjectData {
 export interface ObjectData extends AnyObjectData {
   type: 'object';
   dying?: boolean;
+  dyingMaterial: keyof typeof sprites;
   hitPoints: number;
+  // collectible objects can be collected by walking over them, not by shooting them
+  collectible?: boolean;
+  // benign objects just disappear when walking through with no harm to the player
+  benign?: boolean;
+  // awards can come when shot (non-collectible) or when walked over (collectible)
+  award?: Currency;
 }
 
 export interface PlayerGroupData extends AnyObjectData {

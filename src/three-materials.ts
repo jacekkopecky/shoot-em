@@ -3,11 +3,13 @@ import * as THREE from 'three';
 import * as dim from './dimensions.js';
 import { isSprite } from './three.js';
 
-// todo maybe also use some of these: 🍄‍🟫 🟡 😵‍💫
-const sprites = {
+// todo maybe also use some of these: 🍄‍🟫 🟡 😵‍💫 💎
+export const sprites = {
   player: emojiSpriteMaterial('🍄'),
   playerDying: emojiSpriteMaterial('🍄‍🟫'),
   fire: emojiSpriteMaterial('🔥'),
+  gem: emojiSpriteMaterial('💎'),
+  coins: emojiSpriteMaterial('💰'),
   object: emojiSpriteMaterial('😀'),
   objectDying: emojiSpriteMaterial('😵'),
   bullet: emojiSpriteMaterial('⚫️'),

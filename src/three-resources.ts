@@ -4,7 +4,7 @@ import * as dim from './dimensions.js';
 import { getObjectX, makeHalfCubeGeometry } from './three.js';
 import * as mat from './three-materials.js';
 
-export function createObject(type: string): THREE.Object3D {
+export function createObject(type: string, dataType = type): THREE.Object3D {
   const material = mat.getSpriteMaterial(type, true);
   const size = dim.sizes[type as keyof typeof dim.sizes] ?? dim.sizes.defaultSize!;
 
@@ -14,7 +14,8 @@ export function createObject(type: string): THREE.Object3D {
 
   sprite.userData.width = size[0];
   sprite.userData.depth = size[0] / 3; // use the third of width as the depth
-  sprite.userData.type = type;
+  sprite.userData.type = dataType;
+  sprite.userData.dyingMaterial = `${type}Dying` in mat.sprites ? `${type}Dying` : type;
   return sprite;
 }
 

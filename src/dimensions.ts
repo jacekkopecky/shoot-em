@@ -2,6 +2,8 @@ export const sizes: Record<string, [number, number]> = {
   bullet: [3, 3],
   player: [15, 15],
   fire: [15, 15],
+  gem: [10, 10],
+  coins: [12, 12],
   object: [15, 15],
   defaultSize: [15, 25],
 } as const;
@@ -20,6 +22,11 @@ export const N = 100;
 export const objectSpeedPerSecond = 10;
 export const objectDyingDuration = 0.3;
 export const objectHitPoints = 1;
+
+export const gemHitPoints = 2;
+export const gemProbability = 0.05;
+export const coinProbability = 0.1;
+export const coinAwardMax = 5;
 
 export const playerShotTime = 1;
 export const playerBulletRange = 40;
