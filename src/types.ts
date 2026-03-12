@@ -4,7 +4,7 @@ interface AnyObjectData {
   width: number;
 }
 
-interface PlayerData extends AnyObjectData {
+export interface PlayerData extends AnyObjectData {
   type: 'player';
   shotTime: number;
   remainingShotTime: number;
@@ -12,18 +12,18 @@ interface PlayerData extends AnyObjectData {
   bulletLength: number;
 }
 
-interface BulletData extends AnyObjectData {
+export interface BulletData extends AnyObjectData {
   type: 'bullet';
   minZ: number;
   length: number;
 }
 
-interface ObjectData extends AnyObjectData {
+export interface ObjectData extends AnyObjectData {
   type: 'object';
   dying?: boolean;
 }
 
-interface PlayerGroupData extends AnyObjectData {
+export interface PlayerGroupData extends AnyObjectData {
   type: 'playerGroup';
 }
 

@@ -1,7 +1,7 @@
 export const sizes: Record<string, [number, number]> = {
-  bullet: [2, 2],
-  defaultSize: [10, 10],
-  player: [12, 12],
+  bullet: [3, 3],
+  defaultSize: [15, 15],
+  player: [15, 15],
 } as const;
 export const spriteResolution = 64;
 
@@ -16,7 +16,7 @@ export const objectDyingDuration = 0.3;
 
 export const playerShotTime = 1;
 export const playerBulletRange = 40;
-export const playerBulletLength = 10;
+export const playerBulletLength = 2;
 export const playerBulletSpeed = 40;
 
 export const cameraPosition = [0, 130, 50] as const;

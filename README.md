@@ -4,24 +4,31 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## todo
 
-- [ ] add bullets
+- [x] add bullets
   - [x] in their own group, starting from player (neg group Z) at fixed time intervals
     - move the group every animation update
-    - [ ] change bullet range to minGroupZ: every bullet has minZ (computed from range and initial
+    - [x] change bullet range to minGroupZ: every bullet has minZ (computed from range and initial
           position)
     - remove bullets that have reached their minZ
-    - [ ] when I have more players and they aren't in line, make sure that a bullet is added to the
-          array in minZ order so we can check only farthest few bullets
-  - [ ] finding hits
+  - [x] finding hits
     - have both bullets and objects sorted in Z axis
     - bullets have lengths (going forwards to -Z) so bullet ends (nearer player) are sorted
-    - bullets have hit points
     - for each bullet find first object that's at the bullet's Z or smaller, starting from last
       bullet's first object
     - using indexes, go through all ojects that are at the bullet's Z minus length or larger
     - the first that matches in X is hit, break to next bullet
-      - on hit, decrease object health by bullet hit points, remove bullet
+      - on hit, kill objects, remove bullet
+    - [ ] make bullets have hit points
+      - add health to objects, kill only when out of health
+- [ ] when I have more players and they aren't in line:
   - [ ] stagger shooting for player groups? or shoot in waves?
+  - make sure that a bullet is added to the array in minZ order so we can check only farthest few
+    bullets
+  - make sure this logic also works for finding hits
+  - [ ] if I start getting bullets with different ranges, either hits or bullet expiration can get
+        more complicated so rethink minZ ordering
+- [ ] add playerThickness so the bullets start that far in front of the player
+  - [ ] add collision detection between player (with thickness) and objects, react accordingly
 - [ ] some kinds of income
 - [ ] add main-screen elements: currencies, upgrade buttons
   - [ ] in showMainScreen, update the screen from state - wallet, possible upgrades etc.

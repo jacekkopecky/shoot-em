@@ -19,9 +19,15 @@ import {
 import { logFps } from './log.js';
 import { showMainScreen } from './main-screen.js';
 import { dispose, getObjectX, getObjectZ, isSprite, render, scene, timer } from './three.js';
-import { createObject, createTrack, getSpriteMaterial } from './three-resources.js';
+import {
+  createObject,
+  createTrack,
+  doObjectsOverlapInX,
+  getObjectWidth,
+  getSpriteMaterial,
+} from './three-resources.js';
 import { TouchHandler } from './touch-handler.js';
-import { getBulletData, getPlayerData, getPlayerGroupData } from './types.js';
+import { getBulletData, getObjectData, getPlayerData, getPlayerGroupData } from './types.js';
 
 let handler: TouchHandler;
 let objectsGroup: THREE.Group;
@@ -178,7 +184,7 @@ function setupObjects() {
 
 function updatePlayerPosition(playerPercent: number) {
   let x = ((playerPercent - 50) * trackWidth) / 100;
-  const bound = (trackWidth - (getPlayerGroupData(playerGroup).width ?? 0)) / 2;
+  const bound = (trackWidth - getObjectWidth(playerGroup)) / 2;
   if (x < -bound) x = -bound;
   if (x > bound) x = bound;
   playerGroup.position.x = x;
@@ -199,9 +205,49 @@ function moveObjects(delta: number) {
   }
 }
 
+function hitObject(obj: THREE.Object3D, bullet: THREE.Object3D): boolean {
+  const oData = getObjectData(obj);
+  if (oData.dying) return false;
+
+  if (!isSprite(obj)) throw new TypeError('cannot kill object that is not a sprite');
+
+  obj.material = getSpriteMaterial('objectDying');
+  oData.dying = true;
+  shrinkToGone(obj, objectDyingDuration);
+
+  return true;
+}
+
+/**
+ * With this bullet having moved deltaZ in the last step, check if it's hit any object.
+ */
+function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
+  const bData = getBulletData(bullet);
+
+  const bulletButt = getObjectZ(bullet);
+  const bulletTip = bulletButt - bData.length - deltaZ;
+
+  // check all objects
+  for (const object of objectsGroup.children) {
+    const objZ = getObjectZ(object);
+    if (objZ < bulletTip) return; // we're done, remaining objects are too far for this bullet to hit
+
+    if (objZ < bulletButt && doObjectsOverlapInX(object, bullet)) {
+      const isHit = hitObject(object, bullet);
+      if (isHit) {
+        bullet.removeFromParent();
+        return;
+      }
+    }
+  }
+}
+
 function moveBullets(delta: number) {
   const deltaZ = playerBulletSpeed * delta;
-  // todo check for hits, with deltaZ added to each bullet's length, but only up to the bullet's minZ minus length
+
+  for (const bullet of bulletsGroup.children) {
+    checkBulletHit(bullet, deltaZ);
+  }
 
   bulletsGroup.position.z -= deltaZ;
   const bulletsZ = bulletsGroup.position.z;
@@ -230,7 +276,7 @@ function shoot(delta: number) {
       bData.minZ = bulletsGroup.position.z - pData.range;
       bData.length = pData.bulletLength;
       bullet.position.z = -bulletsGroup.position.z;
-      bullet.position.y = player.position.y / 2;
+      bullet.position.y = player.position.y;
       bullet.position.x = getObjectX(player);
 
       bulletsGroup.add(bullet);
@@ -242,18 +288,16 @@ function isGameFinished() {
   return objectsGroup.children.length === 0;
 }
 
-// temporary, will change when dealing with bullets
-function isObjectBeforePlayer(obj: THREE.Object3D): boolean {
-  return (
-    getObjectZ(obj) < 0 &&
-    Math.abs(obj.position.x - playerGroup.position.x) < (obj.userData.width / 2 || 1)
-  );
-}
+// const fpsDivider = 10;
+// let fpsLimiter = fpsDivider - 1;
 
 function animationFrame(ms?: number) {
-  timer.update(ms);
   if (playing) requestAnimationFrame(animationFrame);
 
+  // fpsLimiter = (fpsLimiter + 1) % fpsDivider;
+  // if (fpsLimiter > 0) return;
+
+  timer.update(ms);
   if (fullscreenPaused) return;
 
   if (ms != null) {

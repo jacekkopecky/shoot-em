@@ -6,6 +6,7 @@
 import * as THREE from 'three';
 
 import { sizes, spriteResolution, trackLength, trackWidth } from './dimensions.js';
+import { getObjectX } from './three.js';
 
 // todo maybe also use some of these: 🍄‍🟫 🟡 😵‍💫
 const materials = {
@@ -65,4 +66,19 @@ function emojiSpriteMaterial(emojiCharacter: string): THREE.SpriteMaterial {
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.needsUpdate = true;
   return new THREE.SpriteMaterial({ map: texture, color: 0xffffff });
+}
+
+export function doObjectsOverlapInX(obj1: THREE.Object3D, obj2: THREE.Object3D): boolean {
+  return (
+    Math.abs(getObjectX(obj1) - getObjectX(obj2)) <
+    (getObjectWidth(obj1) + getObjectWidth(obj2)) / 2
+  );
+}
+
+export function getObjectWidth(obj: THREE.Object3D): number {
+  if (typeof obj.userData.width === 'number') {
+    return obj.userData.width;
+  } else {
+    throw new TypeError('obj does not have a width');
+  }
 }
