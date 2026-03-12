@@ -13,10 +13,19 @@
   </header>
 
   <main>
-    <canvas id="webgl-canvas" class="in-run"></canvas>
-    <div id="log" class="in-run"></div>
-    <button id="exitBtn" class="in-run">Exit</button>
-    <div id="touchToStart">touch to start</div>
+    <section>
+      <canvas id="webgl-canvas" class="in-run"></canvas>
+      <div id="log" class="in-run"></div>
+      <button id="exitBtn" class="in-run">Exit</button>
+      <div id="touchToStart">touch to start</div>
+
+      <div id="endRunScreen">
+        <h2>Well done!</h2>
+        <div>Coins: 0</div>
+        <div>Jewels: 0</div>
+        <button class="ok">OK</button>
+      </div>
+    </section>
   </main>
 
   <script type="module" src="src/index.ts"></script>

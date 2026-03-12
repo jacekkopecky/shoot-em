@@ -8,7 +8,6 @@ import {
 } from './animations.js';
 import * as dim from './dimensions.js';
 import { logFps } from './log.js';
-import { showMainScreen } from './main-screen.js';
 import { getObjectX, getObjectZ, render, scene, timer } from './three.js';
 import { setSpriteMaterial } from './three-materials.js';
 import {
@@ -36,12 +35,14 @@ let bulletsGroup: THREE.Group;
 let trackDecorationsGroup: THREE.Group;
 
 let playing = false;
+let ending = false;
 let fullscreenPaused = false;
 
 const el = {
   main: document.querySelector('main')!,
   canvas: document.querySelector<HTMLCanvasElement>('#webgl-canvas')!,
   exitBtn: document.querySelector('#exitBtn')!,
+  endRunScreen: document.querySelector('#endRunScreen')!,
 };
 
 /**
@@ -72,7 +73,7 @@ export function init() {
 }
 
 function toggleTouchHandler() {
-  handler.toggle(playing && !fullscreenPaused);
+  handler.toggle(playing && !ending && !fullscreenPaused);
 }
 
 function setupScene() {
@@ -111,27 +112,39 @@ export function prepareRun() {
   playing = false;
   toggleTouchHandler();
 
+  toggleEndRunScreen(false);
+
   render();
+}
+
+function toggleEndRunScreen(value?: boolean) {
+  el.endRunScreen.classList.toggle('visible', value);
 }
 
 export function startRun() {
   playing = true;
+  ending = false;
   toggleTouchHandler();
   handler.setCurrentX(50);
   animationFrame();
 }
 
 function endRun() {
-  if (!playing) return;
-
-  playing = false;
+  if (!playing || ending) return;
+  ending = true;
   toggleTouchHandler();
+
+  setTimeout(() => {
+    toggleEndRunScreen(true);
+
+    setTimeout(() => {
+      playing = false;
+    }, 1000);
+  }, 1000);
 
   // todo
   // show final stats of this run - gained currencies
   // when the user confirms that, move back to main screen
-
-  setTimeout(showMainScreen, 1000);
 }
 
 function toggleFullscreenPause(value: boolean) {

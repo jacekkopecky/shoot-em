@@ -45,17 +45,21 @@ main {
   perspective: 50vh;
   position: relative;
 
-  * {
+  & > section {
+    display: contents;
+  }
+
+  & * {
     transform-style: preserve-3d;
   }
 
-  &.run > :not(.in-run) {
+  &.run > section > :not(.in-run) {
     opacity: 0;
     transition: opacity 0.5s;
     pointer-events: none;
   }
 
-  & > #touchToStart {
+  & #touchToStart {
     pointer-events: none;
     position: absolute;
     inset: 0;
@@ -101,4 +105,29 @@ button {
 #webgl-canvas {
   position: absolute;
   inset: 0;
+}
+
+#endRunScreen {
+  background: black;
+  position: absolute;
+  inset: 0;
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+
+  button.ok {
+    margin-top: 30%;
+    min-width: 4em;
+  }
+
+  &.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
 }

@@ -4,12 +4,14 @@ import { init as initThree } from './three.js';
 const el = {
   main: document.querySelector('main')!,
   canvas: document.querySelector<HTMLCanvasElement>('#webgl-canvas')!,
+  endRunScreenOK: document.querySelector('#endRunScreen button.ok')!,
 };
 
 export function init() {
   initThree(el.main);
   initRunScreen();
   el.canvas.addEventListener('touchstart', startPlaying);
+  el.endRunScreenOK.addEventListener('click', showMainScreen);
 
   showMainScreen();
 }
