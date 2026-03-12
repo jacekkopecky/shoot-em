@@ -21,12 +21,10 @@ export class TouchHandler {
   }
 
   handleTouchStart = (e: TouchEvent) => {
-    if (!this.enabled) return;
     this.lastTouchPercent = this.getTouchPercent(e);
   };
 
   handleTouchEnd = (e: TouchEvent) => {
-    if (!this.enabled) return;
     this.lastTouchPercent = this.getTouchPercent(e);
   };
 
@@ -49,6 +47,10 @@ export class TouchHandler {
 
   toggle(value?: boolean) {
     this.enabled = value ?? !this.enabled;
+  }
+
+  setCurrentX(value: number) {
+    this.currentX = value;
   }
 
   shutdown() {

@@ -54,6 +54,22 @@ main {
     transition: opacity 0.5s;
     pointer-events: none;
   }
+
+  & > #touchToStart {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-shadow:
+      0 0 0.3em white,
+      0 0 0.3em white,
+      0 0 0.3em white,
+      0 0 0.3em white;
+  }
 }
 
 button {

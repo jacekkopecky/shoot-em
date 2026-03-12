@@ -98,6 +98,7 @@ export function prepareRun() {
 export function startRun() {
   playing = true;
   toggleTouchHandler();
+  handler.setCurrentX(50);
   animationFrame();
 }
 
