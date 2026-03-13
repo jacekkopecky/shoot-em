@@ -21,15 +21,10 @@ import {
 import { TouchHandler } from '../touch-handler.js';
 import { getObjectData, getPlayerData, getPlayerGroupData, type PlayerData } from '../types.js';
 
-import { setupAwards, toggleEndRunScreen, updateEndRunScreen } from './run-awards.js';
-import {
-  bulletsGroup,
-  createPlayerBullet,
-  movePlayerBullets,
-  setupBullets,
-} from './run-bullets.js';
-import { hitObject, moveObjects, objectsGroup, setupObjects } from './run-objects.js';
-import { removeGroupChildrenBehindCamera } from './run-tools.js';
+import { setupAwards, toggleEndRunScreen, updateEndRunScreen } from './awards.js';
+import { bulletsGroup, createPlayerBullet, movePlayerBullets, setupBullets } from './bullets.js';
+import { hitObject, moveObjects, objectsGroup, setupObjects } from './objects.js';
+import { removeGroupChildrenBehindCamera } from './tools.js';
 
 let handler: TouchHandler;
 
