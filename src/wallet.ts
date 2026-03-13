@@ -14,4 +14,15 @@ export class Wallet {
   reset() {
     this.wallet = {};
   }
+
+  readAll(): Readonly<typeof this.wallet> {
+    return this.wallet;
+  }
+
+  addAll(otherWallet: Wallet) {
+    const other = otherWallet.readAll();
+    for (const [type, amount] of Object.entries(other)) {
+      this.add({ type: type as CurrencyType, amount });
+    }
+  }
 }
