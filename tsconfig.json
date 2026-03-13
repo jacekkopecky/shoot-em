@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "module": "nodenext",
+    "module": "preserve",
     "target": "esnext",
     "types": [],
     // Other Outputs
@@ -26,6 +26,7 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "skipLibCheck": true
   }
 }

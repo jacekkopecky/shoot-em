@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 
-import * as dim from './dimensions.js';
-import { getObjectX, getObjectZ, resetGroup } from './three.js';
-import { createObject, doObjectsOverlapInX } from './three-resources.js';
-import { getBulletData, type PlayerData } from './types.js';
+import * as dim from '../dimensions.js';
+import { getObjectX, getObjectZ, resetGroup } from '../three.js';
+import { createObject, doObjectsOverlapInX } from '../three-resources.js';
+import { getBulletData, type PlayerData } from '../types.js';
+
 import { hitObject, objectsGroup } from './run-objects.js';
 
 export const bulletsGroup = new THREE.Group();

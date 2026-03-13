@@ -1,6 +1,6 @@
-import { type Currency } from './types.js';
-import { formatCurrencyNumber } from './utils.js';
-import { Wallet } from './wallet.js';
+import { type Currency } from '../types.js';
+import { formatCurrencyNumber } from '../utils.js';
+import { Wallet } from '../wallet.js';
 
 const el = {
   endRunScreen: document.querySelector('#endRunScreen')!,

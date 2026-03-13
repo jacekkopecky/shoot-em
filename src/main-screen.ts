@@ -1,4 +1,4 @@
-import { init as initRunScreen, prepareRun, startRun } from './run.js';
+import { init as initRunScreen, prepareRun, startRun } from './run';
 import { init as initThree } from './three.js';
 
 const el = {
