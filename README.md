@@ -4,11 +4,16 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## todo
 
-- [ ] some kinds of income
-  - [ ] when currency is gained, make it fly towards the wallet?
+- [ ] refactor object creation and behaviours
+- [ ] have enemies that make sense:
+  - we could have trees that are in the way and need shooting down
+  - gems and coins around them
+  - enemies that shoot back?
+- [ ] when currency is gained, make it fly towards the wallet?
 - [ ] add main-screen elements: currencies, upgrade buttons
   - [ ] in showMainScreen, update the screen from state - wallet, possible upgrades etc.
-- [ ] add daily energy?
+- [ ] add daily energy, disabled in dev build
+- [ ] add localStorage state
 - [ ] add multi-stage objects (like a pile of jewels)
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one? or a pile?
@@ -41,6 +46,7 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## done by 2026-03-12
 
+- [x] some kinds of income
 - [x] add player collision
   - add playerThickness - actually just use half width
   - make bullets start that far in front of the player
