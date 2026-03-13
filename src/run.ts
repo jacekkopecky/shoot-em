@@ -289,13 +289,20 @@ function moveDyingGroup(delta: number) {
 
 function removeGroupChildrenBehindCamera(group: THREE.Group, sortedInZ = true) {
   // remove objects that are now behind the camera
+  const toRemove = [];
+
   for (const child of group.children) {
     if (getObjectZ(child) > dim.behindCamera) {
-      child.removeFromParent();
+      toRemove.push(child);
     } else {
       // the objects are sorted front-to-back so no more will be behind camera
       if (sortedInZ) break;
     }
+  }
+
+  // remove outside the loop going through all of them
+  for (const obj of toRemove) {
+    obj.removeFromParent();
   }
 }
 
@@ -325,7 +332,7 @@ function killPlayer(player: THREE.Object3D, pData: PlayerData) {
 /**
  * With this bullet having moved deltaZ in the last step, check if it's hit any object.
  */
-function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
+function checkBulletHit(bullet: THREE.Object3D, deltaZ: number): boolean {
   const bData = getBulletData(bullet);
 
   const bulletButt = getObjectZ(bullet);
@@ -334,23 +341,26 @@ function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
   // check all objects
   for (const obj of objectsGroup.children) {
     const objZ = getObjectZ(obj);
-    if (objZ < bulletTip) return; // we're done, remaining objects are too far for this bullet to hit
+    if (objZ < bulletTip) return false; // we're done, remaining objects are too far for this bullet to hit
 
     if (objZ < bulletButt && doObjectsOverlapInX(obj, bullet)) {
       const isHit = hitObject(obj, bData.hitPoints);
       if (isHit) {
-        bullet.removeFromParent();
-        return;
+        return true;
       }
     }
   }
+  return false;
 }
 
 function movePlayerBullets(delta: number) {
   const deltaZ = dim.playerBulletSpeed * delta;
 
+  const toRemove = [];
   for (const bullet of bulletsGroup.children) {
-    checkBulletHit(bullet, deltaZ);
+    if (checkBulletHit(bullet, deltaZ)) {
+      toRemove.push(bullet);
+    }
   }
 
   bulletsGroup.position.z -= deltaZ;
@@ -360,11 +370,16 @@ function movePlayerBullets(delta: number) {
   for (const bullet of bulletsGroup.children) {
     const bData = getBulletData(bullet);
     if (bulletsZ < bData.minZ) {
-      bullet.removeFromParent();
+      toRemove.push(bullet);
     } else {
       // the bullets are sorted by minZ so no further bullets will be removed
       break;
     }
+  }
+
+  // sweep dying bullets to remove them outside loops going through bullets
+  for (const bullet of toRemove) {
+    bullet.removeFromParent();
   }
 }
 
