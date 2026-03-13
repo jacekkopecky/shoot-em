@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import * as dim from './dimensions.js';
-import { getObjectX, makeHalfCubeGeometry } from './three.js';
+import { getObjectX } from './three.js';
 import * as mat from './three-materials.js';
 
 export function createObject(
@@ -97,4 +97,38 @@ export function getObjectWidth(obj: THREE.Object3D): number {
   } else {
     throw new TypeError('obj does not have a width');
   }
+}
+
+// a cube with only three sides, only visible from the outside
+// useful for boxes that are only visible from one direction
+function makeHalfCubeGeometry(hasLeftSide: boolean, w = 1, h = 1, d = 1): THREE.BufferGeometry {
+  const geometry = new THREE.BufferGeometry();
+
+  // prettier-ignore
+  const vertices = new Float32Array([
+    // front
+    -1,-1,1, 1,-1,1, -1,1,1,
+    -1, 1,1, 1,-1,1,  1,1,1,
+    ...(hasLeftSide ?
+      [
+        // left
+        -1,-1,-1, -1,-1,1, -1,1,-1,
+        -1, 1,-1, -1,-1,1, -1,1, 1,
+      ] : [
+        // right
+        1,-1,1, 1,-1,-1, 1,1, 1,
+        1, 1,1, 1,-1,-1, 1,1,-1,
+      ]
+    ),
+    // top
+    1,1,-1, -1,1,-1,  1,1,1,
+    1,1, 1, -1,1,-1, -1,1,1,
+  ])
+
+  geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+
+  // the geometry starts as a 2x2x2 cube
+  geometry.scale(w / 2, h / 2, d / 2);
+
+  return geometry;
 }
