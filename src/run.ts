@@ -60,7 +60,7 @@ export function init() {
   setupScene();
 
   handler = new TouchHandler(el.canvas, {
-    initialX: 50,
+    initialX: 0.5,
     speedUp: 1 + dim.FINGER_WIDTH_PERCENT / 100,
     onMove: updatePlayerPosition,
   });
@@ -150,7 +150,7 @@ export function startRun() {
   playing = true;
   ending = false;
   toggleTouchHandler();
-  handler.setCurrentX(50);
+  handler.setCurrentX(0.5);
   animationFrame();
 }
 
@@ -246,11 +246,9 @@ function setupObjects() {
   }
 }
 
-function updatePlayerPosition(playerPercent: number) {
-  let x = ((playerPercent - 50) * dim.trackWidth) / 100;
-  const bound = (dim.trackWidth - getObjectWidth(playersGroup)) / 2;
-  if (x < -bound) x = -bound;
-  if (x > bound) x = bound;
+function updatePlayerPosition(playerPosFraction: number) {
+  const availableWidth = dim.trackWidth - getObjectWidth(playersGroup);
+  const x = (playerPosFraction - 0.5) * availableWidth;
   playersGroup.position.x = x;
 }
 

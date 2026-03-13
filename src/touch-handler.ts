@@ -1,5 +1,5 @@
 export class TouchHandler {
-  private lastTouchPercent: number | null = null;
+  private lastTouchFraction: number | null = null;
   private currentX: number;
   private speedUp: number;
   private enabled = true;
@@ -21,27 +21,27 @@ export class TouchHandler {
   }
 
   handleTouchStart = (e: TouchEvent) => {
-    this.lastTouchPercent = this.getTouchPercent(e);
+    this.lastTouchFraction = this.getTouchFraction(e);
   };
 
   handleTouchEnd = (e: TouchEvent) => {
-    this.lastTouchPercent = this.getTouchPercent(e);
+    this.lastTouchFraction = this.getTouchFraction(e);
   };
 
   handleTouchMove = (e: TouchEvent) => {
     if (!this.enabled) return;
-    const touchPercent = this.getTouchPercent(e);
-    if (touchPercent != null && this.lastTouchPercent != null) {
+    const touchFraction = this.getTouchFraction(e);
+    if (touchFraction != null && this.lastTouchFraction != null) {
       const oldX = this.currentX;
-      this.currentX += (touchPercent - this.lastTouchPercent) * this.speedUp;
+      this.currentX += (touchFraction - this.lastTouchFraction) * this.speedUp;
       if (this.currentX < 0) this.currentX = 0;
-      if (this.currentX > 100) this.currentX = 100;
+      if (this.currentX > 1) this.currentX = 1;
 
       if (oldX !== this.currentX && this.opts.onMove) {
         this.opts.onMove(this.currentX);
       }
 
-      this.lastTouchPercent = touchPercent;
+      this.lastTouchFraction = touchFraction;
     }
   };
 
@@ -59,8 +59,8 @@ export class TouchHandler {
     this.el.removeEventListener('touchmove', this.handleTouchMove);
   }
 
-  private getTouchPercent(e: TouchEvent) {
+  private getTouchFraction(e: TouchEvent) {
     const t = e.touches[0];
-    return t ? (t.clientX / this.el.clientWidth) * 100 : null;
+    return t ? t.clientX / this.el.clientWidth : null;
   }
 }
