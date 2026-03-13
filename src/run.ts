@@ -34,7 +34,7 @@ import { Wallet } from './wallet.js';
 let handler: TouchHandler;
 let objectsGroup: THREE.Group;
 let playersGroup: THREE.Group;
-let playersDyingGroup = new THREE.Group();
+let dyingGroup: THREE.Group;
 let bulletsGroup: THREE.Group;
 let trackDecorationsGroup: THREE.Group;
 
@@ -97,6 +97,9 @@ function setupScene() {
   trackDecorationsGroup = createTrackDecorations();
   scene.add(trackDecorationsGroup);
 
+  dyingGroup = new THREE.Group();
+  scene.add(dyingGroup);
+
   // lights
   const skylight = new THREE.HemisphereLight(0xffffff, 0xb97a20, 1);
   scene.add(skylight);
@@ -115,6 +118,8 @@ export function prepareRun() {
   setupObjects();
   setupPlayers();
   setupBullets();
+  dyingGroup.clear();
+  dyingGroup.position.z = 0;
 
   playing = false;
   toggleTouchHandler();
@@ -181,8 +186,6 @@ function setupPlayers() {
   playersGroup = new THREE.Group();
   playersGroup.userData.type = 'playersGroup';
 
-  playersDyingGroup.clear();
-
   const player = createObject('player');
   const pData = getPlayerData(player);
   pData.shotTime = dim.playerShotTime;
@@ -196,7 +199,6 @@ function setupPlayers() {
   pgData.width = pData.width;
 
   scene.add(playersGroup);
-  scene.add(playersDyingGroup);
 }
 
 function repositionPlayers() {
@@ -294,21 +296,21 @@ function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = false): b
   return true;
 }
 
-function moveDyingPlayers(delta: number) {
+function moveDyingGroup(delta: number) {
   const deltaZ = dim.objectSpeedPerSecond * delta;
-  playersDyingGroup.position.z += deltaZ;
+  dyingGroup.position.z += deltaZ;
 
-  removeGroupChildrenBehindCamera(playersDyingGroup);
+  removeGroupChildrenBehindCamera(dyingGroup, false);
 }
 
-function removeGroupChildrenBehindCamera(group: THREE.Group) {
+function removeGroupChildrenBehindCamera(group: THREE.Group, sortedInZ = true) {
   // remove objects that are now behind the camera
   for (const child of group.children) {
     if (getObjectZ(child) > dim.behindCamera) {
       child.removeFromParent();
     } else {
       // the objects are sorted front-to-back so no more will be behind camera
-      break;
+      if (sortedInZ) break;
     }
   }
 }
@@ -320,20 +322,20 @@ function killObject(obj: THREE.Object3D, oData: ObjectData) {
 }
 
 function killPlayer(player: THREE.Object3D, pData: PlayerData) {
+  pData.dying = true;
   setSpriteMaterial(player, pData.dyingMaterial);
   shrinkToGone(player, dim.playerDyingDuration / 2);
 
-  // move the player out of playersGroup so it isn't moved left and right anymore
-  playersDyingGroup.add(player);
-  player.position.x += playersGroup.position.x;
-  player.position.z = -playersDyingGroup.position.z;
+  // the player will be swept into the dying group after all updates
 
   // add fire for extra effect
   const fire = createObject('fire');
   pulseAndShrinkToGone(fire, dim.playerDyingDuration);
+  dyingGroup.add(fire);
   fire.position.copy(player.position);
   fire.position.z += 0.01; // in front of the player
-  playersDyingGroup.add(fire);
+  fire.position.add(playersGroup.position);
+  fire.position.sub(dyingGroup.position);
 }
 
 /**
@@ -385,6 +387,7 @@ function movePlayerBullets(delta: number) {
 function playerShoot(delta: number) {
   for (const player of playersGroup.children) {
     const pData = getPlayerData(player);
+    if (pData.dying) continue; // next player
 
     pData.remainingShotTime -= delta;
     if (pData.remainingShotTime <= 0) {
@@ -409,6 +412,8 @@ function playerShoot(delta: number) {
 
 function checkPlayerHit(player: THREE.Object3D) {
   const pData = getPlayerData(player);
+
+  if (pData.dying) return;
 
   const playerNear = getObjectZ(player);
   const playerFar = playerNear - pData.depth;
@@ -444,10 +449,25 @@ function checkPlayersHit() {
   }
 }
 
+// move dying objects into a separate group so we don't have to deal with them afterwards
+function sweepDeadObjects() {
+  // first gather the objects so we don't remove them while going through the collections
+  const dyingStuff = [
+    ...Iterator.from(objectsGroup.children).filter((obj) => obj.userData.dying),
+    ...Iterator.from(playersGroup.children).filter((obj) => obj.userData.dying),
+  ];
+
+  for (const obj of dyingStuff) {
+    obj.position.add(obj.parent!.position);
+    dyingGroup.add(obj);
+    obj.position.sub(dyingGroup.position);
+  }
+}
+
 function isGameFinished() {
   return (
     objectsGroup.children.length === 0 ||
-    (playersGroup.children.length === 0 && playersDyingGroup.children.length === 0)
+    (playersGroup.children.length === 0 && dyingGroup.children.length === 0)
   );
 }
 
@@ -468,10 +488,11 @@ function animationFrame(ms?: number) {
     updateAnimations(delta);
     moveObjects(delta);
     moveTrackDecorations(trackDecorationsGroup, delta);
-    moveDyingPlayers(delta);
+    moveDyingGroup(delta);
     checkPlayersHit();
     playerShoot(delta);
     movePlayerBullets(delta);
+    sweepDeadObjects();
 
     if (isGameFinished()) {
       endRun();

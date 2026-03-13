@@ -20,8 +20,9 @@ export interface PlayerData extends AnyObjectData {
   remainingShotTime: number;
   range: number;
   bulletLength: number;
-  hitPoints: number;
+  dying?: boolean;
   dyingMaterial: keyof typeof sprites;
+  hitPoints: number;
 }
 
 export interface BulletData extends AnyObjectData {
