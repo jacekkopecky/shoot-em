@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import * as dim from './dimensions';
 import { isSprite } from './three';
 
-// maybe also use some of these: 🟡 😵‍💫
 export const sprites = {
   player: emojiSpriteMaterial('🍄'),
   playerDying: emojiSpriteMaterial('🍄‍🟫'),
@@ -13,6 +12,7 @@ export const sprites = {
   object: emojiSpriteMaterial('😀'),
   objectDying: emojiSpriteMaterial('😵'),
   bullet: emojiSpriteMaterial('⚫️'),
+  bulletDying: emojiSpriteMaterial('💥'),
   defaultMaterial: new THREE.SpriteMaterial({ color: 0x00dddd }),
 } as const;
 

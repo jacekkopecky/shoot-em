@@ -2,8 +2,9 @@ import * as THREE from 'three';
 
 import * as dim from '../dimensions';
 import { getObjectX, getObjectZ, resetGroup } from '../three';
-import { createObject, doObjectsOverlapInX } from '../three-resources';
-import { getBulletData, type PlayerData } from '../types';
+import { createObject, doObjectsOverlapInX, scaleSpriteInPlace } from '../three-resources';
+import { setSpriteMaterial } from '../three-materials';
+import { getBulletData, type BulletData, type PlayerData } from '../types';
 
 import { hitObject, objectsGroup } from './objects';
 
@@ -34,24 +35,22 @@ export function createPlayerBullet(
 export function movePlayerBullets(delta: number) {
   const deltaZ = dim.playerBulletSpeed * delta;
 
-  const toRemove = [];
   for (const bullet of bulletsGroup.children) {
-    if (checkBulletHit(bullet, deltaZ)) {
-      toRemove.push(bullet);
-    }
+    checkBulletHit(bullet, deltaZ);
   }
 
   bulletsGroup.position.z -= deltaZ;
   const bulletsZ = bulletsGroup.position.z;
 
   // remove bullets that are now past their range
+  const toRemove = [];
   for (const bullet of bulletsGroup.children) {
     const bData = getBulletData(bullet);
-    if (bulletsZ < bData.minZ) {
-      toRemove.push(bullet);
-    } else {
+    if (bulletsZ >= bData.minZ) {
       // the bullets are sorted by minZ so no further bullets will be removed
       break;
+    } else if (!bData.dying) {
+      toRemove.push(bullet);
     }
   }
 
@@ -64,7 +63,7 @@ export function movePlayerBullets(delta: number) {
 /**
  * With this bullet having moved deltaZ in the last step, check if it's hit any object.
  */
-function checkBulletHit(bullet: THREE.Object3D, deltaZ: number): boolean {
+function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
   const bData = getBulletData(bullet);
 
   const bulletButt = getObjectZ(bullet);
@@ -73,14 +72,20 @@ function checkBulletHit(bullet: THREE.Object3D, deltaZ: number): boolean {
   // check all objects
   for (const obj of objectsGroup.children) {
     const objZ = getObjectZ(obj);
-    if (objZ < bulletTip) return false; // we're done, remaining objects are too far for this bullet to hit
+    if (objZ < bulletTip) return; // we're done, remaining objects are too far for this bullet to hit
 
     if (objZ < bulletButt && doObjectsOverlapInX(obj, bullet)) {
       const isHit = hitObject(obj, bData.hitPoints);
       if (isHit) {
-        return true;
+        killBullet(bullet, bData);
       }
     }
   }
-  return false;
+}
+
+function killBullet(bullet: THREE.Object3D, bData: BulletData) {
+  setSpriteMaterial(bullet, bData.dyingMaterial);
+  scaleSpriteInPlace(bullet, 2);
+  bData.dying = true;
+  setTimeout(() => bullet.removeFromParent(), dim.playerBulletDyingDuration * 1000);
 }

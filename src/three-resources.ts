@@ -1,28 +1,50 @@
 import * as THREE from 'three';
 
 import * as dim from './dimensions';
-import { getObjectX } from './three';
+import { getObjectX, isSprite } from './three';
 import * as mat from './three-materials';
 
 export function createObject(
   type: string,
   opts: { dataType?: string; y?: number } = {},
 ): THREE.Sprite {
-  const { dataType = type, y = 0 } = opts;
-
   const material = mat.getSpriteMaterial(type, true);
   const size = dim.sizes[type as keyof typeof dim.sizes] ?? dim.sizes.defaultSize!;
+
+  const { dataType = type, y = size[1] / 2 } = opts;
 
   const sprite = new THREE.Sprite(material);
   sprite.scale.set(...size, 1);
   // make the object "stand" on the plane by moving its center down instead of moving its position up
-  sprite.center.set(0.5, -y / size[1]);
+  centerSpriteAtHeight(sprite, y);
 
   sprite.userData.width = size[0];
   sprite.userData.depth = size[0] / 3; // use the third of width as the depth
   sprite.userData.type = dataType;
   sprite.userData.dyingMaterial = `${type}Dying` in mat.sprites ? `${type}Dying` : type;
   return sprite;
+}
+
+function centerSpriteAtHeight(sprite: THREE.Sprite, y: number) {
+  sprite.center.y = 0.5 - y / sprite.scale.y;
+}
+
+function getSpriteCenterHeight(sprite: THREE.Sprite) {
+  return (0.5 - sprite.center.y) * sprite.scale.y;
+}
+
+// our sprites stand on their bottom on the track
+// scaling them makes them grow up or shrink down, with bottom stable
+// but sprites like bullets are hovering above their center
+// so simply scaling them would move them up and down; this function scales them in place
+export function scaleSpriteInPlace(sprite: THREE.Object3D, scale: number) {
+  if (isSprite(sprite)) {
+    const centerHeight = getSpriteCenterHeight(sprite);
+    sprite.scale.multiplyScalar(scale);
+    centerSpriteAtHeight(sprite, centerHeight);
+  } else {
+    throw new TypeError('trying to scale a sprite in place but it is not a sprite');
+  }
 }
 
 export function createTrack(): THREE.Object3D {

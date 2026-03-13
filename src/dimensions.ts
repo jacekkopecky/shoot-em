@@ -33,6 +33,7 @@ export const playerBulletRange = 40;
 export const playerBulletLength = 2;
 export const playerBulletSpeed = 40;
 export const playerBulletHitPoints = 1;
+export const playerBulletDyingDuration = 0.2;
 export const playerHitPoints = 1;
 export const playerDyingDuration = 0.6;
 

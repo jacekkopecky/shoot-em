@@ -7,6 +7,7 @@ import { objectsGroup } from './objects';
 import { playersGroup } from './players';
 
 import { removeGroupChildrenBehindCamera } from './utils/tools';
+import { bulletsGroup } from './bullets';
 
 export const dyingGroup = new THREE.Group();
 
@@ -25,6 +26,7 @@ export function moveAndSweepDyingGroup(delta: number) {
   const dyingStuff = [
     ...Iterator.from(objectsGroup.children).filter((obj) => obj.userData.dying),
     ...Iterator.from(playersGroup.children).filter((obj) => obj.userData.dying),
+    ...Iterator.from(bulletsGroup.children).filter((obj) => obj.userData.dying),
   ];
 
   for (const obj of dyingStuff) {

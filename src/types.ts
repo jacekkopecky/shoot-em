@@ -29,6 +29,8 @@ export interface BulletData extends AnyObjectData {
   type: 'bullet';
   minZ: number;
   length: number;
+  dying?: boolean;
+  dyingMaterial: keyof typeof sprites;
   hitPoints: number;
 }
 
