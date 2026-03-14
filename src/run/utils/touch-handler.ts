@@ -45,22 +45,22 @@ export class TouchHandler {
     }
   };
 
-  toggle(value?: boolean) {
+  toggle = (value?: boolean) => {
     this.enabled = value ?? !this.enabled;
-  }
+  };
 
-  setCurrentX(value: number) {
+  setCurrentX = (value: number) => {
     this.currentX = value;
-  }
+  };
 
-  shutdown() {
+  shutdown = () => {
     this.el.removeEventListener('touchstart', this.handleTouchStart);
     this.el.removeEventListener('touchend', this.handleTouchEnd);
     this.el.removeEventListener('touchmove', this.handleTouchMove);
-  }
+  };
 
-  private getTouchFraction(e: TouchEvent) {
+  private getTouchFraction = (e: TouchEvent) => {
     const t = e.touches[0];
     return t ? t.clientX / this.el.clientWidth : null;
-  }
+  };
 }
