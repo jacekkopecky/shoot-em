@@ -1,5 +1,6 @@
 <!doctype html>
 <head>
+  <meta charset="utf8" />
   <title>Shoot'em</title>
   <link rel="stylesheet" href="index.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -15,14 +16,19 @@
   <main>
     <section>
       <canvas id="webgl-canvas" class="in-run"></canvas>
-      <div id="log" class="in-run"></div>
+      <!-- <div id="log" class="in-run"></div> -->
       <button id="exitBtn" class="in-run">Exit</button>
       <div id="touchToStart">touch to start</div>
 
+      <div id="inRunWallet" class="only-in-run">
+        <div><span class="value coin"></span> 💰</div>
+        <div><span class="value gem"></span> 💎</div>
+      </div>
+
       <div id="endRunScreen">
         <h2>Well done!</h2>
-        <div>Coins: <span class="value coin">0</span></div>
-        <div>Gems: <span class="value gem">0</span></div>
+        <div><span class="value coin"></span> 💰</div>
+        <div><span class="value gem"></span> 💎</div>
         <button class="ok">OK</button>
       </div>
     </section>

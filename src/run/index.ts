@@ -37,7 +37,7 @@ let fullscreenPaused = false;
 const el = {
   main: document.querySelector('main')!,
   canvas: document.querySelector<HTMLCanvasElement>('#webgl-canvas')!,
-  exitBtn: document.querySelector('#exitBtn')!,
+  exitBtn: document.querySelector<HTMLButtonElement>('#exitBtn')!,
 };
 
 /**
@@ -63,6 +63,7 @@ export function init() {
       e.stopImmediatePropagation();
       e.stopPropagation();
       e.preventDefault();
+      el.exitBtn.disabled = true;
     }
   });
 }
@@ -176,7 +177,7 @@ function animationFrame(ms?: number) {
     playerShoot(delta);
     movePlayerBullets(delta);
     moveAndSweepDyingGroup(delta);
-    updateAwardsView();
+    updateAwardsView(delta);
 
     if (isGameFinished()) {
       endRun();

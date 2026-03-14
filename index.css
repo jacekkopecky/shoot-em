@@ -53,10 +53,33 @@ main {
     transform-style: preserve-3d;
   }
 
-  &.run > section > :not(.in-run) {
-    opacity: 0;
+  .only-in-run,
+  .in-run {
     transition: opacity 0.5s;
+  }
+
+  &.run > section > :not(.in-run):not(.only-in-run),
+  &:not(.run) > section > .only-in-run {
+    opacity: 0;
     pointer-events: none;
+  }
+
+  #inRunWallet {
+    position: absolute;
+    bottom: 85%;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 0.5em;
+
+    font-size: 1rem;
+    border-radius: 1em 0 0 1em;
+    background: #eeceb2;
+    border: solid #aa8a70;
+    color: #664422;
+    border-width: thick 0 thick thick;
+    text-align: right;
   }
 
   & #touchToStart {

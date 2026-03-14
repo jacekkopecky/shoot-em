@@ -4,6 +4,7 @@ import { init as initThree } from './three';
 const el = {
   main: document.querySelector('main')!,
   canvas: document.querySelector<HTMLCanvasElement>('#webgl-canvas')!,
+  exitBtn: document.querySelector<HTMLButtonElement>('#exitBtn')!,
   endRunScreenOK: document.querySelector('#endRunScreen button.ok')!,
 };
 
@@ -25,5 +26,6 @@ export function startPlaying() {
 
 export function showMainScreen() {
   el.main.classList.remove('run');
+  el.exitBtn.disabled = false;
   prepareRun();
 }

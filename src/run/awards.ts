@@ -1,33 +1,38 @@
 import * as THREE from 'three';
 
 import * as dim from '../dimensions';
-import { type Currency } from '../types';
+import { type Currency, type CurrencyType } from '../types';
 import { formatCurrencyNumber } from '../utils';
 import { Wallet } from '../wallet';
 import { getScreenCoordinates } from '../three';
 import { createObject } from '../three-resources';
 
 import { flyToTargetAndShrink } from './utils/animations';
+import { AnimatedCount } from './utils/animated-count';
 
 const el = {
   endRunScreen: document.querySelector('#endRunScreen')!,
   endRunScreenCoins: document.querySelector('#endRunScreen .value.coin')!,
   endRunScreenGems: document.querySelector('#endRunScreen .value.gem')!,
+  inRun: {
+    gem: document.querySelector('#inRunWallet .value.gem')!,
+    coin: document.querySelector('#inRunWallet .value.coin')!,
+  },
 };
 
-// `wallet` is authoritative for end run purposes
-// delayed wallet lets us show incoming awards as the flying coins arrive
-// where it doesn't really matter if we lose events or get interrupted before they arrive
-let wallet = new Wallet();
-let delayedWallet = new Wallet();
+const wallet = new Wallet();
+const awardsShowing = new Map<CurrencyType, AnimatedCount>();
 
 export const awardsGroup = new THREE.Group();
 
 export function setupAwards() {
-  wallet.reset();
-  delayedWallet.reset();
   awardsGroup.clear();
+  wallet.reset();
+  awardsShowing.clear();
   toggleEndRunScreen(false);
+  for (const valueEl of Object.values(el.inRun)) {
+    valueEl.textContent = '';
+  }
 }
 
 export async function giveAward({ type, amount }: Currency, fromObj: THREE.Object3D) {
@@ -57,11 +62,19 @@ export async function giveAward({ type, amount }: Currency, fromObj: THREE.Objec
     awardsGroup.add(obj);
 
     obj.addEventListener('removed', () => {
-      delayedWallet.add(type, subAmount);
+      addToShow(type, subAmount);
     });
 
     first = false;
   }
+}
+
+function addToShow(type: CurrencyType, amount: number) {
+  const countup = awardsShowing.getOrInsertComputed(
+    type,
+    () => new AnimatedCount(dim.countupMaxTime),
+  );
+  countup.add(amount);
 }
 
 /**
@@ -83,7 +96,12 @@ function splitAward(n: number): number[] {
   return retval;
 }
 
-export function updateAwardsView() {
+export function updateAwardsView(delta: number) {
+  for (const [currencyType, countup] of awardsShowing.entries()) {
+    const valueEl = el.inRun[currencyType];
+    const showing = countup.updateShowing(delta);
+    if (countup) valueEl.textContent = String(showing);
+  }
   // todo update in-run awards view
   // this is called on animation frame so remember what we show, see how much we have, make sure all
   // is shown within 200ms? with slowing down...

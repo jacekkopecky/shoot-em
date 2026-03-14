@@ -30,9 +30,11 @@ export const gemProbability = 0.05;
 export const coinProbability = 0.1;
 export const coinAwardMax = 5;
 
-export const runAwardsTargetCoordinates = [0.9, 0.8] as const;
+export const runAwardsTargetCoordinates = [0.95, 0.85] as const;
 export const runAwardsTargetDepth = 130; // about the distance from the camera to the front player
 export const runAwardsFlyTime = 0.8;
+
+export const countupMaxTime = 0.6;
 
 export const playerShotTime = 1;
 export const playerBulletRange = 40;
