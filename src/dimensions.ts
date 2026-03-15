@@ -7,6 +7,8 @@ export const sizes: Record<string, [number, number]> = {
   coin: [6, 6],
   gem: [8, 8],
   object: [15, 15],
+  tree1: [20, 20],
+  tree2: [20, 20],
   defaultSize: [15, 25],
 } as const;
 export const spriteResolution = 64;

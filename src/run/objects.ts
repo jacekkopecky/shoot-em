@@ -25,7 +25,9 @@ export function setupObjects() {
         ? 'gems'
         : r < dim.gemProbability + dim.coinProbability
           ? 'coins'
-          : 'object';
+          : Math.random() < 0.5
+            ? 'tree1'
+            : 'tree2';
 
     const obj = createObject(type, { dataType: 'object' });
     const oData = getObjectData(obj);
