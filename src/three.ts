@@ -4,7 +4,9 @@ import { cameraPosition, cameraToTrackEndLength, cameraTarget, cameraFoV } from 
 
 export let renderer: THREE.WebGLRenderer;
 export let camera: THREE.PerspectiveCamera;
-export let scene = new THREE.Scene();
+export const scene = new THREE.Scene();
+
+(window as any).gameScene = scene;
 
 export const timer = new THREE.Timer();
 timer.connect(document);
@@ -25,6 +27,8 @@ export function init(main: HTMLElement) {
   );
   camera.position.set(...cameraPosition);
   camera.lookAt(...cameraTarget);
+
+  (window as any).gameCamera = camera;
 
   onWindowResize();
 

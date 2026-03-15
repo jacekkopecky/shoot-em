@@ -20,10 +20,12 @@ export type ReadonlyState = Omit<Readonly<typeof state>, 'wallet'> & { wallet: R
 
 export function initState() {
   loadState();
+  (window as any).gameState = state;
 }
 
 export function resetState() {
   state = createInitialState();
+  (window as any).gameState = state;
   saveState();
 }
 
