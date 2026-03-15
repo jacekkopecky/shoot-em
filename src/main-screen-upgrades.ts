@@ -2,7 +2,7 @@ import { updateMainScreen } from './main-screen';
 import { prepareRun } from './run';
 import { type ReadonlyState, readState, setNextRunUpgrade, pay } from './state';
 import type { UpgradeFn, UpgradeType } from './upgrades';
-import { formatCurrencyNumber } from './utils';
+import { formatNumber } from './utils';
 
 const el = {
   upgrades: {
@@ -47,7 +47,7 @@ function updatePriceAndLevel(type: keyof typeof el.upgrades, state: ReadonlyStat
   buttonEl.classList.toggle('max', isMax);
 
   const costEl = buttonEl.querySelector<HTMLElement>('.cost .value')!;
-  costEl.textContent = price ? formatCurrencyNumber(price) : '—';
+  costEl.textContent = price ? formatNumber(price) : '—';
 
   const levelEl = buttonEl.querySelector<HTMLElement>('.level .value')!;
   levelEl.textContent = isMax ? 'MAX' : `Level ${currentLevel}`;

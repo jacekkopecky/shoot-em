@@ -1,4 +1,4 @@
-export function formatCurrencyNumber(n: number): string {
+export function formatNumber(n: number): string {
   switch (true) {
     case n >= 100000: {
       // 100k, 101k…

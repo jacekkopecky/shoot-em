@@ -5,7 +5,7 @@ import * as state from '../state';
 import { getScreenCoordinates } from '../three';
 import { createObject } from '../three-resources';
 import { type Currency, type CurrencyType } from '../types';
-import { formatCurrencyNumber } from '../utils';
+import { formatNumber } from '../utils';
 import { Wallet } from '../wallet';
 
 import { flyToTargetAndShrink } from './utils/animations';
@@ -104,7 +104,7 @@ export function updateAwardsView(delta: number) {
   for (const [currencyType, countup] of awardsShowing.entries()) {
     const valueEl = el.inRun[currencyType];
     const showing = countup.updateShowing(delta);
-    if (countup) valueEl.textContent = formatCurrencyNumber(showing);
+    if (countup) valueEl.textContent = formatNumber(showing);
   }
 }
 
@@ -113,6 +113,6 @@ export function toggleEndRunScreen(value?: boolean) {
 }
 
 export function updateEndRunScreen() {
-  el.endRunScreenCoins.textContent = formatCurrencyNumber(wallet.read('coin'));
-  el.endRunScreenGems.textContent = formatCurrencyNumber(wallet.read('gem'));
+  el.endRunScreenCoins.textContent = formatNumber(wallet.read('coin'));
+  el.endRunScreenGems.textContent = formatNumber(wallet.read('gem'));
 }

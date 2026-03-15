@@ -2,7 +2,7 @@ import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
 import { init as initRunScreen, prepareRun, startRun } from './run';
 import { clearNextRunUpgrades, initState, readState, resetState } from './state';
 import { init as initThree } from './three';
-import { formatCurrencyNumber } from './utils';
+import { formatNumber } from './utils';
 
 const el = {
   main: document.querySelector('main')!,
@@ -54,10 +54,10 @@ export function updateMainScreen() {
   const state = readState();
 
   const coins = state.wallet.read('coin');
-  el.wallet.coin.textContent = formatCurrencyNumber(coins);
+  el.wallet.coin.textContent = formatNumber(coins);
 
   const gems = state.wallet.read('gem');
-  el.wallet.gem.textContent = formatCurrencyNumber(gems);
+  el.wallet.gem.textContent = formatNumber(gems);
 
   updateUpgrades(state);
 }
