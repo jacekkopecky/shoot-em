@@ -30,6 +30,9 @@ This was inspired by Timeline Up, but without any spending of real money.
     - lower probability of a run type if I lose in it?
   - daily tickets for special wave types?
   - [ ] state should have a current seed for track generation?
+- [ ] should camera reposition itself on main screen and in run? probably yes, extra clear when just
+      starting, the player is too high on the screen without buttons, but also too high during the
+      game
 - [ ] add permanent upgrades
   - cards, skills etc.
     - general: player number, fire rate, damage
@@ -73,7 +76,6 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [ ] should the camera reposition itself a bit?
     - should camera just be positioned according to speed? or should it be a part of the area?
   - [ ] should players get closer together so they all hit the boss?
-- [ ] should camera reposition itself on main screen and in run?
 - [ ] add particles showing damage?
 - [ ] should some upgrades expire? should they be more/less expensive after expiry?
 - [ ] add specific bigger occasional awards like the key in ice?
