@@ -5,10 +5,6 @@ This was inspired by Timeline Up, but without any spending of real money.
 ## todo
 
 - [ ] refactor object creation and behaviours
-- [ ] have enemies that make sense:
-  - we could have trees that are in the way and need shooting down
-  - gems and coins around them
-  - enemies that shoot back?
 - [ ] add main-screen elements: currencies, upgrade buttons
   - [ ] in showMainScreen, update the screen from state - wallet, possible upgrades etc.
 - [ ] add daily energy, disabled in dev build
@@ -25,7 +21,8 @@ This was inspired by Timeline Up, but without any spending of real money.
       timeline)
     - kinda normal with small strength upgrades and plenty enemies to mow down (and maybe an end
       boss) with an award only at the end (like "battle" for jewels)
-    - slow-down with big bosses (slowing at the end of my minimum range)
+    - slow-down with big bosses (slowing at the end of my minimum range?)
+    - enemies that shoot back?
 - [ ] add multi-stage objects (like a pile of jewels)
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one? or a pile?
@@ -63,6 +60,12 @@ This was inspired by Timeline Up, but without any spending of real money.
 - [ ] add specific bigger occasional awards like the key in ice?
 
 ---
+
+## done by 2026-03-15
+
+- [x] have enemies that make sense:
+  - we could have trees that are in the way and need shooting down
+  - gems and coins around them
 
 ## done by 2026-03-14
 
