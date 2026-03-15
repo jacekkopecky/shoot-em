@@ -5,12 +5,17 @@ This was inspired by Timeline Up, but without any spending of real money.
 ## todo
 
 - [ ] refactor object creation and behaviours
-- [ ] add main-screen elements: currencies, upgrade buttons
-  - [ ] in showMainScreen, update the screen from state - wallet, possible upgrades etc.
+- [ ] add transient upgrades somehow
+  - for next run only
+  - general: fire rate, damage
+- [.] add main-screen elements:
+  - [x] currencies
+  - [ ] upgrade buttons
+  - [.] in updateMainScreen, update the screen from state - wallet, possible upgrades etc.
 - [ ] add daily energy, disabled in dev build
-- [ ] add localStorage state
+- [ ] add 3d models
 - [ ] add track generation
-  - waves?
+  - waves? reset gates? multi-run stages? (like eras and timelines)
     - many little obstacles, try to get through and gather awards (like dungeon)
     - square blocks and everything on a grid, like a mine?
       - with a constrained firing rate starting just at one block shot down per block's distance
@@ -23,16 +28,29 @@ This was inspired by Timeline Up, but without any spending of real money.
       boss) with an award only at the end (like "battle" for jewels)
     - slow-down with big bosses (slowing at the end of my minimum range?)
     - enemies that shoot back?
+  - gradation
+    - various types of runs should only get stronger if I pass them? at different rates?
+    - lower probability of a run type if I lose in it?
+  - daily tickets for special wave types?
+  - [ ] state should have a current seed for track generation?
+- [ ] add permanent upgrades
+  - cards, skills etc.
+    - general: player number, fire rate, damage
+    - specific:
+      - end block award
+      - end block strength
+      - tree strength
+  - it should take time to get "learn" skills?
 - [ ] add multi-stage objects (like a pile of jewels)
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one? or a pile?
   - well, a pile could just be a bunch of jewels closely behind each other
-- [ ] add possibility of more players
+- [ ] add possibility of multiple players in group
   - [ ] stagger shooting for player groups? or shoot in waves?
+  - [ ] as transient upgrade? as permanent upgrade?
 - [ ] add objects with a visible damage countdown
 - [ ] when items are gained (like a better gun), make it fly towards player?
 - [ ] add objects that shoot at us?
-- [ ] state should have a current seed for track generation?
 - [ ] add gates?
   - bonus & malus on player count and strengths, variable shoot-to-increase?, end/reset gates?
 - [ ] add objects/gates that move left/right?
@@ -58,11 +76,16 @@ This was inspired by Timeline Up, but without any spending of real money.
 - [ ] add particles showing damage?
 - [ ] should some upgrades expire? should they be more/less expensive after expiry?
 - [ ] add specific bigger occasional awards like the key in ice?
+- [ ] publish on github pages
+  - when all artwork is mine
+  - when there are some upgrades
+  - when there are at least two different types of runs
 
 ---
 
 ## done by 2026-03-15
 
+- [x] add localStorage state
 - [x] have enemies that make sense:
   - we could have trees that are in the way and need shooting down
   - gems and coins around them

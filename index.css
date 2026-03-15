@@ -58,7 +58,9 @@ main {
     transition: opacity 0.5s;
   }
 
-  &.run > section > :not(.in-run):not(.only-in-run),
+  &.run .partial-in-run > :not(.in-run):not(.only-in-run),
+  &:not(.run) .partial-in-run > .only-in-run,
+  &.run > section > :not(.in-run):not(.only-in-run):not(.partial-in-run),
   &:not(.run) > section > .only-in-run {
     opacity: 0;
     pointer-events: none;
@@ -103,12 +105,39 @@ button {
   font-size: inherit;
   padding: 0.25em 0.5em;
   border-radius: 0.5em;
+  border-width: medium;
 }
 
-#exitBtn {
+#topBar {
   position: fixed;
   top: 1em;
   left: 1em;
+  right: 1em;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+#mainScreenWallet {
+  flex-grow: 1;
+
+  padding: 0.25em 0.5em;
+  border-radius: 0.5em;
+
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  align-items: center;
+
+  & > * {
+    flex-grow: 1;
+    text-align: right;
+    font-size: 1rem;
+  }
+
+  background: #eeceb2;
+  border: solid medium #aa8a70;
+  color: #664422;
 }
 
 #startBtn {

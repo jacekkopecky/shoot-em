@@ -36,7 +36,7 @@ let fullscreenPaused = false;
 
 const el = {
   main: document.querySelector('main')!,
-  canvas: document.querySelector<HTMLCanvasElement>('#webgl-canvas')!,
+  canvas: document.querySelector<HTMLCanvasElement>('#webglCanvas')!,
   exitBtn: document.querySelector<HTMLButtonElement>('#exitBtn')!,
 };
 
@@ -59,7 +59,7 @@ export function init() {
 
   el.exitBtn.addEventListener('click', (e) => {
     if (playing) {
-      endRun();
+      endRun(true);
       e.stopImmediatePropagation();
       e.stopPropagation();
       e.preventDefault();
@@ -127,19 +127,22 @@ export function startRun() {
   animationFrame();
 }
 
-function endRun() {
+function endRun(immediate = false) {
   if (!playing || ending) return;
   ending = true;
   updateTouchHandlerEnabled();
   updateEndRunScreen();
 
-  setTimeout(() => {
-    toggleEndRunScreen(true);
+  setTimeout(
+    () => {
+      toggleEndRunScreen(true);
 
-    setTimeout(() => {
-      playing = false;
-    }, 1000);
-  }, 1000);
+      setTimeout(() => {
+        playing = false;
+      }, 1000);
+    },
+    immediate ? 0 : 1000,
+  );
 }
 
 function toggleFullscreenPause(value: boolean) {

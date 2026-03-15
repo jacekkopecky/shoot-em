@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 
 import * as dim from '../dimensions';
+import * as state from '../state';
+import { getScreenCoordinates } from '../three';
+import { createObject } from '../three-resources';
 import { type Currency, type CurrencyType } from '../types';
 import { formatCurrencyNumber } from '../utils';
 import { Wallet } from '../wallet';
-import { getScreenCoordinates } from '../three';
-import { createObject } from '../three-resources';
 
 import { flyToTargetAndShrink } from './utils/animations';
 import { AnimatedCount } from './utils/animated-count';
@@ -35,8 +36,11 @@ export function setupAwards() {
   }
 }
 
-export async function giveAward({ type, amount }: Currency, fromObj: THREE.Object3D) {
+export async function giveAward(award: Currency, fromObj: THREE.Object3D) {
+  const { type, amount } = award;
+
   wallet.add(type, amount);
+  state.addAward(award);
 
   const targetCoords = getScreenCoordinates(
     dim.runAwardsTargetDepth,
@@ -100,11 +104,8 @@ export function updateAwardsView(delta: number) {
   for (const [currencyType, countup] of awardsShowing.entries()) {
     const valueEl = el.inRun[currencyType];
     const showing = countup.updateShowing(delta);
-    if (countup) valueEl.textContent = String(showing);
+    if (countup) valueEl.textContent = formatCurrencyNumber(showing);
   }
-  // todo update in-run awards view
-  // this is called on animation frame so remember what we show, see how much we have, make sure all
-  // is shown within 200ms? with slowing down...
 }
 
 export function toggleEndRunScreen(value?: boolean) {

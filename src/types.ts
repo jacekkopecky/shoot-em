@@ -2,7 +2,8 @@ import * as THREE from 'three';
 
 import { sprites } from './three-materials';
 
-export type CurrencyType = 'coin' | 'gem';
+export const CURRENCIES = ['coin', 'gem'] as const;
+export type CurrencyType = (typeof CURRENCIES)[number];
 
 export interface Currency {
   type: CurrencyType;

@@ -14,10 +14,20 @@
   </header>
 
   <main>
-    <section>
-      <canvas id="webgl-canvas" class="in-run"></canvas>
-      <!-- <div id="log" class="in-run"></div> -->
-      <button id="exitBtn" class="in-run">Exit</button>
+    <section id="mainScreen">
+      <canvas id="webglCanvas" class="in-run"></canvas>
+
+      <div id="log" class="in-run"></div>
+
+      <div id="topBar" class="partial-in-run">
+        <button id="exitBtn" class="in-run">Exit</button>
+        <div id="mainScreenWallet">
+          <div><span class="value coin">0</span> 💰</div>
+          <div><span class="value gem">0</span> 💎</div>
+        </div>
+        <button id="settingsBtn">⚙️</button>
+      </div>
+
       <div id="touchToStart">touch to start</div>
 
       <div id="inRunWallet" class="only-in-run">
