@@ -4,8 +4,12 @@
 
 import { init as initMainScreen } from './main-screen';
 
+let useFullscreen = true;
+
 // @ts-expect-error because import.meta.env is not normally known but vite provides it
-const useFullscreen = !import.meta.env?.DEV;
+if (import.meta.env.DEV) {
+  if (window.location.host.includes('localhost')) useFullscreen = false;
+}
 
 const el = {
   startBtn: document.querySelector('#startBtn')!,
