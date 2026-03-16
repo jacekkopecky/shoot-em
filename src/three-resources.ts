@@ -126,28 +126,35 @@ export function getObjectWidth(obj: THREE.Object3D): number {
 function makeHalfCubeGeometry(hasLeftSide: boolean, w = 1, h = 1, d = 1): THREE.BufferGeometry {
   const geometry = new THREE.BufferGeometry();
 
-  // prettier-ignore
-  const vertices = new Float32Array([
-    // front
-    -1,-1,1, 1,-1,1, -1,1,1,
-    -1, 1,1, 1,-1,1,  1,1,1,
-    ...(hasLeftSide ?
-      [
-        // left
-        -1,-1,-1, -1,-1,1, -1,1,-1,
-        -1, 1,-1, -1,-1,1, -1,1, 1,
-      ] : [
-        // right
-        1,-1,1, 1,-1,-1, 1,1, 1,
-        1, 1,1, 1,-1,-1, 1,1,-1,
-      ]
-    ),
-    // top
-    1,1,-1, -1,1,-1,  1,1,1,
-    1,1, 1, -1,1,-1, -1,1,1,
-  ])
+  // points:
+  //   4 -- 5
+  //  /|    |
+  // 7 |  6 |
+  // | 0 -- 1
+  // |/    /
+  // 3 -- 2
+  const p = [
+    new THREE.Vector3(-1, 1, 1),
+    new THREE.Vector3(1, 1, 1),
+    new THREE.Vector3(1, -1, 1),
+    new THREE.Vector3(-1, -1, 1),
+    new THREE.Vector3(-1, 1, -1),
+    new THREE.Vector3(1, 1, -1),
+    new THREE.Vector3(1, -1, -1),
+    new THREE.Vector3(-1, -1, -1),
+  ] as const;
 
-  geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+  // prettier-ignore
+  const faces = [
+    p[0],p[2],p[1], p[0],p[3],p[2],  // front
+    ...(hasLeftSide
+      ?  [ p[0],p[4],p[7], p[0],p[7],p[3] ]  // left
+      :  [ p[1],p[2],p[6], p[1],p[6],p[5] ]  // right
+    ),
+    p[0],p[1],p[5], p[0],p[5],p[4], // top
+  ]
+
+  geometry.setFromPoints(faces);
 
   // the geometry starts as a 2x2x2 cube
   geometry.scale(w / 2, h / 2, d / 2);
