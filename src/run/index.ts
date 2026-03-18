@@ -21,15 +21,13 @@ import {
   setupPlayers,
   updatePlayerPosition,
 } from './players';
+import { moveTrack, setupTrack } from './track';
 
 import { render, scene, timer, init as initThree } from './three/main';
-import { createTrack, createTrackDecorations, moveTrackDecorations } from './three/resources';
 import { disposeAnimations, updateAnimations } from './utils/animations';
 import { TouchHandler } from './utils/touch-handler';
 
 let handler: TouchHandler;
-
-const trackDecorationsGroup = new THREE.Group();
 
 let playing = false;
 let ending = false;
@@ -97,10 +95,7 @@ function setupScene() {
   scene.add(playersGroup);
   scene.add(bulletsGroup);
   scene.add(dyingGroup);
-  scene.add(trackDecorationsGroup);
-
-  scene.add(createTrack());
-  createTrackDecorations(trackDecorationsGroup);
+  scene.add(setupTrack());
 }
 
 /**
@@ -180,7 +175,7 @@ function animationFrame(ms?: number) {
     const delta = timer.getDelta();
     updateAnimations(delta);
     moveObjects(delta);
-    moveTrackDecorations(trackDecorationsGroup, delta);
+    moveTrack(delta);
     checkPlayersHit();
     playerShoot(delta);
     movePlayerBullets(delta);
