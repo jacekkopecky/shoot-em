@@ -5,7 +5,7 @@ import * as dim from '../../dimensions';
 import { getObjectX, isSprite } from './three';
 import * as mat from './three-materials';
 
-export function createObject(
+export function createSpriteObject(
   type: string,
   opts: { dataType?: string; y?: number } = {},
 ): THREE.Sprite {

@@ -7,7 +7,7 @@ import { fillOrHide, formatNumber } from '../utils';
 import { Wallet } from '../wallet';
 
 import { getScreenCoordinates } from './three/three';
-import { createObject } from './three/three-resources';
+import { createSpriteObject } from './three/three-resources';
 import { flyToTargetAndShrink } from './utils/animations';
 import { AnimatedCount } from './utils/animated-count';
 
@@ -57,7 +57,7 @@ export async function giveAward(award: Currency, fromObj: THREE.Object3D) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    const obj = createObject(type);
+    const obj = createSpriteObject(type);
     obj.position.copy(position);
     if (!first) {
       obj.position.x += (Math.random() - 0.5) * dim.sizes.defaultSize![0];

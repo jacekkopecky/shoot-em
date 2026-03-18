@@ -8,7 +8,7 @@ import { giveAward } from './awards';
 
 import { resetGroup } from './three/three';
 import { setSpriteMaterial } from './three/three-materials';
-import { createObject } from './three/three-resources';
+import { createSpriteObject } from './three/three-resources';
 import { removeGroupChildrenBehindCamera } from './utils/tools';
 
 export const objectsGroup = new THREE.Group();
@@ -30,7 +30,7 @@ export function setupObjects() {
             ? 'tree1'
             : 'tree2';
 
-    const obj = createObject(type, { dataType: 'object' });
+    const obj = createSpriteObject(type, { dataType: 'object' });
     const oData = getObjectData(obj);
     obj.position.x = x;
     obj.position.z = y;

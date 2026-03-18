@@ -11,7 +11,7 @@ import { hitObject, objectsGroup } from './objects';
 
 import { getObjectZ, resetGroup } from './three/three';
 import { setSpriteMaterial } from './three/three-materials';
-import { createObject, doObjectsOverlapInX, getObjectWidth } from './three/three-resources';
+import { createSpriteObject, doObjectsOverlapInX, getObjectWidth } from './three/three-resources';
 import { pulseAndShrinkToGone, shrinkToGone } from './utils/animations';
 
 export const playersGroup = new THREE.Group();
@@ -20,7 +20,7 @@ playersGroup.userData.type = 'playersGroup';
 export function setupPlayers() {
   resetGroup(playersGroup);
 
-  const player = createObject('player');
+  const player = createSpriteObject('player');
   const pData = getPlayerData(player);
 
   const state = readState();
@@ -63,7 +63,7 @@ function killPlayer(player: THREE.Object3D, pData: PlayerData) {
   // the player will be swept into the dying group after all updates
 
   // add fire for extra effect
-  const fire = createObject('fire');
+  const fire = createSpriteObject('fire');
   pulseAndShrinkToGone(fire, dim.playerDyingDuration);
   dyingGroup.add(fire);
   fire.position.copy(player.position);
