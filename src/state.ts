@@ -1,4 +1,5 @@
-import type { Currency, CurrencyType, Upgrade, UpgradeBag, UpgradeType } from './types';
+import type { Currency, CurrencyType } from './types';
+import type { Upgrade, UpgradeBag, UpgradeType } from './upgrades';
 import { parseUpgrades } from './upgrades';
 import { Wallet, type ReadonlyWallet } from './wallet';
 

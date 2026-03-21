@@ -1,21 +1,13 @@
 import * as THREE from 'three';
 
-import { sprites } from './run/three/materials';
+import { sprites } from '../run/three/materials';
 
-export type { Upgrade, UpgradeBag, UpgradeType } from './upgrades';
-export { UPGRADE_TYPES } from './upgrades';
-
-export const CURRENCIES = ['coin', 'gem'] as const;
-export type CurrencyType = (typeof CURRENCIES)[number];
-
-export interface Currency {
-  type: CurrencyType;
-  amount: number;
-}
+import { Circle } from './circle';
+import type { Currency } from './currencies';
 
 interface AnyObjectData {
   width: number;
-  depth: number;
+  depth: number; // for block objects, it's half length in Z, for circles it's radius
 }
 
 export interface PlayerData extends AnyObjectData {
@@ -41,6 +33,7 @@ export interface BulletData extends AnyObjectData {
 
 export interface ObjectData extends AnyObjectData {
   type: 'object';
+  extent2d: THREE.Box2 | Circle;
   dying?: boolean;
   dyingMaterial: keyof typeof sprites;
   hitPoints: number;

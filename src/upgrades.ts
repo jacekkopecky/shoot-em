@@ -10,7 +10,7 @@ export type UpgradeType = (typeof UPGRADE_TYPES)[number];
 export type UpgradeBag = Partial<Record<UpgradeType, Upgrade>>;
 
 type UpgradeFnImplementation = (orig: number, upgradeValue: number) => number;
-export const upgradeFunctions = {
+const upgradeFunctions = {
   add,
   addPercent,
 } as const satisfies Readonly<Record<string, UpgradeFnImplementation>>;
