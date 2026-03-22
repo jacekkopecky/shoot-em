@@ -1,8 +1,9 @@
+import { formatNumber } from '#utils';
+
 import { updateMainScreen } from './main-screen';
 import { prepareRun } from './run';
 import { type ReadonlyState, readState, setNextRunUpgrade, pay } from './state';
 import type { UpgradeFn, UpgradeType } from './upgrades';
-import { formatNumber } from './utils';
 
 const el = {
   upgradeButtons: document.querySelector<HTMLElement>('#upgradeButtons')!,

@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 
-import * as dim from '../dimensions';
+import * as dim from '#dimensions';
+import { type Currency, type CurrencyType, Wallet } from '#types';
+import { fillOrHide, formatNumber } from '#utils';
+
 import * as state from '../state';
-import { type Currency, type CurrencyType } from '../types';
-import { fillOrHide, formatNumber } from '../utils';
-import { Wallet } from '../wallet';
 
 import { getScreenCoordinates } from './three/main';
 import { createSpriteObject } from './three/resources';

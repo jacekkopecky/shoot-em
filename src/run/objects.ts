@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
-import * as dim from '../dimensions';
-import { getObjectData, type ObjectData } from '../types';
+import * as dim from '#dimensions';
+import { getObjectData, type ObjectData } from './types';
 
 import { giveAward } from './awards';
 
@@ -95,7 +95,7 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
 }
 
 function killObject(obj: THREE.Object3D, oData: ObjectData) {
-  setSpriteMaterial(obj, oData.dyingMaterial);
   oData.dying = true;
+  setSpriteMaterial(obj, oData.dyingMaterial);
   shrinkToGone(obj, dim.objectDyingDuration);
 }

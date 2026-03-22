@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 
-import * as dim from '../../dimensions';
-import { Circle } from '../../types';
+import * as dim from '#dimensions';
+
+import { Circle } from '../types';
 
 import * as mat from './materials';
 import { isSprite } from './tools';

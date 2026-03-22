@@ -1,13 +1,14 @@
 import * as THREE from 'three';
 
-import * as dim from '../dimensions';
+import * as dim from '#dimensions';
+
 import { readState } from '../state';
-import { Circle, getObjectData, getPlayerData, type PlayerData } from '../types';
 import { applyUpgrade } from '../upgrades';
 
 import { createPlayerBullet } from './bullets';
 import { dyingGroup } from './dying-group';
 import { hitObject, objectsGroup } from './objects';
+import { Circle, getObjectData, getPlayerData, type PlayerData } from './types';
 
 import { setSpriteMaterial } from './three/materials';
 import { createSpriteObject, getExtentTranslatedToPosition, intersects } from './three/resources';

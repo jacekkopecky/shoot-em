@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
-import * as dim from '../../dimensions';
+import * as dim from '#dimensions';
+
 import * as mat from '../three/materials';
 
 export function createTrack(): THREE.Object3D {

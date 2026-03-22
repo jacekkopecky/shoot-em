@@ -1,7 +1,6 @@
-import type { Currency, CurrencyType } from './types';
-import type { Upgrade, UpgradeBag, UpgradeType } from './upgrades';
-import { parseUpgrades } from './upgrades';
-import { Wallet, type ReadonlyWallet } from './wallet';
+import { Wallet, type ReadonlyWallet, type Currency, type CurrencyType } from '#types';
+
+import { parseUpgrades, type Upgrade, type UpgradeBag, type UpgradeType } from './upgrades';
 
 const LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
 

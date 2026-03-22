@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import * as dim from '../../dimensions';
+import * as dim from '#dimensions';
 
 export let renderer: THREE.WebGLRenderer;
 export let camera: THREE.PerspectiveCamera;

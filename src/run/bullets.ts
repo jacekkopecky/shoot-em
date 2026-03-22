@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 
-import * as dim from '../dimensions';
-import { Circle, getBulletData, getObjectData, type BulletData, type PlayerData } from '../types';
+import * as dim from '#dimensions';
+
+import { hitObject, objectsGroup } from './objects';
+import { Circle, getBulletData, getObjectData, type BulletData, type PlayerData } from './types';
 
 import { setSpriteMaterial } from './three/materials';
 import {
@@ -11,8 +13,6 @@ import {
   scaleSpriteInPlace,
 } from './three/resources';
 import { getObjectX, getObjectZ, resetGroup } from './three/tools';
-
-import { hitObject, objectsGroup } from './objects';
 
 export const bulletsGroup = new THREE.Group();
 
@@ -104,8 +104,8 @@ function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
 }
 
 function killBullet(bullet: THREE.Object3D, bData: BulletData) {
+  bData.dying = true;
   setSpriteMaterial(bullet, bData.dyingMaterial);
   scaleSpriteInPlace(bullet, 2);
-  bData.dying = true;
   setTimeout(() => bullet.removeFromParent(), dim.playerBulletDyingDuration * 1000);
 }

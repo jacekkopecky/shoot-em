@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 
-import * as dim from '../dimensions';
-import { logFps } from '../log';
+import * as dim from '#dimensions';
+import { logFps } from '#log';
+
 import * as state from '../state';
 
 import {

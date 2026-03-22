@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import * as dim from '../../dimensions';
+import * as dim from '#dimensions';
 
 export function getObjectZ(obj: THREE.Object3D) {
   return (obj.parent?.position?.z ?? 0) + obj.position.z;
