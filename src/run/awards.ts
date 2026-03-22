@@ -6,9 +6,9 @@ import { fillOrHide, formatNumber } from '#utils';
 
 import * as state from '../state';
 
+import { flyToTargetAndShrink } from './three/animations';
 import { getScreenCoordinates } from './three/main';
 import { createSpriteObject } from './three/resources';
-import { flyToTargetAndShrink } from './utils/animations';
 import { AnimatedCount } from './utils/animated-count';
 
 const el = {

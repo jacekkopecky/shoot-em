@@ -24,8 +24,8 @@ import {
 } from './players';
 import { moveTrack, setupTrack } from './track';
 
+import { disposeAnimations, updateAnimations } from './three/animations';
 import { render, scene, timer, init as initThree } from './three/main';
-import { disposeAnimations, updateAnimations } from './utils/animations';
 import { TouchHandler } from './utils/touch-handler';
 
 let handler: TouchHandler;
