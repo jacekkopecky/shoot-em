@@ -22,7 +22,7 @@ export const trackDecorationThickness = 3;
 export const startDistance = -50; // -trackLength;
 export const behindCamera = 50;
 
-export const N = 100;
+export const N = 80;
 export const objectSpeedPerSecond = 10;
 export const objectDyingDuration = 0.3;
 export const objectHitPoints = 1;
