@@ -14,13 +14,16 @@ const coniferSegments = 5;
 const trunkFraction = 0.2;
 const trunkRadiusFraction = 0.3;
 
-function createConiferTree() {
+export function createConiferTree(random = true) {
   const retval = new THREE.Group();
-  retval.rotation.y = Math.random() * Math.PI;
+  if (random) retval.rotation.y = Math.random() * Math.PI;
 
-  const [diameter, fullHeight] = dim.modelSizes.conifer;
-  const radius = diameter / 2;
+  const [x, y] = dim.modelSizes.conifer;
+  const radius = x / 2;
 
+  // vary the height between 0.95 and 1.05
+  const heightVariation = random ? Math.random() / 10 + 0.95 : 1;
+  const fullHeight = y * heightVariation;
   const height = fullHeight * (1 - trunkFraction);
 
   for (let i = 0; i < coniferSegments; i += 1) {
@@ -57,6 +60,6 @@ function createConiferTree() {
   return retval;
 }
 
-function createBroadLeafTree() {
-  return createConiferTree();
+export function createBroadLeafTree(random = true) {
+  return createConiferTree(random);
 }

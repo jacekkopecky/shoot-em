@@ -5,7 +5,7 @@ This was inspired by Timeline Up, but without any spending of real money.
 ## todo
 
 - [ ] add 3d models
-  - [ ] coniferous tree
+  - [x] coniferous tree
   - [ ] broad-leaf tree
   - [ ] dying conifer
   - [ ] dying broad-leaf

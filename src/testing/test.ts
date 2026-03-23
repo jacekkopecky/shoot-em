@@ -71,7 +71,7 @@ scene.add(sunlight);
 //   );
 // }
 
-scene.add(trees.createTree().translateY(-15));
+scene.add(trees.createBroadLeafTree(false).translateY(-15));
 
 //
 //
