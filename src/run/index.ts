@@ -166,6 +166,8 @@ function isGameFinished() {
 // const fpsDivider = 10;
 // let fpsLimiter = fpsDivider - 1;
 
+// timer.setTimescale(0.1);
+
 function animationFrame(ms?: number) {
   if (playing) requestAnimationFrame(animationFrame);
 

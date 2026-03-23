@@ -11,7 +11,9 @@ import {
 } from '../resources';
 
 export function createBullet(player: THREE.Object3D): THREE.Object3D {
-  return createSpriteObject('bullet', { y: player.scale.y / 2 });
+  const bullet = createSpriteObject('bullet');
+  bullet.translateY(player.scale.y / 2);
+  return bullet;
 }
 
 export function killBullet(bullet: THREE.Object3D) {
