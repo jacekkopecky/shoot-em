@@ -6,7 +6,7 @@ import { getObjectData } from './types';
 
 import { giveAward } from './awards';
 
-import { createObject, killObject } from './three/models';
+import { createObject, createTree, killObject } from './three/models';
 import { isDying, scaleExtent } from './three/resources';
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
 
@@ -30,7 +30,7 @@ export function setupObjects() {
             ? 'tree1'
             : 'tree2';
 
-    const obj = createObject(type);
+    const obj = type.startsWith('tree') ? createTree() : createObject(type);
     const oData = getObjectData(obj);
     obj.position.x = x;
     obj.position.z = y;
@@ -50,7 +50,7 @@ export function setupObjects() {
       default:
         oData.hitPoints = dim.objectHitPoints;
         // let the player "rub shoulders" with the object
-        scaleExtent(oData.extent2d, 0.8);
+        scaleExtent(oData.extent2d, 0.9);
     }
     obj.userData.maxZ = obj.position.z + oData.extent2d.max.y;
     objects.push(obj);

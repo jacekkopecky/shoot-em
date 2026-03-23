@@ -13,6 +13,10 @@ export const spriteSizes: Record<string, [number, number]> = {
 } as const;
 export const spriteResolution = 64;
 
+export const modelSizes = {
+  conifer: [20, 35],
+} as const;
+
 export const trackLength = 400;
 export const trackWidth = 100;
 export const trackDecorationN = 20;
@@ -22,7 +26,7 @@ export const trackDecorationThickness = 3;
 export const startDistance = -50; // -trackLength;
 export const behindCamera = 50;
 
-export const N = 80;
+export const N = 60;
 export const objectSpeedPerSecond = 10;
 export const objectDyingDuration = 0.3;
 export const objectHitPoints = 1;
