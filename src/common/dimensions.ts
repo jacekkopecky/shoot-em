@@ -1,4 +1,4 @@
-export const sizes: Record<string, [number, number]> = {
+export const spriteSizes: Record<string, [number, number]> = {
   bullet: [3, 3],
   player: [15, 15],
   fire: [15, 15],

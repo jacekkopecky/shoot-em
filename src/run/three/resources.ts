@@ -12,7 +12,8 @@ export function createSpriteObject(
   opts: { dataType?: string; y?: number } = {},
 ): THREE.Object3D {
   const material = mat.getSpriteMaterial(type, true);
-  const size = dim.sizes[type as keyof typeof dim.sizes] ?? dim.sizes.defaultSize!;
+  const size =
+    dim.spriteSizes[type as keyof typeof dim.spriteSizes] ?? dim.spriteSizes.defaultSize!;
 
   const { dataType = type, y = size[1] / 2 } = opts;
 

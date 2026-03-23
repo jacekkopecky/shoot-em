@@ -60,7 +60,7 @@ export async function giveAward(award: Currency, fromObj: THREE.Object3D) {
     const obj = createSpriteObject(type);
     obj.position.copy(position);
     if (!first) {
-      obj.position.x += (Math.random() - 0.5) * dim.sizes.defaultSize![0];
+      obj.position.x += (Math.random() - 0.5) * obj.userData.extent2d.max.x;
     }
     flyToTargetAndShrink(obj, targetCoords, dim.runAwardsFlyTime);
     awardsGroup.add(obj);
