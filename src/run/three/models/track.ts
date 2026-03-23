@@ -5,7 +5,7 @@ import * as dim from '#dimensions';
 import * as mat from '../materials';
 
 export function createTrack(): THREE.Object3D {
-  const material = mat.trackMaterial;
+  const material = mat.colorFlatMaterials.brown1;
 
   const geometry = new THREE.PlaneGeometry(dim.trackWidth, dim.trackLength * 2);
   geometry.rotateX(-Math.PI / 2);
@@ -25,8 +25,8 @@ export function createTrackDecorations(group: THREE.Group): void {
 
   let z = dim.behindCamera + length / 2;
   while (z >= -dim.trackLength - dist * 2) {
-    const left = new THREE.Mesh(leftGeometry, mat.trackDecorationsMaterial);
-    const right = new THREE.Mesh(rightGeometry, mat.trackDecorationsMaterial);
+    const left = new THREE.Mesh(leftGeometry, mat.colorFlatMaterials.brown2);
+    const right = new THREE.Mesh(rightGeometry, mat.colorFlatMaterials.brown2);
 
     left.position.set(-dim.trackWidth / 2 + thickness / 2, thickness / 2, z);
     right.position.set(dim.trackWidth / 2 - thickness / 2, thickness / 2, z);

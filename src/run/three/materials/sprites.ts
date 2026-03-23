@@ -2,7 +2,9 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
-import { isSprite } from './tools';
+import { isSprite } from '../tools';
+
+const debugSpriteSize = false;
 
 export const sprites = {
   player: emojiSpriteMaterial('🍄'),
@@ -23,12 +25,6 @@ export const sprites = {
   defaultMaterial: new THREE.SpriteMaterial({ color: 0x00dddd }),
 } as const;
 
-export const trackMaterial = new THREE.MeshLambertMaterial({ color: 0xccac90 });
-export const trackDecorationsMaterial = new THREE.MeshLambertMaterial({
-  color: 0xaa8a70,
-  flatShading: true,
-});
-
 function emojiSpriteMaterial(emojiCharacter: string): THREE.SpriteMaterial {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d')!;
@@ -37,9 +33,11 @@ function emojiSpriteMaterial(emojiCharacter: string): THREE.SpriteMaterial {
   canvas.width = dim.spriteResolution;
   canvas.height = dim.spriteResolution;
 
-  // ctx.fillStyle = '#fff8';
-  // ctx.fillRect(0, 0, dim.spriteResolution, dim.spriteResolution);
-  // ctx.fillStyle = '#000';
+  if (debugSpriteSize) {
+    ctx.fillStyle = '#fff8';
+    ctx.fillRect(0, 0, dim.spriteResolution, dim.spriteResolution);
+    ctx.fillStyle = '#000';
+  }
 
   ctx.font = `${dim.spriteResolution}px serif`;
   ctx.textAlign = 'center';
