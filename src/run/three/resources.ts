@@ -114,6 +114,6 @@ export function markAsDying(obj: THREE.Object3D) {
   obj.userData.dying = true;
 }
 
-export function getDyingMaterial(obj: THREE.Object3D): keyof typeof mat.sprites {
+export function getDyingMaterial(obj: THREE.Object3D): keyof typeof mat.sprites | undefined {
   return obj.userData.dyingMaterial;
 }

@@ -66,7 +66,8 @@ export function getSpriteMaterial(type: string, useDefault = false): THREE.Sprit
   }
 }
 
-export function setSpriteMaterial(obj: THREE.Object3D, type: keyof typeof sprites) {
+export function setSpriteMaterial(obj: THREE.Object3D, type?: keyof typeof sprites) {
+  if (!type) return;
   if (!isSprite(obj))
     throw new TypeError('cannot set sprite material for an object that is not a sprite');
   obj.material = getSpriteMaterial(type);
