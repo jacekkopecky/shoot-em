@@ -100,6 +100,7 @@ function checkBulletHit(bullet: THREE.Object3D) {
       const isHit = hitObject(obj, bData.hitPoints);
       if (isHit) {
         killBullet(bullet);
+        return;
       }
     }
   }
