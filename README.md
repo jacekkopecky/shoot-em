@@ -6,12 +6,13 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 - [ ] add 3d models
   - [x] coniferous tree
-  - [ ] broad-leaf tree
-  - [ ] dying conifer
-  - [ ] dying broad-leaf
+  - [x] broad-leaf tree
+  - [.] dying conifer
+  - [ ] dying broad-leaf?
   - [ ] player
   - [ ] money?
   - [ ] diamond?
+- [ ] todo add 'mousemove' like touchmove in touch handler?
 - [ ] check extent scaling to 0.8 is still appropriate
 - [ ] set camera.far so we don't see stuff in fog
 - [ ] some kind of run ending, and distinguishing between finishing and dying
@@ -20,6 +21,7 @@ This was inspired by Timeline Up, but without any spending of real money.
 - [ ] add daily energy, disabled in dev build
 - [ ] add stable track generation
   - using level (per type of run?)
+  - [ ] try to get objects not to overlap too much, like trees that are too close
   - waves? reset gates? multi-run stages? (like eras and timelines)
     - many little obstacles, try to get through and gather awards (like dungeon)
     - boxy blocks and everything on a grid, like a mine?

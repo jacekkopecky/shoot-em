@@ -6,7 +6,7 @@ import { random } from '#utils';
 import { giveAward } from './awards';
 import { getObjectData } from './types';
 
-import { createObject, createRandomTree, killObject } from './three/models';
+import { createObject, killObject } from './three/models';
 import { isDying, scaleExtent } from './three/resources';
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
 
@@ -26,11 +26,9 @@ export function setupObjects() {
         ? 'gems'
         : r < dim.gemProbability + dim.coinProbability
           ? 'coins'
-          : random() < 0.5
-            ? 'tree1'
-            : 'tree2';
+          : 'tree';
 
-    const obj = type.startsWith('tree') ? createRandomTree() : createObject(type);
+    const obj = createObject(type);
     const oData = getObjectData(obj);
     obj.position.x = x;
     obj.position.z = y;
