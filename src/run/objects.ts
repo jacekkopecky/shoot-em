@@ -6,7 +6,7 @@ import { random } from '#utils';
 import { giveAward } from './awards';
 import { getObjectData } from './types';
 
-import { createObject, createTree, killObject } from './three/models';
+import { createObject, createRandomTree, killObject } from './three/models';
 import { isDying, scaleExtent } from './three/resources';
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
 
@@ -30,7 +30,7 @@ export function setupObjects() {
             ? 'tree1'
             : 'tree2';
 
-    const obj = type.startsWith('tree') ? createTree() : createObject(type);
+    const obj = type.startsWith('tree') ? createRandomTree() : createObject(type);
     const oData = getObjectData(obj);
     obj.position.x = x;
     obj.position.z = y;

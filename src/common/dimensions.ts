@@ -15,7 +15,7 @@ export const spriteResolution = 64;
 
 export const modelSizes = {
   conifer: [20, 35],
-  broadLeaf: [25, 30],
+  broadLeaf: [20, 25],
 } as const;
 
 export const trackLength = 400;
@@ -56,6 +56,8 @@ export const cameraPosition = [0, 80, 50] as const;
 export const cameraTarget = [0, 0, -100] as const;
 export const cameraFoV = 90;
 
-export const cameraToTrackEndLength = trackLength + cameraPosition[2];
+export const cameraToTrackEndLength = Math.sqrt(
+  (trackLength + cameraPosition[2]) ** 2 + cameraPosition[1] ** 2,
+);
 
 export const FINGER_WIDTH_PERCENT = 25;
