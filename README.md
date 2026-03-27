@@ -7,8 +7,8 @@ This was inspired by Timeline Up, but without any spending of real money.
 - [ ] add 3d models
   - [x] coniferous tree
   - [x] broad-leaf tree
-  - [.] dying conifer
-  - [ ] dying broad-leaf?
+  - [x] dying conifer
+  - [x] dying broad-leaf
   - [ ] player
   - [ ] money?
   - [ ] diamond?

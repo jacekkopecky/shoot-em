@@ -72,7 +72,7 @@ scene.add(sunlight);
 //   );
 // }
 
-scene.add(trees.createDeadConiferTree());
+scene.add(trees.createDeadBroadLeafTree());
 scene.children.at(-1)!.translateY(-20);
 scene.children.at(-1)!.rotateY(Math.PI);
 

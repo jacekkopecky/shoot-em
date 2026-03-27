@@ -28,6 +28,7 @@ export const behindCamera = 50;
 export const N = 60;
 export const objectSpeedPerSecond = 10;
 export const objectDyingDuration = 0.3;
+export const treeDyingDuration = 0.5;
 export const objectHitPoints = 1;
 
 export const gemHitPoints = 2;
