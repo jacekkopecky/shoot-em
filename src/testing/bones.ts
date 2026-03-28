@@ -80,27 +80,26 @@ function initBones() {
   const duration = 1.2;
   const durations = betweener(0, duration);
   const footBone = bones.at(-1)!;
-  const heights = betweener(footBone.position.y, footBone.position.y * 0.7);
+  const heights = betweener(footBone.position.y, footBone.position.y * 0.85);
   const lengths = betweener(footBone.position.x - 10, footBone.position.x + 10);
 
-  // move it by 0.25s so we start standing
   const clip = new THREE.AnimationClip('walk', duration, [
     new THREE.KeyframeTrack(
       '.rotation[z]',
-      durations(0, 0.4, 0.7, 1),
-      [0, 0, 0.7, 0],
+      durations(0, 0.15, 0.45, 0.75, 1),
+      [0, 0, 0.7, 0, 0],
       THREE.InterpolateLinear,
     ),
     new THREE.KeyframeTrack(
       '.position[x]',
-      durations(0, 0.5, 1),
-      lengths(1, 0, 1),
+      durations(0, 0.25, 0.75, 1),
+      lengths(0.5, 0, 1, 0.5),
       THREE.InterpolateLinear,
     ),
     new THREE.KeyframeTrack(
       '.position[y]',
-      durations(0, 0.5, 0.65, 1),
-      heights(0, 0, 1, 0),
+      durations(0, 0.25, 0.4, 0.75, 1),
+      heights(0, 0, 1, 0, 0),
       THREE.InterpolateLinear,
     ),
   ]);
@@ -202,12 +201,9 @@ function render(ms?: number) {
   if (!reacted) {
     reacted = true;
     if (!moving) {
-      action.fadeOut(1);
-      console.log('stopping');
+      action.fadeOut(0.5);
     } else {
-      console.log('starting');
       action.reset();
-      action.fadeIn(0.2);
       action.enabled = true;
       action.play();
     }
@@ -220,7 +216,6 @@ document.addEventListener('keydown', (e) => {
   if (e.key === ' ') {
     moving = !moving;
     reacted = false;
-    console.log(moving);
   }
 });
 
