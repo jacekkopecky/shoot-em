@@ -49,30 +49,33 @@ function initScene() {
 }
 
 interface Sizing {
+  radius: number;
   segmentHeight: number;
-  segmentCount: number;
+  boneCount: number;
   height: number;
   halfHeight: number;
-  stepsPerSegment: number;
+  segmentCount: number;
+  sides: number;
 }
 
 function initBones() {
   const segmentHeight = 40;
-  const segmentCount = 1;
+  const boneCount = 1;
 
   const sizing = {
+    radius: 5,
+    sides: 4,
     segmentHeight,
-    segmentCount,
-    height: segmentHeight * segmentCount,
-    halfHeight: segmentHeight * segmentCount * 0.5,
-    stepsPerSegment: 5,
+    boneCount,
+    height: segmentHeight * boneCount,
+    halfHeight: segmentHeight * boneCount * 0.5,
+    segmentCount: 5,
   };
 
   const geometry = createGeometry(sizing);
   const bones = createBones(sizing);
   mesh = createMesh(geometry, bones, sizing);
 
-  mesh.scale.multiplyScalar(1);
   scene.add(mesh);
 
   bones[0]!.rotation.x = Math.PI;
@@ -115,11 +118,11 @@ function betweener(a: number, b: number): (...fractions: number[]) => number[] {
 
 function createGeometry(sizing: Sizing) {
   const geometry = new THREE.CylinderGeometry(
-    5, // radiusTop
-    5, // radiusBottom
+    sizing.radius, // radiusTop
+    sizing.radius, // radiusBottom
     sizing.height, // height
-    4, // radiusSegments
-    sizing.segmentCount * sizing.stepsPerSegment, // heightSegments
+    sizing.sides, // radiusSegments
+    sizing.boneCount * sizing.segmentCount, // heightSegments
     true, // openEnded
   );
 
@@ -155,7 +158,7 @@ function createBones(sizing: Sizing) {
   bones.push(prevBone);
   prevBone.position.y = -sizing.halfHeight;
 
-  for (let i = 0; i < sizing.segmentCount; i++) {
+  for (let i = 0; i < sizing.boneCount; i++) {
     const bone = new THREE.Bone();
     bone.position.x = 5;
     bone.position.y = sizing.segmentHeight;
