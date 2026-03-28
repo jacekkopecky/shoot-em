@@ -65,7 +65,7 @@ function initBones() {
     segmentCount,
     height: segmentHeight * segmentCount,
     halfHeight: segmentHeight * segmentCount * 0.5,
-    stepsPerSegment: 9,
+    stepsPerSegment: 5,
   };
 
   const geometry = createGeometry(sizing);
@@ -192,6 +192,8 @@ function createMesh(geometry: THREE.BufferGeometry, bones: THREE.Bone[], sizing:
 let moving = false;
 let reacted = true;
 
+const isFrontLeg = false;
+
 function render(ms?: number) {
   requestAnimationFrame(render);
 
@@ -204,6 +206,8 @@ function render(ms?: number) {
       action.fadeOut(0.5);
     } else {
       action.reset();
+      if (isFrontLeg) action.time = action.getClip().duration / 2;
+      action.fadeIn(action.getClip().duration / 2);
       action.enabled = true;
       action.play();
     }
@@ -216,8 +220,11 @@ document.addEventListener('keydown', (e) => {
   if (e.key === ' ') {
     moving = !moving;
     reacted = false;
+  } else if (e.key === 'l') {
+    console.log(action.time);
   }
 });
 
 initScene();
 render();
+console.log(renderer.info.render.triangles);
