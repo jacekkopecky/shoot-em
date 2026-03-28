@@ -1,38 +1,34 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { timer } from '../run/three/main';
+import { Legs } from './legs';
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 200);
 const scene = new THREE.Scene();
 
-let mixer: THREE.AnimationMixer;
-let mesh: THREE.SkinnedMesh;
-let action: THREE.AnimationAction;
-
 function initScene() {
   scene.background = new THREE.Color(0xaaccee);
 
   camera.position.z = 50;
+  camera.position.y = 20;
 
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  new OrbitControls(camera, renderer.domElement);
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.target = new THREE.Vector3(0, 20, 0);
+  controls.rotateLeft(Math.PI / 2);
+  controls.update();
 
-  let lights = [];
-  lights[0] = new THREE.DirectionalLight(0xffffff, 3);
-  lights[1] = new THREE.DirectionalLight(0xffffff, 3);
-  lights[2] = new THREE.DirectionalLight(0xffffff, 3);
+  // lights
+  const skylight = new THREE.HemisphereLight(0xffffff, 0xb97a20, 2);
+  scene.add(skylight);
 
-  lights[0].position.set(0, 200, 0);
-  lights[1].position.set(100, 200, 100);
-  lights[2].position.set(-100, -200, -100);
-
-  scene.add(lights[0]);
-  scene.add(lights[1]);
-  scene.add(lights[2]);
+  const sunlight = new THREE.DirectionalLight(0xffffff, 3);
+  sunlight.position.set(-10, 10, 5);
+  scene.add(sunlight);
 
   window.addEventListener(
     'resize',
@@ -48,186 +44,60 @@ function initScene() {
   initBones();
 }
 
-interface Sizing {
-  radius: number;
-  segmentHeight: number;
-  boneCount: number;
-  height: number;
-  halfHeight: number;
-  segmentCount: number;
-  sides: number;
-}
+let legs: Legs;
 
 function initBones() {
-  const segmentHeight = 40;
-  const boneCount = 1;
-
-  const sizing = {
-    radius: 5,
-    sides: 4,
-    segmentHeight,
-    boneCount,
-    height: segmentHeight * boneCount,
-    halfHeight: segmentHeight * boneCount * 0.5,
-    segmentCount: 5,
-  };
-
-  const geometry = createGeometry(sizing);
-  const bones = createBones(sizing);
-  mesh = createMesh(geometry, bones, sizing);
-
-  scene.add(mesh);
-
-  bones[0]!.rotation.x = Math.PI;
-
-  const duration = 1.2;
-  const durations = betweener(0, duration);
-  const footBone = bones.at(-1)!;
-  const heights = betweener(footBone.position.y, footBone.position.y * 0.85);
-  const lengths = betweener(footBone.position.x - 10, footBone.position.x + 10);
-
-  const clip = new THREE.AnimationClip('walk', duration, [
-    new THREE.KeyframeTrack(
-      '.rotation[z]',
-      durations(0, 0.15, 0.45, 0.75, 1),
-      [0, 0, 0.7, 0, 0],
-      THREE.InterpolateLinear,
-    ),
-    new THREE.KeyframeTrack(
-      '.position[x]',
-      durations(0, 0.25, 0.75, 1),
-      lengths(0.5, 0, 1, 0.5),
-      THREE.InterpolateLinear,
-    ),
-    new THREE.KeyframeTrack(
-      '.position[y]',
-      durations(0, 0.25, 0.4, 0.75, 1),
-      heights(0, 0, 1, 0, 0),
-      THREE.InterpolateLinear,
-    ),
-  ]);
-
-  mixer = new THREE.AnimationMixer(footBone);
-  action = mixer.clipAction(clip);
-  action.loop = THREE.LoopRepeat;
-}
-
-function betweener(a: number, b: number): (...fractions: number[]) => number[] {
-  return (...fractions) => fractions.map((f) => a + (b - a) * f);
-}
-
-function createGeometry(sizing: Sizing) {
-  const geometry = new THREE.CylinderGeometry(
-    sizing.radius, // radiusTop
-    sizing.radius, // radiusBottom
-    sizing.height, // height
-    sizing.sides, // radiusSegments
-    sizing.boneCount * sizing.segmentCount, // heightSegments
-    true, // openEnded
-  );
-
-  const position = geometry.attributes.position!;
-
-  const vertex = new THREE.Vector3();
-
-  const skinIndices = [];
-  const skinWeights = [];
-
-  for (let i = 0; i < position.count; i++) {
-    vertex.fromBufferAttribute(position, i);
-
-    const y = vertex.y + sizing.halfHeight;
-
-    const skinIndex = Math.floor(y / sizing.segmentHeight);
-    const skinWeight = (y % sizing.segmentHeight) / sizing.segmentHeight;
-
-    skinIndices.push(skinIndex, skinIndex + 1, 0, 0);
-    skinWeights.push(1 - skinWeight, skinWeight, 0, 0);
-  }
-
-  geometry.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(skinIndices, 4));
-  geometry.setAttribute('skinWeight', new THREE.Float32BufferAttribute(skinWeights, 4));
-
-  return geometry;
-}
-
-function createBones(sizing: Sizing) {
-  const bones = [];
-
-  let prevBone = new THREE.Bone();
-  bones.push(prevBone);
-  prevBone.position.y = -sizing.halfHeight;
-
-  for (let i = 0; i < sizing.boneCount; i++) {
-    const bone = new THREE.Bone();
-    bone.position.x = 5;
-    bone.position.y = sizing.segmentHeight;
-    bones.push(bone);
-    prevBone.add(bone);
-    prevBone = bone;
-  }
-
-  return bones;
-}
-
-function createMesh(geometry: THREE.BufferGeometry, bones: THREE.Bone[], sizing: Sizing) {
   const material = new THREE.MeshLambertMaterial({
-    color: 0xff0000,
+    color: 0xccac90,
     emissive: 0x476584,
     side: THREE.DoubleSide,
     flatShading: true,
   });
 
-  const mesh = new THREE.SkinnedMesh(geometry, material);
-  const skeleton = new THREE.Skeleton(bones);
+  legs = new Legs({ length: 40, radius: 6 }, 25, material);
 
-  mesh.add(bones[0]!);
+  scene.add(legs.object);
 
-  mesh.bind(skeleton);
-
-  const skeletonHelper = new THREE.SkeletonHelper(mesh);
-  scene.add(skeletonHelper);
-
-  mesh.position.y = sizing.height;
-  return mesh;
+  const length = 12,
+    width = 25;
+  const shape = new THREE.Shape();
+  shape.moveTo(-width / 2, -length / 2);
+  shape.lineTo(-width / 2, length / 2);
+  shape.lineTo(width / 2, length / 2);
+  shape.lineTo(width / 2, -length / 2);
+  shape.closePath();
+  const geometry = new THREE.ExtrudeGeometry(shape, {
+    depth: 30,
+    bevelSize: 4,
+    bevelEnabled: true,
+    bevelOffset: -4,
+    bevelSegments: 1,
+    bevelThickness: 3,
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.rotation.x = -Math.PI / 2;
+  mesh.position.y = 40;
+  scene.add(mesh);
 }
-
-let moving = false;
-let reacted = true;
-
-const isFrontLeg = false;
 
 function render(ms?: number) {
   requestAnimationFrame(render);
 
   timer.update(ms);
-  mixer.update(timer.getDelta());
-
-  if (!reacted) {
-    reacted = true;
-    if (!moving) {
-      action.fadeOut(0.5);
-    } else {
-      action.reset();
-      if (isFrontLeg) action.time = action.getClip().duration / 2;
-      action.fadeIn(action.getClip().duration / 2);
-      action.enabled = true;
-      action.play();
-    }
-  }
-
+  legs.update(timer.getDelta());
   renderer.render(scene, camera);
 }
+
+let moving = false;
 
 document.addEventListener('keydown', (e) => {
   if (e.key === ' ') {
     moving = !moving;
-    reacted = false;
-  } else if (e.key === 'l') {
-    console.log(action.time);
+    if (moving) legs.startWalking();
+    else legs.stopWalking();
   }
 });
 
 initScene();
 render();
-console.log(renderer.info.render.triangles);
+console.log('triangles', renderer.info.render.triangles);

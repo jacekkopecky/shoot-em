@@ -96,7 +96,7 @@ export function flyToTargetAndShrink(obj: THREE.Object3D, target: THREE.Vector3,
  * betweenX(0, 0.5, 1) -> [2, 5, 8]
  * betweenX(0.8) -> [6.8] // 80% between 2 and 8
  */
-function betweener(a: number, b: number): (...fractions: number[]) => number[] {
+export function betweener(a: number, b: number): (...fractions: number[]) => number[] {
   return (...fractions) => fractions.map((f) => a + (b - a) * f);
 }
 
