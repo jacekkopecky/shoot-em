@@ -88,6 +88,11 @@ export class Marvin {
 
     const bobGroup = new THREE.Group();
     fullObject.add(bobGroup);
+    const bobHeight =
+      (size.legLength - Math.sqrt(size.legLength ** 2 - (size.maxStride / 2) ** 2)) / 2;
+    const bobAngle = (size.maxStride / size.legLength) * 0.15;
+    const torsoBobClip = createBobClip(size.strideDuration, bobHeight);
+    this.actions.push(this.mixer.clipAction(torsoBobClip, bobGroup));
 
     const torso = new THREE.Mesh(
       createTorsoGeometry(
@@ -99,11 +104,8 @@ export class Marvin {
     );
     bobGroup.add(torso);
 
-    const bobHeight =
-      (size.legLength - Math.sqrt(size.legLength ** 2 - (size.maxStride / 2) ** 2)) / 2;
-    const bobAngle = (size.maxStride / size.legLength) * 0.15;
-    const torsoBobClip = createBobClip(size.strideDuration, bobHeight, bobAngle);
-    this.actions.push(this.mixer.clipAction(torsoBobClip, torso));
+    const torsoTurnClip = createTurnClip(size.strideDuration, bobAngle);
+    this.actions.push(this.mixer.clipAction(torsoTurnClip, torso));
 
     const head = new THREE.Mesh(
       new THREE.OctahedronGeometry(size.headRadius, 1) //
@@ -111,9 +113,6 @@ export class Marvin {
       material,
     );
     bobGroup.add(head);
-
-    const headBobClip = createBobClip(size.strideDuration, bobHeight, 0);
-    this.actions.push(this.mixer.clipAction(headBobClip, head));
 
     function addArm(side: 'right' | 'left') {
       const xMultiplier = side === 'right' ? 1 : -1;
@@ -129,14 +128,15 @@ export class Marvin {
     const gun = new THREE.Mesh(
       new THREE.CylinderGeometry(size.gunRadius * 2.2, size.gunRadius, size.gunLength, 3, 1, false) //
         .rotateX(Math.PI / 2)
-        .translate(
-          0,
-          size.legLength * 1.35,
-          -size.gunLength / 2 - size.legRadius - size.torsoOffset * 2,
-        ),
+        .translate(0, 0, -size.gunLength / 2),
       gunMaterial,
     );
+    gun.position.y = size.legLength * 1.35;
+    gun.position.z = -size.legRadius - size.torsoOffset * 2;
     torso.add(gun);
+
+    const gunTurnClip = createTurnClip(size.strideDuration, -bobAngle);
+    this.actions.push(this.mixer.clipAction(gunTurnClip, gun));
   }
 
   // todo add a speed parameter?
@@ -242,9 +242,22 @@ function createLegWalkingClip(duration: number, strideLength: number, foot: THRE
   ]);
 }
 
-function createBobClip(duration: number, height: number, angle: number) {
+function createBobClip(duration: number, height: number) {
   const durations = betweener(0, duration);
   const heights = betweener(-height, 0);
+
+  return new THREE.AnimationClip('bob', duration, [
+    new THREE.KeyframeTrack(
+      '.position[y]',
+      durations(0, 0.25, 0.5, 0.75, 1),
+      heights(1, 0, 1, 0, 1),
+      THREE.InterpolateLinear,
+    ),
+  ]);
+}
+
+function createTurnClip(duration: number, angle: number) {
+  const durations = betweener(0, duration);
   const angles = betweener(0, angle);
 
   return new THREE.AnimationClip('bob', duration, [
@@ -252,12 +265,6 @@ function createBobClip(duration: number, height: number, angle: number) {
       '.rotation[y]',
       durations(0, 0.25, 0.75, 1),
       angles(0, -1, 1, 0),
-      THREE.InterpolateLinear,
-    ),
-    new THREE.KeyframeTrack(
-      '.position[y]',
-      durations(0, 0.25, 0.5, 0.75, 1),
-      heights(1, 0, 1, 0, 1),
       THREE.InterpolateLinear,
     ),
   ]);
@@ -313,7 +320,7 @@ function createArmGeometry(side: 'left' | 'right', size: Size) {
   }
 
   // have one arm raised a bit higher
-  const rotation = (Math.PI / 180) * (40 - dir * 11);
+  const armSpread = (Math.PI / 180) * (45 - dir * 7);
 
-  return new THREE.TubeGeometry(path, size.armSegmentCount, r, 8).rotateX(rotation);
+  return new THREE.TubeGeometry(path, size.armSegmentCount, r, 8).rotateX(armSpread);
 }
