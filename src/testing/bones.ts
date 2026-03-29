@@ -28,6 +28,7 @@ function initScene() {
   document.body.appendChild(renderer.domElement);
 
   const controls = new OrbitControls(camera, renderer.domElement);
+  controls.zoomToCursor = true;
   controls.target = new THREE.Vector3(0, centerY, 0);
   controls.rotateLeft((Math.PI / 180) * 225);
   controls.update();
@@ -60,12 +61,16 @@ function initBones() {
   const material = new THREE.MeshLambertMaterial({
     color: 0xccccdd,
     emissive: 0x476584,
-    side: THREE.DoubleSide,
+    flatShading: true,
+  });
+
+  const gunMaterial = new THREE.MeshLambertMaterial({
+    color: 0x555555,
     flatShading: true,
   });
 
   for (let i = 0; i < playerN; i += 1) {
-    const player = new Marvin(playerSize, material);
+    const player = new Marvin(playerSize, material, gunMaterial);
     players.push(player);
     scene.add(player.object);
     player.object.position.x += i * playerDistance - ((playerN - 1) / 2) * playerDistance;

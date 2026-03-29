@@ -14,8 +14,11 @@ export interface MarvinSizeOptions {
   sides?: number;
   strideDuration?: number;
   armRadius?: number;
+  armSegmentCount?: number;
   headRadius?: number;
   torsoOffset?: number;
+  gunRadius?: number;
+  gunLength?: number;
 }
 
 type Size = Required<MarvinSizeOptions>;
@@ -27,7 +30,7 @@ export class Marvin {
 
   private walking = false;
 
-  constructor(sizeOptions: MarvinSizeOptions, material: THREE.Material) {
+  constructor(sizeOptions: MarvinSizeOptions, material: THREE.Material, gunMaterial = material) {
     const sides = sizeOptions.sides ?? 4;
     const size: Size = {
       ...sizeOptions,
@@ -35,10 +38,13 @@ export class Marvin {
       sides,
       maxStride: sizeOptions.maxStride ?? sizeOptions.legLength * 1,
       strideDuration: sizeOptions.strideDuration ?? 1.2,
-      armRadius: sizeOptions.armRadius ?? sizeOptions.legRadius / 2,
+      armRadius: sizeOptions.armRadius ?? sizeOptions.legRadius * 0.6,
+      armSegmentCount: sizeOptions.armSegmentCount ?? 20,
       headRadius: sizeOptions.headRadius ?? sizeOptions.legLength / 4,
       torsoOffset:
         sizeOptions.torsoOffset ?? sizeOptions.legRadius * (1 / Math.cos(Math.PI / sides) - 1),
+      gunRadius: sizeOptions.gunRadius ?? sizeOptions.legRadius,
+      gunLength: sizeOptions.gunLength ?? sizeOptions.hipWidth,
     };
 
     const fullObject = new THREE.Group();
@@ -80,6 +86,9 @@ export class Marvin {
       this.mixer.clipAction(legClip, getByName(allBones, 'rightFoot')),
     ];
 
+    const bobGroup = new THREE.Group();
+    fullObject.add(bobGroup);
+
     const torso = new THREE.Mesh(
       createTorsoGeometry(
         size.hipWidth + 2 * size.torsoOffset,
@@ -88,7 +97,7 @@ export class Marvin {
       ).translate(0, size.legLength, 0),
       material,
     );
-    fullObject.add(torso);
+    bobGroup.add(torso);
 
     const bobHeight =
       (size.legLength - Math.sqrt(size.legLength ** 2 - (size.maxStride / 2) ** 2)) / 2;
@@ -101,9 +110,33 @@ export class Marvin {
         .translate(0, size.legLength * 1.85 + size.headRadius, 0),
       material,
     );
-    fullObject.add(head);
+    bobGroup.add(head);
+
     const headBobClip = createBobClip(size.strideDuration, bobHeight, 0);
     this.actions.push(this.mixer.clipAction(headBobClip, head));
+
+    function addArm(side: 'right' | 'left') {
+      const xMultiplier = side === 'right' ? 1 : -1;
+      const rightArm = new THREE.Mesh(createArmGeometry(side, size), material);
+      rightArm.position.y = size.legLength * 1.8 - size.armRadius;
+      rightArm.position.x = xMultiplier * (size.hipWidth / 2 + size.torsoOffset);
+      torso.add(rightArm);
+    }
+
+    addArm('left');
+    addArm('right');
+
+    const gun = new THREE.Mesh(
+      new THREE.CylinderGeometry(size.gunRadius * 2.2, size.gunRadius, size.gunLength, 3, 1, false) //
+        .rotateX(Math.PI / 2)
+        .translate(
+          0,
+          size.legLength * 1.35,
+          -size.gunLength / 2 - size.legRadius - size.torsoOffset * 2,
+        ),
+      gunMaterial,
+    );
+    torso.add(gun);
   }
 
   // todo add a speed parameter?
@@ -248,4 +281,39 @@ function createTorsoGeometry(width: number, depth: number, length: number) {
   });
   geometry.rotateX(-Math.PI / 2);
   return geometry;
+}
+
+type V3Array = [number, number, number];
+function v([x, y, z]: V3Array): THREE.Vector3 {
+  return new THREE.Vector3(x, y, z);
+}
+
+function c(v0: V3Array, v1: V3Array, v2: V3Array, v3: V3Array) {
+  return new THREE.CubicBezierCurve3(v(v0), v(v1), v(v2), v(v3));
+}
+
+function createArmGeometry(side: 'left' | 'right', size: Size) {
+  const dir = side === 'right' ? 1 : -1;
+  const r = size.armRadius;
+  const midX = dir * (size.hipWidth / 2 + size.torsoOffset);
+  const midY = size.legLength * 0.6;
+  const path = new THREE.CurvePath<THREE.Vector3>();
+
+  const bezPoints: V3Array[] = [
+    [0, 0, 0],
+    [dir * r, 0, 0],
+    [dir * r * 2, -r, 0],
+    [dir * r * 2, -r * 2, 0],
+    [dir * r * 2, -r * 8, 0],
+    [dir * r * 2, -midY, 0],
+    [-midX, -midY, 0],
+  ];
+  for (let i = 0; i < bezPoints.length - 3; i += 3) {
+    path.add(c(bezPoints[i]!, bezPoints[i + 1]!, bezPoints[i + 2]!, bezPoints[i + 3]!));
+  }
+
+  // have one arm raised a bit higher
+  const rotation = (Math.PI / 180) * (40 - dir * 11);
+
+  return new THREE.TubeGeometry(path, size.armSegmentCount, r, 8).rotateX(rotation);
 }

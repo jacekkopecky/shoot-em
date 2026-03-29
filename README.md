@@ -11,6 +11,7 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [x] dying broad-leaf
   - [.] player
     - [x] fix left-right mismatch with legs
+    - [ ] make bobgroup bob, torso and gun turn
   - [ ] money?
   - [ ] diamond?
 - [ ] todo add 'mousemove' like touchmove in touch handler?
