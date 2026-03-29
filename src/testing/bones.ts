@@ -1,8 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { timer } from '../run/three/main';
-import { Legs } from './legs';
-import { range } from '#utils';
+import { Marvin } from './marvin';
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -53,7 +52,7 @@ function initScene() {
   initBones();
 }
 
-let players: Legs[] = [];
+let players: Marvin[] = [];
 
 function initBones() {
   const material = new THREE.MeshLambertMaterial({
@@ -64,10 +63,10 @@ function initBones() {
   });
 
   for (let i = 0; i < playerN; i += 1) {
-    const legs = new Legs(playerSize, playerSize.hipWidth, material);
-    players.push(legs);
-    scene.add(legs.object);
-    legs.object.position.x += i * playerDistance - ((playerN - 1) / 2) * playerDistance;
+    const player = new Marvin(playerSize, material);
+    players.push(player);
+    scene.add(player.object);
+    player.object.position.x += i * playerDistance - ((playerN - 1) / 2) * playerDistance;
   }
 }
 
@@ -75,8 +74,8 @@ function render(ms?: number) {
   requestAnimationFrame(render);
 
   timer.update(ms);
-  for (const legs of players) {
-    legs.update(timer.getDelta());
+  for (const player of players) {
+    player.update(timer.getDelta());
   }
   renderer.render(scene, camera);
 }
@@ -86,9 +85,9 @@ let moving = false;
 document.addEventListener('keydown', (e) => {
   if (e.key === ' ') {
     moving = !moving;
-    for (const legs of players) {
-      if (moving) legs.startWalking();
-      else legs.stopWalking();
+    for (const player of players) {
+      if (moving) player.startWalking();
+      else player.stopWalking();
     }
   }
 });

@@ -1,26 +1,27 @@
 import * as THREE from 'three';
 import { betweener } from '../run/three/animations';
 
-interface LegSizeOptions {
+export interface MarvinSizeOptions {
   length: number;
   radius: number;
+  hipWidth: number;
   maxStride?: number;
   segmentCount?: number;
   sides?: number;
   strideDuration?: number;
 }
 
-type LegSize = Required<LegSizeOptions>;
+type Size = Required<MarvinSizeOptions>;
 
-export class Legs {
+export class Marvin {
   public readonly object: THREE.Group;
   private actions: THREE.AnimationAction[];
   private mixer: THREE.AnimationMixer;
 
   private walking = false;
 
-  constructor(sizeOptions: LegSizeOptions, hipWidth: number, material: THREE.Material) {
-    const size: LegSize = {
+  constructor(sizeOptions: MarvinSizeOptions, material: THREE.Material) {
+    const size: Size = {
       ...sizeOptions,
       segmentCount: sizeOptions.segmentCount ?? 5,
       sides: sizeOptions.sides ?? 4,
@@ -42,7 +43,7 @@ export class Legs {
         createLegGeometry(size, indexByName(allBones, prefix + 'Hip')),
         getByName(allBones, prefix + 'Hip'),
         material,
-        xMultiplier * (hipWidth / 2 - size.radius),
+        xMultiplier * (size.hipWidth / 2 - size.radius),
       );
       fullObject.add(legMesh);
       legMesh.bind(skeleton);
@@ -65,7 +66,7 @@ export class Legs {
     ];
 
     const torso = new THREE.Mesh(
-      createTorsoGeometry(hipWidth, size.radius * 2, size.length * 0.8) //
+      createTorsoGeometry(size.hipWidth, size.radius * 2, size.length * 0.8) //
         .translate(0, size.length, 0),
       material,
     );
@@ -76,7 +77,7 @@ export class Legs {
     const torsoBobClip = createBobClip(size.strideDuration, bobHeight, -bobAngle);
     this.actions.push(this.mixer.clipAction(torsoBobClip, torso));
 
-    const headRadius = hipWidth * 0.4;
+    const headRadius = size.hipWidth * 0.4;
     const head = new THREE.Mesh(
       new THREE.OctahedronGeometry(headRadius, 1).translate(0, size.length * 1.85 + headRadius, 0),
       material,
@@ -124,7 +125,7 @@ export class Legs {
 
 const _vector = new THREE.Vector3();
 
-function createLegGeometry(size: LegSize, boneOffset: number) {
+function createLegGeometry(size: Size, boneOffset: number) {
   const r = size.radius;
   const geometry = new THREE.CylinderGeometry(r, r, size.length, size.sides, size.segmentCount)
     .translate(0, size.length / 2, 0)
@@ -151,7 +152,7 @@ function createLegGeometry(size: LegSize, boneOffset: number) {
   return geometry;
 }
 
-function createLegBones(size: LegSize, prefix: string) {
+function createLegBones(size: Size, prefix: string) {
   const hip = new THREE.Bone();
   hip.name = prefix + 'Hip';
   hip.position.y = size.length;
