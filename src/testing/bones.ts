@@ -80,7 +80,7 @@ function render(ms?: number) {
   renderer.render(scene, camera);
 }
 
-let moving = false;
+let moving = true;
 
 document.addEventListener('keydown', (e) => {
   if (e.key === ' ') {
@@ -94,4 +94,8 @@ document.addEventListener('keydown', (e) => {
 
 initScene();
 render();
+for (const player of players) {
+  if (moving) player.startWalking();
+  else player.stopWalking();
+}
 console.log('triangles', renderer.info.render.triangles);
