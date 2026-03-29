@@ -10,15 +10,15 @@ const scene = new THREE.Scene();
 function initScene() {
   scene.background = new THREE.Color(0xaaccee);
 
-  camera.position.z = 50;
-  camera.position.y = 20;
+  const centerY = 60;
+  camera.position.set(50, centerY + 20, 70);
 
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.target = new THREE.Vector3(0, 20, 0);
+  controls.target = new THREE.Vector3(0, centerY, 0);
   controls.rotateLeft(Math.PI / 2);
   controls.update();
 
@@ -48,7 +48,7 @@ let legs: Legs;
 
 function initBones() {
   const material = new THREE.MeshLambertMaterial({
-    color: 0xccac90,
+    color: 0xccccdd,
     emissive: 0x476584,
     side: THREE.DoubleSide,
     flatShading: true,
@@ -57,27 +57,6 @@ function initBones() {
   legs = new Legs({ length: 40, radius: 6 }, 25, material);
 
   scene.add(legs.object);
-
-  const length = 12,
-    width = 25;
-  const shape = new THREE.Shape();
-  shape.moveTo(-width / 2, -length / 2);
-  shape.lineTo(-width / 2, length / 2);
-  shape.lineTo(width / 2, length / 2);
-  shape.lineTo(width / 2, -length / 2);
-  shape.closePath();
-  const geometry = new THREE.ExtrudeGeometry(shape, {
-    depth: 30,
-    bevelSize: 4,
-    bevelEnabled: true,
-    bevelOffset: -4,
-    bevelSegments: 1,
-    bevelThickness: 3,
-  });
-  const mesh = new THREE.Mesh(geometry, material);
-  mesh.rotation.x = -Math.PI / 2;
-  mesh.position.y = 40;
-  scene.add(mesh);
 }
 
 function render(ms?: number) {

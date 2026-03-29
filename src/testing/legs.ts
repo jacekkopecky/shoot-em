@@ -23,30 +23,52 @@ export class Legs {
     const size: LegSize = {
       ...sizeOptions,
       segmentCount: sizeOptions.segmentCount ?? 5,
-      sides: sizeOptions.sides ?? 8,
-      maxStride: sizeOptions.maxStride ?? sizeOptions.length,
+      sides: sizeOptions.sides ?? 4,
+      maxStride: sizeOptions.maxStride ?? sizeOptions.length * 1,
       strideDuration: sizeOptions.strideDuration ?? 1.2,
     };
 
     this.object = new THREE.Group();
 
-    const leftBones = createBones(size);
+    const leftLegBones = createBones(size);
     this.object.add(
-      createMesh(createLegGeometry(size), leftBones, material, -hipWidth / 2 + size.radius),
+      createMesh(createLegGeometry(size), leftLegBones, material, -hipWidth / 2 + size.radius),
     );
 
-    const rightBones = createBones(size);
+    const rightLegBones = createBones(size);
     this.object.add(
-      createMesh(createLegGeometry(size), rightBones, material, hipWidth / 2 - size.radius),
+      createMesh(createLegGeometry(size), rightLegBones, material, hipWidth / 2 - size.radius),
     );
-
-    const feet = [leftBones[1]!, rightBones[1]!];
 
     // the clip is the same for both legs
-    const clip = createWalkingClip(size.strideDuration, size.maxStride, rightBones[1]!);
+    const legClip = createWalkingClip(size.strideDuration, size.maxStride, rightLegBones[1]!);
 
     this.mixer = new THREE.AnimationMixer(this.object);
-    this.actions = feet.map((foot) => this.mixer.clipAction(clip, foot));
+    this.actions = [
+      this.mixer.clipAction(legClip, leftLegBones[1]),
+      this.mixer.clipAction(legClip, rightLegBones[1]),
+    ];
+
+    const torso = new THREE.Mesh(
+      createTorsoGeometry(hipWidth, size.radius * 2, size.length * 0.8) //
+        .translate(0, size.length, 0),
+      material,
+    );
+    this.object.add(torso);
+
+    const bobHeight = (size.length - Math.sqrt(size.length ** 2 - (size.maxStride / 2) ** 2)) / 2;
+    const bobAngle = (size.maxStride / size.length) * 0.15;
+    const torsoBobClip = createBobClip(size.strideDuration, bobHeight, -bobAngle);
+    this.actions.push(this.mixer.clipAction(torsoBobClip, torso));
+
+    const headRadius = hipWidth * 0.4;
+    const head = new THREE.Mesh(
+      new THREE.OctahedronGeometry(headRadius, 1).translate(0, size.length * 1.85 + headRadius, 0),
+      material,
+    );
+    this.object.add(head);
+    const headBobClip = createBobClip(size.strideDuration, bobHeight, 0);
+    this.actions.push(this.mixer.clipAction(headBobClip, head));
   }
 
   // todo add a speed parameter?
@@ -84,14 +106,10 @@ export class Legs {
 const _vector = new THREE.Vector3();
 
 function createLegGeometry(size: LegSize) {
-  const geometry = new THREE.CylinderGeometry(
-    size.radius, // radiusTop
-    size.radius, // radiusBottom
-    size.length, // height
-    size.sides, // radiusSegments
-    size.segmentCount, // heightSegments
-    false, // openEnded
-  ).translate(0, size.length / 2, 0);
+  const r = size.radius;
+  const geometry = new THREE.CylinderGeometry(r, r, size.length, size.sides, size.segmentCount)
+    .translate(0, size.length / 2, 0)
+    .rotateY(Math.PI / size.sides);
 
   const position = geometry.attributes.position!;
 
@@ -123,7 +141,7 @@ function createBones(size: LegSize) {
   foot.position.y = -size.length;
   hip.add(foot);
 
-  return [hip, foot];
+  return [hip, foot] as [THREE.Bone, THREE.Bone];
 }
 
 function createMesh(
@@ -168,4 +186,45 @@ function createWalkingClip(duration: number, strideLength: number, foot: THREE.B
       THREE.InterpolateLinear,
     ),
   ]);
+}
+
+function createBobClip(duration: number, height: number, angle: number) {
+  const durations = betweener(0, duration);
+  const heights = betweener(-height, 0);
+  const angles = betweener(0, angle);
+
+  return new THREE.AnimationClip('bob', duration, [
+    new THREE.KeyframeTrack(
+      '.rotation[y]',
+      durations(0, 0.25, 0.75, 1),
+      angles(0, -1, 1, 0),
+      THREE.InterpolateLinear,
+    ),
+    new THREE.KeyframeTrack(
+      '.position[y]',
+      durations(0, 0.25, 0.5, 0.75, 1),
+      heights(1, 0, 1, 0, 1),
+      THREE.InterpolateLinear,
+    ),
+  ]);
+}
+
+function createTorsoGeometry(width: number, depth: number, length: number) {
+  const shape = new THREE.Shape();
+  shape.moveTo(-width / 2, -depth / 2);
+  shape.lineTo(-width / 2, depth / 2);
+  shape.lineTo(width / 2, depth / 2);
+  shape.lineTo(width / 2, -depth / 2);
+  shape.closePath();
+
+  const geometry = new THREE.ExtrudeGeometry(shape, {
+    depth: length,
+    bevelSize: length / 7,
+    bevelEnabled: true,
+    bevelOffset: -length / 7,
+    bevelSegments: 1,
+    bevelThickness: length / 10,
+  });
+  geometry.rotateX(-Math.PI / 2);
+  return geometry;
 }
