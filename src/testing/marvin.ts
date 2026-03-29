@@ -1,5 +1,8 @@
 import * as THREE from 'three';
+import { getByName, indexByName } from '#utils';
+
 import { betweener } from '../run/three/animations';
+
 import { createBonyTubeGeometry } from './bony-tube';
 
 export interface MarvinSizeOptions {
@@ -165,27 +168,6 @@ function createLegBones(size: Size, prefix: string) {
   return [hip, foot] as [THREE.Bone, THREE.Bone];
 }
 
-// function createArmBones(size: Size, prefix: 'left' | 'right') {
-//   const shoulder = new THREE.Bone();
-//   shoulder.name = prefix + 'Shoulder';
-
-//   const elbow = new THREE.Bone();
-//   elbow.name = prefix + 'Elbow';
-//   // elbow.position.z = size.armRadius;
-//   elbow.position.y = size.armLength / 2;
-//   shoulder.add(elbow);
-
-//   const hand = new THREE.Bone();
-//   hand.name = prefix + 'Hand';
-//   hand.position.x = (prefix === 'right' ? 1 : -1) * size.armRadius;
-//   // hand.position.z = -size.armRadius;
-//   hand.position.y = size.armLength / 2;
-//   elbow.add(hand);
-
-//   // shoulder must be the first returned bone, other things depend on it
-//   return [shoulder, elbow, hand] as [THREE.Bone, THREE.Bone, THREE.Bone];
-// }
-
 function createLegMesh(
   geometry: THREE.BufferGeometry,
   hipBone: THREE.Bone,
@@ -266,20 +248,4 @@ function createTorsoGeometry(width: number, depth: number, length: number) {
   });
   geometry.rotateX(-Math.PI / 2);
   return geometry;
-}
-
-function getByName<T extends THREE.Object3D>(objects: T[], name: string) {
-  const retval = objects.find((obj) => obj.name === name);
-  if (!retval) {
-    throw new Error(`cannot find object with name "${name}"`);
-  }
-  return retval;
-}
-
-function indexByName<T extends THREE.Object3D>(objects: T[], name: string) {
-  const retval = objects.findIndex((obj) => obj.name === name);
-  if (retval < 0) {
-    throw new Error(`cannot find object with name "${name}"`);
-  }
-  return retval;
 }
