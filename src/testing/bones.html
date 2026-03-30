@@ -17,12 +17,17 @@
       height: 100%;
     }
 
-    #log {
-      font-size: 12px;
+    #fps {
+      font-size: 18px;
+      font-family: sans-serif;
       position: fixed;
-      inset: 0;
-      white-space: pre;
+      top: 0.5em;
+      left: 0.5em;
       pointer-events: none;
+
+      &::after {
+        content: 'fps';
+      }
     }
   </style>
 </head>
@@ -30,7 +35,7 @@
 <body>
   <script type="module" src="./bones.ts">
   </script>
-  <div id="log"></div>
+  <div id="fps"></div>
 </body>
 
 </html>
