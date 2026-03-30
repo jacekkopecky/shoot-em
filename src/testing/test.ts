@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-import * as trees from '../run/three/models/tree';
+import * as trees from '../run/three/models';
 
 // const N = 1800;
 

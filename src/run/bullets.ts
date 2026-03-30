@@ -5,7 +5,7 @@ import * as dim from '#dimensions';
 import { hitObject, objectsGroup } from './objects';
 import { Circle, getBulletData, getObjectData, type PlayerData } from './types';
 
-import { createBullet, killBullet } from './three/models';
+import { createBullet, killBullet } from './three/run-objects';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
 import { getObjectX, getObjectZ, resetGroup } from './three/tools';
 

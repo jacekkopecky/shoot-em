@@ -4,9 +4,12 @@ import * as dim from '#dimensions';
 import { random } from '#utils';
 
 import { rotateAwayAndShrinkToGone } from '../animations';
-
-import { createConiferTree, createDeadConiferTree } from './tree-coniferous';
-import { createBroadLeafTree, createDeadBroadLeafTree } from './tree-broadleaf';
+import {
+  createBroadLeafTree,
+  createConiferTree,
+  createDeadBroadLeafTree,
+  createDeadConiferTree,
+} from '../models';
 
 export function createRandomTree(isConifer = random() < 0.5): THREE.Object3D {
   const retval = isConifer ? createConiferTree() : createBroadLeafTree();
@@ -27,4 +30,4 @@ export function killTree(obj: THREE.Object3D) {
   obj.removeFromParent();
 }
 
-export { createConiferTree, createBroadLeafTree, createDeadConiferTree, createDeadBroadLeafTree };
+export { createBroadLeafTree, createConiferTree, createDeadBroadLeafTree, createDeadConiferTree };

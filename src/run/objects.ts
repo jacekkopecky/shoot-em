@@ -6,7 +6,7 @@ import { random } from '#utils';
 import { giveAward } from './awards';
 import { getObjectData } from './types';
 
-import { createObject, killObject } from './three/models';
+import { createObject, killObject } from './three/run-objects';
 import { isDying, scaleExtent } from './three/resources';
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
 

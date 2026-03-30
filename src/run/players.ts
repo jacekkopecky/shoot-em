@@ -9,7 +9,7 @@ import { createPlayerBullet } from './bullets';
 import { hitObject, objectsGroup } from './objects';
 import { Circle, getObjectData, getPlayerData } from './types';
 
-import { createPlayer, killPlayer } from './three/models';
+import { createPlayer, killPlayer } from './three/run-objects';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
 import { getObjectZ, resetGroup } from './three/tools';
 

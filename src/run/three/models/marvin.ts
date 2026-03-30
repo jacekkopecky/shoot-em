@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import { getByName, indexByName } from '#utils';
 
-import { betweener } from '../run/three/animations';
+import { betweener } from '../animations';
 
-import { createBonyTubeGeometry } from './bony-tube';
+import { createBonyTubeGeometry } from './tools/bony-tube';
 
 export interface MarvinSizeOptions {
   legLength: number;

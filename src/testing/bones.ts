@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { timer } from '../run/three/main';
-import { Marvin } from './marvin';
+import { Marvin } from '../run/three/models';
 import { logFps } from '#log';
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
