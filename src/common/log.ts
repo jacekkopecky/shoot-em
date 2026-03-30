@@ -11,7 +11,7 @@ export function log(str: string) {
 let lastTimeMs: number | undefined;
 let framesThisSecond = 0;
 
-export function logFps(ms?: number, prefix?: string) {
+export function logFps(ms?: number, prefix = '') {
   if (!logEl) return;
 
   if (ms != null && lastTimeMs != null) {
