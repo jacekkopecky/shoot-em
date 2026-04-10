@@ -81,7 +81,13 @@ const upgradeLevels: Partial<Record<UpgradeType, UpgradeLevel[]>> = {
     { value: 78, price: 8 },
     { value: 100, price: 10 },
   ],
-  player: [],
+  player: [
+    { value: 1, price: 0 }, // was 30, 40…
+    { value: 2, price: 0 },
+    { value: 3, price: 0 },
+    { value: 4, price: 0 },
+    { value: 5, price: 0 },
+  ],
   damage: [
     { value: 12, price: 1 },
     { value: 26, price: 2 },
@@ -122,7 +128,9 @@ function upgradeDamage() {
   upgradeWithFn('damage', 'addPercent');
 }
 
-function upgradePlayer() {}
+function upgradePlayer() {
+  upgradeWithFn('player', 'add');
+}
 
 function upgradeWithFn(type: UpgradeType, fn: UpgradeFn) {
   const state = readState();

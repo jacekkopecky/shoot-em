@@ -19,23 +19,63 @@ export const playersGroup = new THREE.Group();
 export function setupPlayers() {
   resetGroup(playersGroup);
 
-  const player = createPlayer();
-  const pData = getPlayerData(player);
-
   const state = readState();
   const shotsPerSecond = applyUpgrade(dim.playerShotsPerSecond, state.nextRunUpgrades.rate);
-  pData.shotTime = 1 / shotsPerSecond;
-  pData.remainingShotTime = pData.shotTime / 2;
+  const players = applyUpgrade(1, state.nextRunUpgrades.player);
 
-  pData.range = dim.playerBulletRange;
-  pData.bulletHitPoints = applyUpgrade(dim.playerBulletHitPoints, state.nextRunUpgrades.damage);
+  for (let i = 0; i < players; i += 1) {
+    const player = createPlayer();
 
-  pData.hitPoints = dim.playerHitPoints;
-  playersGroup.add(player);
+    const { row, column } = generatePlayerPosition(i);
+    player.position.z = row * 5;
+    player.position.x = column * 12;
 
-  playersGroup.userData.width = pData.extent2d.max.x - pData.extent2d.min.x;
+    const pData = getPlayerData(player);
 
+    pData.shotTime = 1 / shotsPerSecond;
+    pData.remainingShotTime = (pData.shotTime / players) * i + pData.shotTime / 2;
+
+    pData.range = dim.playerBulletRange;
+    pData.bulletHitPoints = applyUpgrade(dim.playerBulletHitPoints, state.nextRunUpgrades.damage);
+
+    pData.hitPoints = dim.playerHitPoints;
+    playersGroup.add(player);
+  }
+
+  computePlayersGroupMinMax(playersGroup);
   updateCameraPosition(0);
+}
+
+function generatePlayerPosition(i: number) {
+  const row = Math.floor((Math.sqrt(1 + 8 * i) - 1) / 2);
+  const inPreviousRows = row && (row * (row + 1)) / 2;
+  const inCurrentRow = i + 1 - inPreviousRows;
+
+  // start off-center in even rows
+  const center = (row % 2) / 2;
+  const awayFromCenter = Math.floor(inCurrentRow / 2) * ((inCurrentRow % 2) * 2 - 1);
+  const column = center + awayFromCenter;
+
+  return { row, column };
+}
+
+function computePlayersGroupMinMax(group: THREE.Group) {
+  let minX = Infinity;
+  let maxX = -Infinity;
+
+  for (const player of group.children) {
+    if (!isDying(player)) {
+      const pmin = player.userData.extent2d.min.x + player.position.x;
+      if (minX > pmin) minX = pmin;
+      const pmax = player.userData.extent2d.max.x + player.position.x;
+      if (maxX < pmax) maxX = pmax;
+    }
+  }
+
+  if (minX < Infinity) {
+    playersGroup.userData.minX = minX;
+    playersGroup.userData.maxX = maxX;
+  }
 }
 
 function repositionPlayers() {
@@ -46,11 +86,14 @@ function repositionPlayers() {
   //
   // if recentering, give players (except dying ones) target X and Z, every time players move move them towards it
   // todo also run this function when we change zone
+
+  // for now, only recompute the width
+  computePlayersGroupMinMax(playersGroup);
 }
 
 export function updatePlayerPosition(playerPosFraction: number) {
-  const availableWidth = dim.trackWidth - playersGroup.userData.width;
-  const x = (playerPosFraction - 0.5) * availableWidth;
+  const availableWidth = dim.trackWidth - playersGroup.userData.maxX + playersGroup.userData.minX;
+  const x = playerPosFraction * availableWidth - dim.trackWidth / 2 - playersGroup.userData.minX;
   playersGroup.position.x = x;
 
   updateCameraPosition(x, true);

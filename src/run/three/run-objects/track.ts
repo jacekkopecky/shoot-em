@@ -5,13 +5,13 @@ import * as dim from '#dimensions';
 import * as mat from '../materials';
 import { createBrickSquare } from '../models/brick-plane';
 
-const trackSegment = createBrickSquare(dim.trackWidth, 15).rotateX(-Math.PI / 2);
+const trackWidth = dim.trackWidth + 2 * dim.trackDecorationThickness;
+const trackSegment = createBrickSquare(trackWidth, 15).rotateX(-Math.PI / 2);
 
 function createTrack(group: THREE.Group): void {
-  const size = dim.trackWidth;
-  const segments = Math.ceil(dim.trackLength / size) * 2;
+  const segments = Math.ceil(dim.trackLength / trackWidth) * 2;
 
-  let z = dim.behindCamera - size / 2;
+  let z = dim.behindCamera - trackWidth / 2;
   for (let i = 0; i < segments; i += 1) {
     const segment = trackSegment.clone();
     segment.position.z = z;
@@ -19,10 +19,10 @@ function createTrack(group: THREE.Group): void {
 
     group.add(segment);
 
-    z -= size;
+    z -= trackWidth;
   }
 
-  group.userData.trackDist = size;
+  group.userData.trackDist = trackWidth;
   group.userData.trackNextZ = z;
 }
 
@@ -42,8 +42,8 @@ export function createTrackDecorations(group: THREE.Group): void {
     const left = new THREE.Mesh(leftGeometry, mat.colorFlatMaterials.brown2);
     const right = new THREE.Mesh(rightGeometry, mat.colorFlatMaterials.brown2);
 
-    left.position.set(-dim.trackWidth / 2 + thickness / 2, thickness / 2, z);
-    right.position.set(dim.trackWidth / 2 - thickness / 2, thickness / 2, z);
+    left.position.set(-trackWidth / 2 + thickness / 2, thickness / 2, z);
+    right.position.set(trackWidth / 2 - thickness / 2, thickness / 2, z);
 
     left.userData.type = 'side';
     right.userData.type = 'side';

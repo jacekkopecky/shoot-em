@@ -131,6 +131,7 @@ export function prepareRun() {
 
   setupAwards();
   setupObjects();
+  // set up players after objects so player upgrades, which may use randomness, don't affect object randomness
   setupPlayers();
   setupBullets();
   setupDyingGroup();

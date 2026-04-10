@@ -5,23 +5,19 @@ This was inspired by Timeline Up, but without any spending of real money.
 ## todo
 
 - [.] add 3d models
-  - [x] coniferous tree
-  - [x] broad-leaf tree
-  - [x] dying conifer
-  - [x] dying broad-leaf
-  - [x] player
-    - [x] fix left-right mismatch with legs
-    - [x] make bobgroup bob, torso and gun turn
-  - [x] track
-  - [ ] diamond?
+  - [ ] diamond? rotating? with point light in camera?
   - [ ] money? bag or heap?
   - [ ] bullets? tetrahedron? rotating?
-  - [x] add shadows
+- [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
+  - so that players smoothly move into their position
+- [ ] refactor touch handler so that remembering last is done outside, in players, with dynamic
+      bounds
 - [ ] refactor walk animations to be updated by animations.ts?
 - [ ] diamonds are now too low and the bullets hit strangely
 - [ ] todo add 'mousemove' like touchmove in touch handler?
 - [ ] some kind of run ending, and distinguishing between finishing and dying
   - only reset transient upgrades when a run is successfully finished?
+  - so they should be called currentLevelUpgrade rather than nextRunUpgrade?
 - [ ] add daily energy, disabled in dev build
 - [ ] add stable track generation
   - using level (per type of run?)
@@ -40,6 +36,7 @@ This was inspired by Timeline Up, but without any spending of real money.
     - slow-down with big bosses (slowing at the end of my minimum range?)
     - enemies that shoot back?
     - Levels where you have to collect all keys to pass through end gate
+    - zones where players don't reposition themselves if there are gaps (e.g. so they fit through)
   - gradation
     - various types of runs should only get stronger if I pass them? at different rates?
     - [ ] special types should be behing special buttons?
@@ -71,9 +68,6 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one? or a pile?
   - well, a pile could just be a bunch of jewels closely behind each other
-- [ ] add possibility of multiple players in group
-  - [ ] stagger shooting for player groups? or shoot in waves?
-  - [ ] as transient upgrade? as permanent upgrade?
 - [ ] add objects with a visible damage countdown
 - [ ] when items are gained (like a better gun), make it fly towards player?
 - [ ] add objects that shoot at us?
@@ -113,6 +107,22 @@ This was inspired by Timeline Up, but without any spending of real money.
       version (no longer updated) - important from v2
 
 ---
+
+## done by 2026-04-10
+
+- [x] add 3d models
+  - [x] coniferous tree
+  - [x] broad-leaf tree
+  - [x] dying conifer
+  - [x] dying broad-leaf
+  - [x] player
+    - [x] fix left-right mismatch with legs
+    - [x] make bobgroup bob, torso and gun turn
+  - [x] track
+  - [x] add shadows
+- [x] add possibility of multiple players in group
+  - [x] stagger shooting for player groups? or shoot in waves?
+  - [/] as transient upgrade? as permanent upgrade?
 
 ## done by 2026-04-04
 
