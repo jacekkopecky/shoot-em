@@ -163,7 +163,7 @@ button {
   font-size: 0.7em;
   font-family: monospace;
   position: absolute;
-  bottom: 50%;
+  top: 8rem;
   left: 5%;
   max-height: 15em;
   line-height: 1em;
