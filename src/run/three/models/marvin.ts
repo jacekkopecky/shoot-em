@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { getByName, indexByName } from '#utils';
 
-import { betweener } from '../animations';
+import { betweener, addMixer } from '../animations';
 
 import { createBonyTubeGeometry } from './tools/bony-tube';
 
@@ -29,7 +29,6 @@ type Size = Required<MarvinSizeOptions> & {
 export class Marvin {
   public readonly object: THREE.Group;
   private actions: THREE.AnimationAction[];
-  private mixer: THREE.AnimationMixer;
   private gunHeight: number;
 
   private walking = false;
@@ -86,10 +85,10 @@ export class Marvin {
       getByName(allBones, 'rightFoot'),
     );
 
-    this.mixer = new THREE.AnimationMixer(fullObject);
+    const mixer = addMixer(fullObject);
     this.actions = [
-      this.mixer.clipAction(legClip, getByName(allBones, 'leftFoot')),
-      this.mixer.clipAction(legClip, getByName(allBones, 'rightFoot')),
+      mixer.clipAction(legClip, getByName(allBones, 'leftFoot')),
+      mixer.clipAction(legClip, getByName(allBones, 'rightFoot')),
     ];
 
     const bobGroup = new THREE.Group();
@@ -98,7 +97,7 @@ export class Marvin {
       (size.legLength - Math.sqrt(size.legLength ** 2 - (size.strideLength / 4) ** 2)) / 2;
     const bobAngle = (size.strideLength / 2 / size.legLength) * 0.15;
     const torsoBobClip = createBobClip(size.strideDuration, bobHeight);
-    this.actions.push(this.mixer.clipAction(torsoBobClip, bobGroup));
+    this.actions.push(mixer.clipAction(torsoBobClip, bobGroup));
 
     const torso = new THREE.Mesh(
       createTorsoGeometry(
@@ -112,7 +111,7 @@ export class Marvin {
     bobGroup.add(torso);
 
     const torsoTurnClip = createTurnClip(size.strideDuration, bobAngle);
-    this.actions.push(this.mixer.clipAction(torsoTurnClip, torso));
+    this.actions.push(mixer.clipAction(torsoTurnClip, torso));
 
     const head = new THREE.Mesh(
       new THREE.OctahedronGeometry(size.headRadius, 1) //
@@ -147,7 +146,7 @@ export class Marvin {
     torso.add(gun);
 
     const gunTurnClip = createTurnClip(size.strideDuration, -bobAngle);
-    this.actions.push(this.mixer.clipAction(gunTurnClip, gun));
+    this.actions.push(mixer.clipAction(gunTurnClip, gun));
   }
 
   getGunHeight() {
@@ -191,10 +190,6 @@ export class Marvin {
     } else {
       this.stopWalking();
     }
-  }
-
-  update(time: number) {
-    this.mixer.update(time);
   }
 }
 

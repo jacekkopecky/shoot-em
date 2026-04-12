@@ -15,7 +15,6 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [ ] bullets? tetrahedron? rotating?
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
   - so that players smoothly move into their position
-- [ ] refactor walk animations to be updated by animations.ts?
 - [ ] todo add 'mousemove' like touchmove in touch handler?
 - [ ] some kind of run ending, and distinguishing between finishing and dying
   - only reset transient upgrades when a run is successfully finished?
@@ -109,6 +108,10 @@ This was inspired by Timeline Up, but without any spending of real money.
       version (no longer updated) - important from v2
 
 ---
+
+## done by 2026-04-12
+
+- [x] refactor walk animations to be updated by animations.ts?
 
 ## done by 2026-04-10
 

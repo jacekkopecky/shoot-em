@@ -18,7 +18,6 @@ import { dyingGroup, moveAndSweepDyingGroup, setupDyingGroup } from './dying-gro
 import { moveObjects, objectsGroup, setupObjects } from './objects';
 import {
   checkPlayersHit,
-  movePlayers,
   playersGroup,
   playerShoot,
   setPlayersWalking,
@@ -212,7 +211,6 @@ function animationFrame(ms?: number) {
     updateAnimations(delta);
     moveObjects(delta);
     moveTrack(delta);
-    movePlayers(delta);
     checkPlayersHit();
     playerShoot(delta);
     movePlayerBullets(delta);

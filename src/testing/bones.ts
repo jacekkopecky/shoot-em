@@ -1,8 +1,11 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+import { logFps } from '#log';
+
+import { updateAnimations } from '../run/three/animations';
 import { timer } from '../run/three/main';
 import { Marvin } from '../run/three/models';
-import { logFps } from '#log';
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
@@ -110,9 +113,7 @@ function render(ms?: number) {
   requestAnimationFrame(render);
 
   timer.update(ms);
-  for (const player of players) {
-    player.update(timer.getDelta());
-  }
+  updateAnimations(timer.getDelta());
   renderer.render(scene, camera);
 
   logFps(ms);

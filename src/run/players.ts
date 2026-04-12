@@ -11,7 +11,7 @@ import { Circle, getObjectData, getPlayerData } from './types';
 
 import { updateCameraPosition } from './three/camera';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
-import { createPlayer, killPlayer, setPlayerWalking, updatePlayer } from './three/run-objects';
+import { createPlayer, killPlayer, setPlayerWalking } from './three/run-objects';
 import { getObjectZ, resetGroup } from './three/tools';
 
 export const playersGroup = new THREE.Group();
@@ -170,12 +170,6 @@ export function checkPlayersHit() {
     if (!isDying(player)) {
       checkPlayerHit(player);
     }
-  }
-}
-
-export function movePlayers(delta: number) {
-  for (const player of playersGroup.children) {
-    updatePlayer(player, delta);
   }
 }
 

@@ -129,3 +129,16 @@ function addClipAction(
     obj.removeFromParent();
   });
 }
+
+export function addMixer(obj: THREE.Object3D) {
+  const mixer = new THREE.AnimationMixer(obj);
+
+  function deallocate() {
+    mixer.stopAllAction();
+    mixer.uncacheRoot(obj);
+    mixers.delete(mixer);
+  }
+
+  mixers.set(mixer, deallocate);
+  return mixer;
+}

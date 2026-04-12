@@ -48,10 +48,6 @@ export function setPlayerWalking(player: THREE.Object3D, moving: boolean) {
   getMarvin(player)?.setWalking(moving);
 }
 
-export function updatePlayer(player: THREE.Object3D, delta: number) {
-  getMarvin(player)?.update(delta);
-}
-
 export function killPlayer(player: THREE.Object3D) {
   markAsDying(player);
   fallAndShrinkToGone(player, dim.playerDyingDuration, true);
