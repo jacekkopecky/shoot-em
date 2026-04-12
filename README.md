@@ -5,12 +5,6 @@ This was inspired by Timeline Up, but without any spending of real money.
 ## todo
 
 - [.] add 3d models
-  - [x] diamond?
-    - [x] rotate
-    - [x] shrink into the middle when no award
-    - [ ] make the award fly from the right place, use the model itself?
-    - [ ] make a picture of it for use elsewhere?
-    - diamonds are now too low and the bullets hit strangely
   - [ ] money? bag or heap?
   - [ ] bullets? tetrahedron? rotating?
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
@@ -111,6 +105,12 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## done by 2026-04-12
 
+- [x] diamond?
+  - [x] rotate
+  - [x] shrink into the middle when no award
+  - [x] make the award fly from the right place, use the model itself?
+  - [x] make a picture of it for use elsewhere?
+  - diamonds are now too low and the bullets hit strangely
 - [x] refactor walk animations to be updated by animations.ts?
 
 ## done by 2026-04-10

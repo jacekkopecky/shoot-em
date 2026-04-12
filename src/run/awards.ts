@@ -1,14 +1,15 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
-import { type Currency, type CurrencyType, Wallet } from '#types';
+import { type CurrencyType, Wallet } from '#types';
 import { fillOrHide, formatNumber, random } from '#utils';
 
 import * as state from '../state';
 
-import { flyToTargetAndShrink } from './three/animations';
+import { flyToTarget } from './three/animations';
 import { getScreenCoordinates } from './three/camera';
 import { createSpriteObject } from './three/resources';
+import { type ObjectData } from './types';
 import { AnimatedCount } from './utils/animated-count';
 
 const el = {
@@ -36,19 +37,26 @@ export function setupAwards() {
   }
 }
 
-export async function giveAward(award: Currency, fromObj: THREE.Object3D) {
-  const { type, amount } = award;
+export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
+  if (!oData.award) return;
+
+  const { type, amount } = oData.award;
 
   wallet.add(type, amount);
-  state.addAward(award);
+  state.addAward(oData.award);
 
   const targetCoords = getScreenCoordinates(
-    dim.runAwardsTargetDepth,
+    dim.cameraToTrackEndLength,
     ...dim.runAwardsTargetCoordinates,
   );
 
   const position = new THREE.Vector3();
   fromObj.getWorldPosition(position);
+
+  const obj = oData.useForAward ? fromObj : createSpriteObject(type);
+  if (obj !== fromObj) {
+    obj.position.copy(position);
+  }
 
   const subAwards = splitAward(amount);
   let first = true;
@@ -57,15 +65,16 @@ export async function giveAward(award: Currency, fromObj: THREE.Object3D) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    const obj = createSpriteObject(type);
-    obj.position.copy(position);
+    const subObj = first ? obj : obj.clone();
     if (!first) {
-      obj.position.x += (random() - 0.5) * obj.userData.extent2d.max.x;
+      subObj.position.copy(position);
+      subObj.position.x += (random() - 0.5) * subObj.userData.extent2d.max.x;
     }
-    flyToTargetAndShrink(obj, targetCoords, dim.runAwardsFlyTime);
-    awardsGroup.add(obj);
 
-    obj.addEventListener('removed', () => {
+    awardsGroup.attach(subObj);
+    flyToTarget(subObj, targetCoords, dim.runAwardsFlyTime);
+
+    subObj.addEventListener('removed', () => {
       addToShow(type, subAmount);
     });
 

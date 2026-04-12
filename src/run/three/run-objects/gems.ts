@@ -28,8 +28,6 @@ export function createGemObject() {
 export function killGem(obj: THREE.Object3D, givingAward = false) {
   if (!givingAward) {
     shrinkToGone(obj, dim.objectDyingDuration);
-  } else {
-    // todo change this when the object is used for the award animation
-    setTimeout(() => obj.removeFromParent(), 10);
   }
+  // else it will be used for giving the award so do nothing to it
 }

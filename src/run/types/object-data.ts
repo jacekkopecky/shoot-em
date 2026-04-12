@@ -32,6 +32,8 @@ export interface ObjectData extends AnyObjectData {
   benign?: boolean;
   // awards can come when shot (non-collectible) or when walked over (collectible)
   award?: Currency;
+  // whether this object should be used for the award animation
+  useForAward?: boolean;
 }
 
 export function getPlayerData(obj: THREE.Object3D): PlayerData {

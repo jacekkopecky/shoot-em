@@ -45,7 +45,6 @@ export const coinProbability = 0.1;
 export const coinAwardMax = 5;
 
 export const runAwardsTargetCoordinates = [0.95, 0.85] as const;
-export const runAwardsTargetDepth = 130; // about the distance from the camera to the front player
 export const runAwardsFlyTime = 0.8;
 
 export const countupMaxTime = 0.6;

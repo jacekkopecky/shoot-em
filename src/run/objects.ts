@@ -38,6 +38,7 @@ export function setupObjects() {
         oData.hitPoints = dim.gemHitPoints;
         oData.benign = true;
         oData.award = { type: 'gem', amount: 1 };
+        oData.useForAward = true;
         break;
       case 'coins':
         oData.collectible = true;
@@ -88,7 +89,7 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
     killObject(obj, givingAward);
 
     // give the award, but not from benign objects when we walk into them
-    if (givingAward) giveAward(oData.award!, obj);
+    if (givingAward) giveAward(obj, oData);
   }
 
   return true;

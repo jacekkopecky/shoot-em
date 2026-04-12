@@ -62,30 +62,31 @@ export function fallAndShrinkToGone(obj: THREE.Object3D, duration: number, towar
   addClipAction(obj, duration, clip);
 }
 
-export function flyToTargetAndShrink(obj: THREE.Object3D, target: THREE.Vector3, duration: number) {
+export function flyToTarget(obj: THREE.Object3D, target: THREE.Vector3, duration: number) {
   const durations = betweener(0, duration);
   const x = betweener(obj.position.x, target.x);
+  const y = betweener(obj.position.y, target.y);
+  const z = betweener(obj.position.z, target.z);
 
   const clip = new THREE.AnimationClip('flyAndShrink', duration, [
     new THREE.KeyframeTrack(
       '.position[x]',
-      durations(0, 0.5, 0.7, 1),
-      x(0, 0.6, 0.9, 1),
+      durations(0, 0.5, 1),
+      x(0, 0.3, 1),
       THREE.InterpolateSmooth,
     ),
     new THREE.KeyframeTrack(
       '.position[y]',
-      [0, duration],
-      [obj.position.y, target.y],
+      durations(0, 0.5, 1),
+      y(0, 0.8, 1),
       THREE.InterpolateSmooth,
     ),
     new THREE.KeyframeTrack(
       '.position[z]',
-      [0, duration],
-      [obj.position.z, target.z],
+      durations(0, 0.5, 1),
+      z(0, 0.2, 1),
       THREE.InterpolateSmooth,
     ),
-    new THREE.KeyframeTrack('.scale', durations(0, 0.5, 1), [...obj.scale, ...obj.scale, 0, 0, 0]),
   ]);
 
   addClipAction(obj, duration, clip);
