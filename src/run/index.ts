@@ -26,9 +26,9 @@ import {
 } from './players';
 import { moveTrack, setupTrack } from './track';
 
-import { disposeAnimations, updateAnimations } from './three/animations';
+import { disposeAnimations, updateAnimations, timer } from './three/animations';
 import { moveCamera } from './three/camera';
-import { render, scene, timer, init as initThree } from './three/main';
+import { render, scene, init as initThree } from './three/main';
 import { TouchHandler } from './utils/touch-handler';
 import { showExtents } from './utils/extents';
 

@@ -40,6 +40,7 @@ export const objectHitPoints = 1;
 
 export const gemHitPoints = 2;
 export const gemProbability = 0.05;
+export const gemRotationsPerSecond = 0.5;
 export const coinProbability = 0.1;
 export const coinAwardMax = 5;
 

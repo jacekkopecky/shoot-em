@@ -3,8 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { logFps } from '#log';
 
-import { updateAnimations } from '../run/three/animations';
-import { timer } from '../run/three/main';
+import { updateAnimations, timer } from '../run/three/animations';
 import { Marvin } from '../run/three/models';
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });

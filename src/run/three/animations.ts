@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 
+export const timer = new THREE.Timer();
+timer.connect(document);
+
 const mixers = new Map<THREE.AnimationMixer, () => void>();
 
 export function updateAnimations(delta: number) {
@@ -88,6 +91,29 @@ export function flyToTargetAndShrink(obj: THREE.Object3D, target: THREE.Vector3,
   addClipAction(obj, duration, clip);
 }
 
+export function rotateAlways(
+  obj: THREE.Object3D,
+  rotationsPerSecond: number,
+  axis: 'x' | 'y' | 'z',
+) {
+  const duration = (Math.PI * 2) / rotationsPerSecond;
+
+  // add current time so that if we restart the animation, it starts from a simliar angle where the previous one stopped
+  // for example when re-generating a level with new upgrades
+  const addedAngle = timer.getElapsed() * rotationsPerSecond;
+
+  const clip = new THREE.AnimationClip('rotate', duration, [
+    new THREE.KeyframeTrack(
+      `.rotation[${axis}]`,
+      [0, duration],
+      [addedAngle, addedAngle + Math.PI * 2],
+      THREE.InterpolateLinear,
+    ),
+  ]);
+
+  return addClipAction(obj, duration, clip, false, THREE.LoopRepeat);
+}
+
 /**
  * A helper function that given two numbers, returns a function that turns fractions into linear
  * interpolations between the two numbers.
@@ -106,10 +132,11 @@ function addClipAction(
   duration: number,
   clip: THREE.AnimationClip,
   fade = false,
+  loop: THREE.AnimationActionLoopStyles = THREE.LoopOnce,
 ) {
   const mixer = new THREE.AnimationMixer(obj);
   const action = mixer.clipAction(clip);
-  action.loop = THREE.LoopOnce;
+  action.loop = loop;
   action.play();
   // this gives the linear animation a smooth start
   if (fade) action.fadeIn(duration);
@@ -128,6 +155,8 @@ function addClipAction(
     deallocate();
     obj.removeFromParent();
   });
+
+  return action;
 }
 
 export function addMixer(obj: THREE.Object3D) {

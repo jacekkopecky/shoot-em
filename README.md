@@ -6,7 +6,7 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 - [.] add 3d models
   - [x] diamond?
-    - [ ] rotate
+    - [x] rotate
     - [x] shrink into the middle when no award
     - [ ] make the award fly from the right place, use the model itself?
     - [ ] make a picture of it for use elsewhere?

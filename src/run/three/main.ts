@@ -7,9 +7,6 @@ import { camera, initCamera } from './camera';
 export let renderer: THREE.WebGLRenderer;
 export const scene = new THREE.Scene();
 
-export const timer = new THREE.Timer();
-timer.connect(document);
-
 export function init(main: HTMLElement) {
   const canvas = main.querySelector('canvas');
   if (!canvas) {
