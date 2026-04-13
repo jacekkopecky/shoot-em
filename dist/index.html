@@ -1,0 +1,72 @@
+<!doctype html>
+
+<head>
+  <meta charset="utf8" />
+  <title>Shoot'em</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <script type="module" crossorigin src="/assets/index-DOqbtW3W.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-Aa6r01ZP.css">
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+
+<body class="using-fullscreen">
+  <header>
+    <h1>Shoot'em</h1>
+    <button id="startBtn">Start</button>
+    <p>Made with <a href="https://threejs.org/">Three.js</a> and no AI</p>
+  </header>
+
+  <main>
+    <section id="mainScreen">
+      <canvas id="webglCanvas" class="in-run"></canvas>
+
+      <div id="log" class="in-run"></div>
+
+      <div id="topBar" class="partial-in-run">
+        <button id="exitBtn" class="in-run">Exit</button>
+        <div id="mainScreenWallet">
+          <div class="coin"><span class="value">0</span> 💰</div>
+          <div class="gem"><span class="value">0</span> <i class="i gem"></i></div>
+        </div>
+        <button id="settingsBtn">⚙️</button>
+      </div>
+
+      <div id="playStats">
+        <div class="level">Level: <span class="value"></span></div>
+        <div class="played">Played: <span class="value"></span></div>
+      </div>
+
+      <div id="touchToStart">touch to start</div>
+
+      <div id="inRunWallet" class="only-in-run">
+        <div class="coin"><span class="value"></span> 💰</div>
+        <div class="gem"><span class="value"></span> <i class="i gem"></i></div>
+      </div>
+
+      <div id="endRunScreen">
+        <h2>Well done!</h2>
+        <div class="coin"><span class="value"></span> 💰</div>
+        <div class="gem"><span class="value"></span> <i class="i gem"></i></div>
+        <button class="ok">OK</button>
+      </div>
+
+      <div id="upgradeButtons">
+        <div class="player">
+          <span>Add player</span>
+          <div class="level"><span class="value">0</span></div>
+          <div class="cost"><span class="value">0</span> 💰</div>
+        </div>
+        <div class="rate">
+          <span>Fire rate</span>
+          <div class="level"><span class="value">0</span></div>
+          <div class="cost"><span class="value">0</span> 💰</div>
+        </div>
+        <div class="damage">
+          <span>Damage</span>
+          <div class="level"><span class="value">0</span></div>
+          <div class="cost"><span class="value">0</span> 💰</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+</body>
