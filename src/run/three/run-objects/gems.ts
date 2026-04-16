@@ -4,11 +4,11 @@ import * as dim from '#dimensions';
 import { random } from '#utils';
 
 import { shrinkToGone, rotateAlways } from '../animations';
-import { createGem } from '../models';
+import { createGemModel } from '../models';
 import { Circle } from '../../types';
 
-export function createGemObject() {
-  const gem = createGem();
+export function createGem() {
+  const gem = createGemModel();
 
   gem.userData.extent2d = new Circle(undefined, dim.modelSizes.gem[0] / 2);
   gem.userData.type = 'object';

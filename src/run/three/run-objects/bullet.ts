@@ -3,11 +3,11 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 
 import { createSpriteObject, markAsDying } from '../resources';
-import { createBulletObject } from '../models';
+import { createBulletModel } from '../models';
 import { Circle } from '../../types';
 
 export function createBullet(player: THREE.Object3D): THREE.Object3D {
-  const bullet = createBulletObject();
+  const bullet = createBulletModel();
   bullet.userData.extent2d = new Circle(undefined, dim.modelSizes.bullet[1] / 2);
   bullet.userData.type = 'bullet';
   bullet.translateY(player.userData.gunHeight ?? dim.modelSizes.player[1] / 2);

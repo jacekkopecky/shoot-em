@@ -30,6 +30,6 @@ const geo = new THREE.LatheGeometry(
   6,
 );
 
-export function createGem() {
+export function createGemModel() {
   return new THREE.Mesh(geo, gemColor);
 }

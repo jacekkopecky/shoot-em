@@ -7,7 +7,7 @@ import { setSpriteMaterial } from '../materials';
 import { createSpriteObject, getDyingMaterial, markAsDying } from '../resources';
 import { isSprite } from '../tools';
 
-import { createGemObject, killGem } from './gems';
+import { createGem, killGem } from './gems';
 import { createRandomTree, killTree } from './tree';
 
 export function createObject(type: string): THREE.Object3D {
@@ -15,7 +15,7 @@ export function createObject(type: string): THREE.Object3D {
     type === 'tree'
       ? createRandomTree()
       : type === 'gems'
-        ? createGemObject()
+        ? createGem()
         : createSpriteObject(type, { dataType: 'object' });
   retval.userData._createObject_type = type;
   return retval;
