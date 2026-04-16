@@ -39,7 +39,7 @@ export function createPlayerBullet(
 export function movePlayerBullets(delta: number) {
   const deltaZ = dim.playerBulletSpeed * delta;
 
-  for (const bullet of bulletsGroup.children) {
+  for (const bullet of [...bulletsGroup.children]) {
     checkBulletHit(bullet);
   }
 

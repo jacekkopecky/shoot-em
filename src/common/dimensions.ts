@@ -66,6 +66,7 @@ export const playerBulletHitPoints = 1;
 export const playerBulletDyingDuration = 0.2;
 export const playerHitPoints = 1;
 export const playerDyingDuration = 0.6;
+export const bulletRotationsPerSecond = 8;
 
 export const cameraPosition = new THREE.Vector3(0, 100, 100);
 export const cameraDirection = new THREE.Vector3(0, -100, -200);

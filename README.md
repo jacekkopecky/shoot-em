@@ -8,8 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 - [.] add 3d models
   - [ ] money? bag or heap?
-  - [x] bullets? tetrahedron?
-    - [ ] rotating?
   - [ ] remove code that deals with sprites?
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
   - so that players smoothly move into their position
@@ -117,6 +115,14 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
   - https://vite-pwa-org.netlify.app/guide/pwa-minimal-requirements.html
 
 ---
+
+## done by 2026-04-16
+
+- [x] bullets tetrahedron
+  - [x] rotating
+  - [x] BUG: why do hitPoints on objects sometimes become NaN?
+    - it was because I changed the bulletsGroup.children while iterating over it
+    - fix: iterate over an array copy
 
 ## done by 2026-04-13
 
