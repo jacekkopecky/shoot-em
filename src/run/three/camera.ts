@@ -45,7 +45,7 @@ export function getScreenCoordinates(d: number, xFraction: number, yFraction: nu
 }
 
 export function updateCameraPosition(x: number, smoothEnd?: boolean, smoothStart?: boolean) {
-  if (!dim.options.moveCamera) return;
+  if (dim.options.stopCamera) return;
 
   const targetX = x * 0.7;
 

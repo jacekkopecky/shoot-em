@@ -28,7 +28,7 @@ export const modelSizes = {
 export const options: Record<string, unknown> = {
   // showingExtents: true,
   // timeScale: 0.1,
-  // moveCamera: false,
+  // stopCamera: false,
 };
 
 export const trackLength = 400;
@@ -74,7 +74,7 @@ export const cameraDirection = new THREE.Vector3(0, -100, -200);
 // export const cameraPosition = new THREE.Vector3(70, 70, -10);
 // export const cameraDirection = new THREE.Vector3(-70, -70, 0);
 // options.timeScale = 0.1;
-// options.moveCamera = false;
+// options.stopCamera = true;
 
 export const cameraTarget = cameraPosition.clone().addScaledVector(cameraDirection, 4);
 export const cameraFoV = 60;
