@@ -19,6 +19,10 @@ export const modelSizes = {
   broadLeaf: [20, 25],
   player: [4, 16], // for marvin, it's best 1/4
   gem: [10, 10],
+
+  // bullets: it's tetrahedron-radius(ish) and extent radius
+  // extent radius = 0 means bullets act as tiny - kill when they're in the object, but they can graze an object harmlessly
+  bullet: [3, 0],
 } as const;
 
 export const showingExtents = false;

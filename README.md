@@ -8,8 +8,9 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 - [.] add 3d models
   - [ ] money? bag or heap?
-  - [ ] bullets? tetrahedron? rotating?
-  - [ ] remove code that deals with sprites
+  - [x] bullets? tetrahedron?
+    - [ ] rotating?
+  - [ ] remove code that deals with sprites?
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
   - so that players smoothly move into their position
 - [ ] todo add 'mousemove' like touchmove in touch handler?

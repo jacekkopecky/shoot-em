@@ -14,8 +14,8 @@ export const gemColor = new THREE.MeshStandardMaterial({
   side: THREE.DoubleSide,
 });
 
-const [d, h] = dim.modelSizes.gem;
-const w = d / 2;
+const [dia, h] = dim.modelSizes.gem;
+const w = dia / 2;
 const h2 = h / 2;
 
 const crownRatio = 0.8;

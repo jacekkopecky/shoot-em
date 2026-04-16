@@ -24,13 +24,6 @@ export function createPlayerBullet(
   bData.minZ = bulletsGroup.position.z - pData.range;
   bData.hitPoints = pData.bulletHitPoints;
 
-  const bulletHalfLength = bData.extent2d.max.y;
-  // make bullets narrow - they can graze an object without hurting it
-  bData.extent2d = new THREE.Box2(
-    new THREE.Vector2(0, -bulletHalfLength),
-    new THREE.Vector2(0, bulletHalfLength),
-  );
-
   // bullets start in front of the player
   bullet.position.z = -bulletsGroup.position.z + player.position.z + pData.extent2d.min.y * 2;
   bullet.position.x = getObjectX(player);
