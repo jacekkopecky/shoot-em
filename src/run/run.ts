@@ -226,5 +226,5 @@ function animationFrame(ms?: number) {
   }
   render();
 
-  if (playing) logFps(ms, `${objectsGroup.children.length}: `);
+  if (playing && dim.options.fpsLogging) logFps(ms, `${objectsGroup.children.length}: `);
 }

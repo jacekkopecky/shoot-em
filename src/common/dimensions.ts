@@ -28,6 +28,7 @@ export const modelSizes = {
 } as const;
 
 export const options: Record<string, unknown> = {
+  // fpsLogging: true,
   // showingExtents: true,
   // timeScale: 0.1,
   // stopCamera: false,
