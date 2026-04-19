@@ -6,15 +6,9 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## todo
 
-- [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
-  - it seems to be used for explosions and flying coins only now so much of it can go
-- [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
-  - so that players smoothly move into their position
-- [ ] todo add 'mousemove' like touchmove in touch handler?
 - [ ] some kind of run ending, and distinguishing between finishing and dying
   - only reset transient upgrades when a run is successfully finished?
   - so they should be called currentLevelUpgrade rather than nextRunUpgrade?
-- [ ] add daily energy, disabled in dev build
 - [ ] add stable track generation
   - using level (per type of run?)
   - [ ] try to get objects not to overlap too much, like trees that are too close
@@ -52,6 +46,12 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
     - lower probability of a run type if I lose in it?
   - daily tickets for special wave types?
   - [ ] state should have a current seed for track generation?
+- [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
+  - it seems to be used for explosions and flying coins only now so much of it can go
+- [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
+  - so that players smoothly move into their position
+- [ ] todo add 'mousemove' like touchmove in touch handler?
+- [ ] add daily energy, disabled in dev build
 - [ ] random:
   - [ ] for randomness during a run, do we want predictable but independent prngs?
     - awards spawning placement when flying from track to wallet
