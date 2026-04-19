@@ -7,16 +7,7 @@ import { isSprite } from '../tools';
 const debugSpriteSize = false;
 
 export const sprites = {
-  player: emojiSpriteMaterial('🍄'),
-  playerDying: emojiSpriteMaterial('🍄‍🟫'),
-  fire: emojiSpriteMaterial('🔥'),
-  gems: emojiSpriteMaterial('💎'),
-  gem: emojiSpriteMaterial('💎'),
-  coins: emojiSpriteMaterial('💰'),
   coin: emojiSpriteMaterial('🟡'),
-  object: emojiSpriteMaterial('😀'),
-  objectDying: emojiSpriteMaterial('😵'),
-  bullet: emojiSpriteMaterial('⚫️'),
   bulletDying: emojiSpriteMaterial('💥'),
   defaultMaterial: new THREE.SpriteMaterial({ color: 0x00dddd }),
 } as const;

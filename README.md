@@ -6,10 +6,8 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## todo
 
-- [.] add 3d models
-  - [ ] make 2d picture for money instead of the money emoji
-  - [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
-    - it seems to be used for explosions only now so much of it can go
+- [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
+  - it seems to be used for explosions and flying coins only now so much of it can go
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
   - so that players smoothly move into their position
 - [ ] todo add 'mousemove' like touchmove in touch handler?
@@ -121,9 +119,11 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ---
 
-## done by 2026-04-18
+## done by 2026-04-19
 
-- [x] money bag
+- [x] add 3d models
+  - [x] make 2d picture for money instead of the money emoji
+  - [x] money bag
 
 ## done by 2026-04-16
 

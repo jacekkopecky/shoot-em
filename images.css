@@ -8,4 +8,8 @@ i.i {
   &.gem {
     background-image: url('assets/gem.svg');
   }
+
+  &.coins {
+    background-image: url('assets/coins.svg');
+  }
 }
