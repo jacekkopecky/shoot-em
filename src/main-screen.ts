@@ -69,6 +69,6 @@ export function updateMainScreen() {
 function showSettings() {
   if (window.confirm('reset all data?')) {
     resetState();
-    updateMainScreen();
+    showMainScreen();
   }
 }

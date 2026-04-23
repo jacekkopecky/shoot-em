@@ -126,6 +126,10 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ---
 
+## done by 2026-04-23
+
+- [x] bug: reset all data doesn't recreate the track?
+
 ## done by 2026-04-22
 
 - with the help of AI
