@@ -9,8 +9,8 @@ export function createGate(type: dim.Gate, callback: (player?: THREE.Object3D) =
   const gate = createGateModel(w, color);
 
   gate.userData.extent2d = new THREE.Box2(
-    new THREE.Vector2(-w / 2, -w),
-    new THREE.Vector2(w / 2, 2),
+    new THREE.Vector2(-w / 2, -1),
+    new THREE.Vector2(w / 2, 1),
   );
   gate.userData.type = 'object';
   gate.userData.callback = callback;

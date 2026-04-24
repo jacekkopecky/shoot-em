@@ -22,7 +22,7 @@ export function createGateModel(width: number, color: THREE.ColorRepresentation 
   const fieldMaterial = new THREE.MeshBasicMaterial({
     color: fieldColor,
     transparent: true,
-    opacity: 0.7,
+    opacity: 0.5,
     side: THREE.DoubleSide,
   });
 

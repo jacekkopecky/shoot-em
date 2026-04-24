@@ -51,8 +51,6 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
   - daily tickets for special wave types?
   - [ ] state should have a current seed for track generation?
 - [ ] update README and index to say it's a game now? make it public?
-- [ ] change explosion so it's a flat SVG standing upright, not a sprite,
-  - [ ] then make gate extent max y 0.01 or somesuch, not 2?
 - [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
   - it seems to be used for explosions and flying coins only now so much of it can go
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
@@ -86,7 +84,9 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 - [ ] add objects with a visible damage countdown
 - [ ] when items are gained (like a better gun), make it fly towards player?
 - [ ] add objects that shoot at us?
-- [ ] add gates?
+- [ ] add gates? (move gate creation and then killing to run/object/object.ts so run/objects.ts
+      doesn't call createGate directly?)
+  - when we hit a gate it can slide into the ground
   - bonus & malus on player count and strengths, variable shoot-to-increase?, end/reset gates?
   - other in-run upgrades:
     - a gun upgrade for only a limited number of my creatures - e.g. upgrades 1, 2 or 3 of them
@@ -133,6 +133,8 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
   - they should be much more expensive so you can only max out after a number of tries
   - [x] which upgrades are allowed should be in state, computed from level or other props (quests,
         achievements etc.)
+- [x] change explosion so it's a flat SVG standing upright, not a sprite,
+  - [x] then make gate extent max y 0.01 or somesuch, not 2?
 
 ## done by 2026-04-23
 
