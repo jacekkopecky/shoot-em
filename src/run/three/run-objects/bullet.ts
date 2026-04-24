@@ -2,8 +2,8 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
-import { createSpriteObject, markAsDying } from '../resources';
-import { createBulletModel } from '../models';
+import { markAsDying } from '../resources';
+import { createBulletModel, explosionTemplate } from '../models';
 import { Circle } from '../../types';
 import { rotateAlways } from '../animations';
 
@@ -20,15 +20,12 @@ export function createBullet(player: THREE.Object3D): THREE.Object3D {
 }
 
 export function killBullet(bullet: THREE.Object3D) {
-  const explosion = createSpriteObject('bulletDying', { dataType: 'bullet', y: 0 });
-  explosion.position.copy(bullet.position);
-  explosion.position.z += bullet.userData.extent2d.max.y;
+  if (bullet instanceof THREE.Mesh) {
+    bullet.geometry = explosionTemplate.geometry;
+    bullet.material = explosionTemplate.material;
+  }
 
-  markAsDying(explosion);
   markAsDying(bullet);
 
-  bullet.parent!.add(explosion);
-  bullet.removeFromParent();
-
-  setTimeout(() => explosion.removeFromParent(), dim.playerBulletDyingDuration * 1000);
+  setTimeout(() => bullet.removeFromParent(), dim.playerBulletDyingDuration * 1000);
 }

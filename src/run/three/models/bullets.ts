@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
+import { svgTextures } from '../textures';
+
 export const bulletColor = new THREE.MeshLambertMaterial({ color: 0x444444 });
 
 // ignoring the second part of bullet size
@@ -56,3 +58,13 @@ function makeTetrahedron(r: number): THREE.BufferGeometry {
 
   return geometry;
 }
+
+const [explosionX, explosionY] = dim.modelSizes.bulletDying;
+
+export const explosionTemplate = new THREE.Mesh(
+  new THREE.PlaneGeometry(explosionX, explosionY),
+  new THREE.MeshBasicMaterial({
+    map: svgTextures.bulletDying,
+    transparent: true,
+  }),
+);

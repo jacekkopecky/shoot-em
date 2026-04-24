@@ -1,15 +1,7 @@
 import * as THREE from 'three';
 
 export const spriteSizes: Record<string, [number, number]> = {
-  bullet: [3, 3],
-  bulletDying: [6, 6],
-  player: [15, 15],
-  fire: [15, 15],
-  gems: [10, 10],
-  coins: [12, 12],
   coin: [4, 4],
-  gem: [8, 8],
-  object: [15, 15],
   defaultSize: [15, 25],
 } as const;
 export const spriteResolution = 64;
@@ -25,6 +17,7 @@ export const modelSizes = {
   // bullets: it's tetrahedron-radius(ish) and extent radius
   // extent radius = 0 means bullets act as tiny - kill when they're in the object, but they can graze an object harmlessly
   bullet: [3, 0],
+  bulletDying: [6, 6],
 } as const;
 
 export const options: Record<string, unknown> = {
@@ -86,8 +79,8 @@ export const cameraPosition = new THREE.Vector3(0, 100, 100);
 export const cameraDirection = new THREE.Vector3(0, -100, -200);
 
 // position for debugging bullets
-// export const cameraPosition = new THREE.Vector3(70, 70, -10);
-// export const cameraDirection = new THREE.Vector3(-70, -70, 0);
+// export const cameraPosition = new THREE.Vector3(70, 70, 10);
+// export const cameraDirection = new THREE.Vector3(-70, -70, -20);
 // options.timeScale = 0.1;
 // options.stopCamera = true;
 
