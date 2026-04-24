@@ -4,7 +4,7 @@
     "outDir": "./dist",
     "module": "preserve",
     "target": "esnext",
-    "types": [],
+    "types": ["vite/client"],
     // Other Outputs
     "sourceMap": true,
     "declaration": true,

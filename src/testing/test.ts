@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import * as models from '../run/three/models';
-import { createBrickSquare } from '../run/three/models/brick-plane';
 
 // const N = 1800;
 
@@ -35,7 +34,7 @@ helper.rotation.x = Math.PI / 2;
 scene.add(helper);
 
 // lights
-const skylight = new THREE.HemisphereLight(0xffffff, 0xb97a20, 1);
+// const skylight = new THREE.HemisphereLight(0xffffff, 0xb97a20, 1);
 // scene.add(skylight);
 
 const sunlight = new THREE.DirectionalLight(0xffffff, 3);
