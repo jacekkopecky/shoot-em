@@ -5,12 +5,12 @@ import { parseUpgrades, type Upgrade, type UpgradeBag, type UpgradeType } from '
 const LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
 
 function createInitialState() {
-  const nextRunUpgrades: UpgradeBag = {};
+  const currentLevelUpgrades: UpgradeBag = {};
   return {
     wallet: new Wallet(),
     level: 1,
     played: 0,
-    nextRunUpgrades,
+    currentLevelUpgrades,
   };
 }
 
@@ -41,6 +41,7 @@ export function pay(type: CurrencyType, amount: number) {
 
 export function increaseLevel() {
   state.level += 1;
+  state.currentLevelUpgrades = {};
   saveState();
 }
 
@@ -53,13 +54,8 @@ export function readState(): ReadonlyState {
   return state;
 }
 
-export function setNextRunUpgrade(type: UpgradeType, upgrade: Upgrade) {
-  state.nextRunUpgrades[type] = upgrade;
-  saveState();
-}
-
-export function clearNextRunUpgrades() {
-  state.nextRunUpgrades = {};
+export function setCurrentLevelUpgrade(type: UpgradeType, upgrade: Upgrade) {
+  state.currentLevelUpgrades[type] = upgrade;
   saveState();
 }
 
@@ -75,9 +71,9 @@ function loadState() {
     const wallet = new Wallet(data.wallet);
     const level = getNumber(data.level, 1);
     const played = getNumber(data.played, 0);
-    const nextRunUpgrades = parseUpgrades(data.nextRunUpgrades);
+    const currentLevelUpgrades = parseUpgrades(data.currentLevelUpgrades);
 
-    state = { wallet, level, played, nextRunUpgrades };
+    state = { wallet, level, played, currentLevelUpgrades };
   } catch (e) {
     const newKey = LOCAL_STORAGE_KEY + new Date().toISOString();
     localStorage.setItem(newKey, dataString);

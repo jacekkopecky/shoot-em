@@ -2,7 +2,13 @@ import { formatNumber } from '#utils';
 
 import { updateMainScreen } from './main-screen';
 import { prepareRun } from './run';
-import { type ReadonlyState, readState, setNextRunUpgrade, pay, isUpgradeAllowed } from './state';
+import {
+  type ReadonlyState,
+  readState,
+  setCurrentLevelUpgrade,
+  pay,
+  isUpgradeAllowed,
+} from './state';
 import type { UpgradeFn, UpgradeType } from './upgrades';
 
 const el = {
@@ -33,7 +39,7 @@ export function updateUpgrades(state: ReadonlyState) {
 function updatePriceAndLevel(type: ButtonUpgrade, state: ReadonlyState) {
   const [currentLevel, nextLevel] = lookupCurrentUpgradeLevel(
     type,
-    state.nextRunUpgrades[type]?.value,
+    state.currentLevelUpgrades[type]?.value,
   );
 
   const price = nextLevel?.price ?? 0;
@@ -131,7 +137,7 @@ function upgradePlayer() {
 
 function upgradeWithFn(type: UpgradeType, fn: UpgradeFn) {
   const state = readState();
-  const currentValue = state.nextRunUpgrades[type]?.value;
+  const currentValue = state.currentLevelUpgrades[type]?.value;
   const [_, nextLevel] = lookupCurrentUpgradeLevel(type, currentValue);
 
   if (nextLevel == null) return; // at max level
@@ -139,5 +145,5 @@ function upgradeWithFn(type: UpgradeType, fn: UpgradeFn) {
   if (state.wallet.read('coin') < nextLevel.price) return; // cannot afford
 
   pay('coin', nextLevel.price);
-  setNextRunUpgrade(type, { fn, value: nextLevel.value });
+  setCurrentLevelUpgrade(type, { fn, value: nextLevel.value });
 }

@@ -2,7 +2,7 @@ import { fillOrHide } from '#utils';
 
 import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
 import { init as initRunScreen, prepareRun, startRun } from './run';
-import { clearNextRunUpgrades, initState, readState, resetState } from './state';
+import { initState, readState, resetState } from './state';
 
 const el = {
   main: document.querySelector('main')!,
@@ -42,7 +42,6 @@ export function startPlaying() {
   if (!el.main.classList.contains('run')) {
     el.main.classList.add('run');
     startRun();
-    clearNextRunUpgrades();
   }
 }
 

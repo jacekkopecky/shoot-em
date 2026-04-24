@@ -20,8 +20,8 @@ export function setupPlayers() {
   resetGroup(playersGroup);
 
   const state = readState();
-  const shotsPerSecond = applyUpgrade(dim.playerShotsPerSecond, state.nextRunUpgrades.rate);
-  const players = applyUpgrade(1, state.nextRunUpgrades.player);
+  const shotsPerSecond = applyUpgrade(dim.playerShotsPerSecond, state.currentLevelUpgrades.rate);
+  const players = applyUpgrade(1, state.currentLevelUpgrades.player);
 
   for (let i = 0; i < players; i += 1) {
     const player = createPlayer();
@@ -36,7 +36,10 @@ export function setupPlayers() {
     pData.remainingShotTime = (pData.shotTime / players) * i + pData.shotTime / 2;
 
     pData.range = dim.playerBulletRange;
-    pData.bulletHitPoints = applyUpgrade(dim.playerBulletHitPoints, state.nextRunUpgrades.damage);
+    pData.bulletHitPoints = applyUpgrade(
+      dim.playerBulletHitPoints,
+      state.currentLevelUpgrades.damage,
+    );
 
     pData.hitPoints = dim.playerHitPoints;
     playersGroup.add(player);
