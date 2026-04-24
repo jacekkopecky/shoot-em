@@ -91,3 +91,17 @@ function getNumber(value: unknown, defaultValue?: number): number {
 
   throw new TypeError(`expected number, got ${value}`);
 }
+
+export function isUpgradeAllowed(upgrade: UpgradeType, state: ReadonlyState): boolean {
+  // hide upgrades when starting from scratch until played a bit
+  switch (upgrade) {
+    case 'rate':
+      return state.level < 2;
+
+    case 'damage':
+      return state.level < 5;
+
+    case 'player':
+      return state.level < 10;
+  }
+}

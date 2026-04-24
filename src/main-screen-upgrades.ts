@@ -2,7 +2,7 @@ import { formatNumber } from '#utils';
 
 import { updateMainScreen } from './main-screen';
 import { prepareRun } from './run';
-import { type ReadonlyState, readState, setNextRunUpgrade, pay } from './state';
+import { type ReadonlyState, readState, setNextRunUpgrade, pay, isUpgradeAllowed } from './state';
 import type { UpgradeFn, UpgradeType } from './upgrades';
 
 const el = {
@@ -20,20 +20,17 @@ export function initUpgrades() {
   el.upgrades.damage.addEventListener('click', upgradeHandler(upgradeDamage));
 }
 
+type ButtonUpgrade = keyof typeof el.upgrades;
+
 export function updateUpgrades(state: ReadonlyState) {
-  // hide upgrades when starting from scratch until played a bit
-  el.upgrades.player.classList.toggle('hidden', state.level < 10);
-  el.upgrades.rate.classList.toggle('hidden', state.level < 2);
-  el.upgrades.damage.classList.toggle('hidden', state.level < 5);
-
-  el.upgradeButtons.classList.toggle('hidden', state.level < 2);
-
-  updatePriceAndLevel('player', state);
-  updatePriceAndLevel('rate', state);
-  updatePriceAndLevel('damage', state);
+  // only allow upgrades depending on state
+  for (const upgradeType of Object.keys(el.upgrades) as ButtonUpgrade[]) {
+    el.upgrades[upgradeType].classList.toggle('hidden', isUpgradeAllowed(upgradeType, state));
+    updatePriceAndLevel(upgradeType, state);
+  }
 }
 
-function updatePriceAndLevel(type: keyof typeof el.upgrades, state: ReadonlyState) {
+function updatePriceAndLevel(type: ButtonUpgrade, state: ReadonlyState) {
   const [currentLevel, nextLevel] = lookupCurrentUpgradeLevel(
     type,
     state.nextRunUpgrades[type]?.value,

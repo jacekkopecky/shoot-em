@@ -11,7 +11,7 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 - [ ] only reset upgrades from main screen when a run is successfully finished?
   - so they should be called currentLevelUpgrade rather than nextRunUpgrade?
   - they should be much more expensive so you can only max out after a number of tries
-  - [ ] which upgrades are allowed should be in state, computed from level or other props (quests,
+  - [x] which upgrades are allowed should be in state, computed from level or other props (quests,
         achievements etc.)
 - [ ] in-run upgrades? fire rate, damage, extra players?
 - [ ] add stable track generation
