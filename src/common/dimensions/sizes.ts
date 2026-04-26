@@ -6,6 +6,8 @@ export const spriteSizes: Record<string, [number, number]> = {
 } as const;
 export const spriteResolution = 64;
 
+export const bouldersPerEndRow = 4;
+
 export const modelSizes = {
   conifer: [20, 35],
   broadLeaf: [20, 25],
@@ -13,6 +15,7 @@ export const modelSizes = {
   gem: [10, 10],
   bag: [6, 6],
   gatePost: [2, 20],
+  boulder: [dim.trackWidth / bouldersPerEndRow - 3, 20],
 
   // bullets: it's tetrahedron-radius(ish) and extent radius
   // extent radius = 0 means bullets act as tiny - kill when they're in the object, but they can graze an object harmlessly

@@ -61,8 +61,8 @@ scene.add(cameraHelper);
 //
 //
 
-const gate = models.createGateModel(30, 0x00aaff);
-scene.add(gate.translateZ(20));
+const boulder = models.createBoulderModel();
+scene.add(boulder);
 
 //
 //

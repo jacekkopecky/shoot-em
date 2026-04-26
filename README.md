@@ -8,8 +8,18 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## todo
 
+- [.] add end blocks so ending a level isn't so easy, but at first doable with full upgrades
+  - [x] either octahedrons, or some kind of boulders
+  - but does that mean the run should get some randomness again? seed per level + nth-run-in-level?
+  - what should be random?
+    - maybe amount of coins in bags?
+    - which end blocks have what rewards? (an end block with a jewel could have that jewel encrusted
+      inside)
 - [ ] add stable track generation
   - much longer than now
+  - first level without end blocks?
+  - a few scattered end blocks in the middle of first few levels, which can be killed but also can
+    be walked around
   - [ ] we'll want some kind of dim.runLength, or a different one per run type
     - maybe choose a random or round-robin-ish level _type_ (e.g. forest, maze/mine, battle, tower)
       which dictates a number of sections of different type which then add up to a length?
@@ -61,7 +71,7 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 - [ ] add daily energy, disabled in dev build
 - [ ] add permanent upgrades
   - cards, skills etc.
-    - general: player number, fire rate, damage
+    - general: starting player number, fire rate, damage
     - specific:
       - end block award
       - end block strength
@@ -70,7 +80,8 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
       - price of rate upgrade
       - max damage upgrade
       - max rate upgrade
-  - it should take time to get "learn" skills?
+      - max player number
+  - it should take time to "learn" skills?
 - [ ] update README and index to say it's a game now? make it public?
 - [ ] place explosion in front of the object that was hit, because some bullets hit the end gate too
       late and the explosion is missing
@@ -126,6 +137,7 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 - [ ] make it an installable app with icons etc.
   - https://vite-pwa-org.netlify.app/guide/pwa-minimal-requirements.html
 - [ ] center level and played on screen?
+- [ ] check if LatheGeometry makes two triangles even if the point is on the axis, fix it
 
 ---
 
