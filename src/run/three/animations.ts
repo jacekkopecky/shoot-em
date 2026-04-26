@@ -29,6 +29,14 @@ export function shrinkToGone(obj: THREE.Object3D, duration: number) {
   addClipAction(obj, duration, clip, true);
 }
 
+export function slideIntoGround(obj: THREE.Object3D, duration: number) {
+  const clip = new THREE.AnimationClip('slide', duration, [
+    new THREE.KeyframeTrack('.scale[y]', [0, duration], [obj.scale.y, 0]),
+  ]);
+
+  addClipAction(obj, duration, clip, true);
+}
+
 export function pulseAndShrinkToGone(obj: THREE.Object3D, duration: number) {
   const smaller = obj.scale.clone().multiplyScalar(0.8);
 
@@ -136,7 +144,7 @@ function addClipAction(
   obj: THREE.Object3D,
   duration: number,
   clip: THREE.AnimationClip,
-  fade = false,
+  fadeIn = false,
   loop: THREE.AnimationActionLoopStyles = THREE.LoopOnce,
 ) {
   const mixer = new THREE.AnimationMixer(obj);
@@ -144,7 +152,7 @@ function addClipAction(
   action.loop = loop;
   action.play();
   // this gives the linear animation a smooth start
-  if (fade) action.fadeIn(duration);
+  if (fadeIn) action.fadeIn(duration);
 
   function deallocate() {
     action.stop();

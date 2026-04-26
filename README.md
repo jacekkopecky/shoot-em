@@ -8,8 +8,8 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## todo
 
-- [ ] in-run upgrades? fire rate, damage, extra players?
 - [ ] add stable track generation
+  - much longer than now
   - [ ] we'll want some kind of dim.runLength, or a different one per run type
     - maybe choose a random or round-robin-ish level _type_ (e.g. forest, maze/mine, battle, tower)
       which dictates a number of sections of different type which then add up to a length?
@@ -50,21 +50,15 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
     - lower probability of a run type if I lose in it?
   - daily tickets for special wave types?
   - [ ] state should have a current seed for track generation?
-- [ ] update README and index to say it's a game now? make it public?
-- [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
-  - it seems to be used for explosions and flying coins only now so much of it can go
-- [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
-  - so that players smoothly move into their position
+- [ ] in-run upgrades? fire rate, damage, extra players?
+  - as gates? (move gate creation and then killing to run/object/object.ts so run/objects.ts doesn't
+    call createGate directly?)
+  - when we hit a gate it can slide into the ground
+  - bonus & malus on player count and strengths, variable shoot-to-increase?, end/reset gates?
+  - other in-run upgrades:
+    - a gun upgrade for only a limited number of my creatures - e.g. upgrades 1, 2 or 3 of them
+      only, for that run only
 - [ ] add daily energy, disabled in dev build
-- [ ] random:
-  - [ ] for randomness during a run, do we want predictable but independent prngs?
-    - awards spawning placement when flying from track to wallet
-    - maybe rotation of a dead tree?
-    - impl: each of those could create a seed by appending a suffix to the original seed for the run
-- [ ] should camera reposition itself on main screen and in run? probably yes, extra clear when just
-      starting, the player is too high on the screen without buttons, but also too high during the
-      game
-  - if camera ever moves, we may need to change fog, too, and camera far limit
 - [ ] add permanent upgrades
   - cards, skills etc.
     - general: player number, fire rate, damage
@@ -77,6 +71,22 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
       - max damage upgrade
       - max rate upgrade
   - it should take time to get "learn" skills?
+- [ ] update README and index to say it's a game now? make it public?
+- [ ] place explosion in front of the object that was hit, because some bullets hit the end gate too
+      late and the explosion is missing
+- [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
+  - it seems to be used for explosions and flying coins only now so much of it can go
+- [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
+  - so that players smoothly move into their position
+- [ ] random:
+  - [ ] for randomness during a run, do we want predictable but independent prngs?
+    - awards spawning placement when flying from track to wallet
+    - maybe rotation of a dead tree?
+    - impl: each of those could create a seed by appending a suffix to the original seed for the run
+- [ ] should camera reposition itself on main screen and in run? probably yes, extra clear when just
+      starting, the player is too high on the screen without buttons, but also too high during the
+      game
+  - if camera ever moves, we may need to change fog, too, and camera far limit
 - [ ] add multi-stage objects (like a pile of jewels)?
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one? or a pile?
@@ -84,13 +94,6 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 - [ ] add objects with a visible damage countdown
 - [ ] when items are gained (like a better gun), make it fly towards player?
 - [ ] add objects that shoot at us?
-- [ ] add gates? (move gate creation and then killing to run/object/object.ts so run/objects.ts
-      doesn't call createGate directly?)
-  - when we hit a gate it can slide into the ground
-  - bonus & malus on player count and strengths, variable shoot-to-increase?, end/reset gates?
-  - other in-run upgrades:
-    - a gun upgrade for only a limited number of my creatures - e.g. upgrades 1, 2 or 3 of them
-      only, for that run only
 - [ ] add objects/gates that move left/right?
   - e.g. an animal that runs across the forest, with bonus when killed
 - [ ] add objects that, when close enough, start actively moving towards you?

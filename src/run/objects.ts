@@ -6,7 +6,7 @@ import { random } from '#utils';
 import { giveAward } from './awards';
 import { getObjectData } from './types';
 
-import { createObject, killObject, createGate } from './three/run-objects';
+import { createObject, killObject } from './three/run-objects';
 import { isDying, scaleExtent } from './three/resources';
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
 
@@ -55,11 +55,17 @@ export function setupObjects(opts: { onFinish: () => void }) {
     objects.push(obj);
   }
 
-  const endGate = createGate('end', opts.onFinish);
+  const endGate = createObject('gate', 'end', opts.onFinish);
   endGate.userData.maxZ = -(dim.trackLength + dim.startDistance + dim.endDistance);
   endGate.translateZ(endGate.userData.maxZ);
   getObjectData(endGate).hitPoints = Infinity; // make the gate swallow bullets
   objects.push(endGate);
+
+  const otherGate = createObject('gate', 'other', () => {});
+  otherGate.userData.maxZ = -dim.trackLength / 4;
+  otherGate.translateZ(otherGate.userData.maxZ);
+  getObjectData(otherGate).collectible = true;
+  objects.push(otherGate);
 
   objects.sort(compareByMaxZ);
 

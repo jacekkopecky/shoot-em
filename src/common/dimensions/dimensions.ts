@@ -1,25 +1,5 @@
 import * as THREE from 'three';
 
-export const spriteSizes: Record<string, [number, number]> = {
-  coin: [4, 4],
-  defaultSize: [15, 25],
-} as const;
-export const spriteResolution = 64;
-
-export const modelSizes = {
-  conifer: [20, 35],
-  broadLeaf: [20, 25],
-  player: [4, 16], // for marvin, it's best 1/4
-  gem: [10, 10],
-  bag: [6, 6],
-  gatePost: [2, 20],
-
-  // bullets: it's tetrahedron-radius(ish) and extent radius
-  // extent radius = 0 means bullets act as tiny - kill when they're in the object, but they can graze an object harmlessly
-  bullet: [3, 0],
-  bulletDying: [6, 6],
-} as const;
-
 export const options: Record<string, unknown> = {
   // fpsLogging: true,
   // showingExtents: true,
@@ -32,16 +12,6 @@ export const trackWidth = 100;
 export const trackDecorationN = 20;
 export const trackDecorationLength = 8;
 export const trackDecorationThickness = 3;
-
-export const gateTypes = {
-  end: {
-    // puth the posts in the middle of track decorations
-    w: trackWidth + trackDecorationThickness,
-    color: 0x00aaff,
-  },
-} as const;
-
-export type Gate = keyof typeof gateTypes;
 
 export const startDistance = 50;
 export const endDistance = 30;
