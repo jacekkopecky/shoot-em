@@ -6,12 +6,14 @@ import { createGate, killGate } from './gate';
 import { createGem, killGem } from './gems';
 import { createBag, killBag } from './money';
 import { createRandomTree, killTree } from './tree';
+import { createEndBlock, killEndBlock } from './end-blocks';
 
 const typeFns = {
   tree: [createRandomTree, killTree],
   gems: [createGem, killGem],
   coins: [createBag, killBag],
   gate: [createGate, killGate],
+  endBlock: [createEndBlock, killEndBlock],
 } as const;
 
 export function createObject<T extends keyof typeof typeFns>(

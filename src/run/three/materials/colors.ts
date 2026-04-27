@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 const colors = {
+  beige1: 0xeedebb,
   brown1: 0xccac90,
   brown2: 0xaa8a70,
   brown3: 0x775132,

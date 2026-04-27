@@ -8,13 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## todo
 
-- [.] add end blocks so ending a level isn't so easy, but at first doable with full upgrades
-  - [x] either octahedrons, or some kind of boulders
-  - but does that mean the run should get some randomness again? seed per level + nth-run-in-level?
-  - what should be random?
-    - maybe amount of coins in bags?
-    - which end blocks have what rewards? (an end block with a jewel could have that jewel encrusted
-      inside)
 - [ ] add stable track generation
   - much longer than now
   - first level without end blocks?
@@ -60,6 +53,8 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
     - lower probability of a run type if I lose in it?
   - daily tickets for special wave types?
   - [ ] state should have a current seed for track generation?
+- [ ] make end blocks give rewards?
+  - an end block with a jewel could have that jewel encrusted inside
 - [ ] in-run upgrades? fire rate, damage, extra players?
   - as gates? (move gate creation and then killing to run/object/object.ts so run/objects.ts doesn't
     call createGate directly?)
@@ -83,6 +78,9 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
       - max player number
   - it should take time to "learn" skills?
 - [ ] update README and index to say it's a game now? make it public?
+- [ ] any other randomness in runs in the same level? what should be random?
+  - maybe amount of coins in bags?
+  - which end blocks have what rewards?
 - [ ] place explosion in front of the object that was hit, because some bullets hit the end gate too
       late and the explosion is missing
 - [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
@@ -102,7 +100,7 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one? or a pile?
   - well, a pile could just be a bunch of jewels closely behind each other
-- [ ] add objects with a visible damage countdown
+- [ ] add objects with a visible damage countdown (health bar)
 - [ ] when items are gained (like a better gun), make it fly towards player?
 - [ ] add objects that shoot at us?
 - [ ] add objects/gates that move left/right?
@@ -140,6 +138,11 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 - [ ] check if LatheGeometry makes two triangles even if the point is on the axis, fix it
 
 ---
+
+## done by 2026-04-27
+
+- [x] add end blocks so ending a level isn't so easy, but at first doable with full upgrades
+  - [x] either octahedrons, or some kind of boulders
 
 ## done by 2026-04-24
 

@@ -2,11 +2,7 @@ import * as THREE from 'three';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 
 import * as dim from '#dimensions';
-
-const boulderColor = new THREE.MeshLambertMaterial({
-  color: 0xeedebb,
-  flatShading: true,
-});
+import * as mat from '../materials';
 
 const [w, h] = dim.modelSizes.boulder;
 const r = (w / 2) * Math.sqrt(2);
@@ -30,6 +26,9 @@ const geo = BufferGeometryUtils.mergeGeometries([
   ).rotateY(Math.PI / 4),
 ]);
 
-export function createBoulderModel(material: THREE.Material = boulderColor) {
-  return new THREE.Mesh(geo, material);
+export function createBoulderModel(material: THREE.Material = mat.colorFlatMaterials.beige1) {
+  const retval = new THREE.Mesh(geo, material);
+  retval.receiveShadow = true;
+  retval.castShadow = true;
+  return retval;
 }

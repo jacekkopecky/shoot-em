@@ -55,17 +55,33 @@ export function setupObjects(opts: { onFinish: () => void }) {
     objects.push(obj);
   }
 
+  const blockStart = objects.at(-1)!.userData.maxZ - dim.endDistance;
+  const blockRows = 4;
+  const blockWidth = dim.trackWidth / dim.bouldersPerEndRow;
+  for (let i = 0; i < blockRows; i += 1) {
+    for (let j = 0; j < dim.bouldersPerEndRow; j += 1) {
+      const block = createObject('endBlock', i / (blockRows - 1));
+      block.position.x = j * blockWidth + blockWidth / 2 - dim.trackWidth / 2;
+      block.position.z = blockStart - (i + 1) * blockWidth * 1.5;
+      const oData = getObjectData(block);
+      block.userData.maxZ = block.position.z + oData.extent2d.max.y;
+      objects.push(block);
+      getObjectData(block).hitPoints =
+        (blockWidth / dim.objectSpeedPerSecond) * dim.playerShotsPerSecond * (i / 2);
+    }
+  }
+
   const endGate = createObject('gate', 'end', opts.onFinish);
-  endGate.userData.maxZ = -(dim.trackLength + dim.startDistance + dim.endDistance);
+  endGate.userData.maxZ = objects.at(-1)!.userData.maxZ - dim.endDistance;
   endGate.translateZ(endGate.userData.maxZ);
   getObjectData(endGate).hitPoints = Infinity; // make the gate swallow bullets
   objects.push(endGate);
 
-  const otherGate = createObject('gate', 'other', () => {});
-  otherGate.userData.maxZ = -dim.trackLength / 4;
-  otherGate.translateZ(otherGate.userData.maxZ);
-  getObjectData(otherGate).collectible = true;
-  objects.push(otherGate);
+  // const otherGate = createObject('gate', 'other', () => {});
+  // otherGate.userData.maxZ = -dim.trackLength / 4;
+  // otherGate.translateZ(otherGate.userData.maxZ);
+  // getObjectData(otherGate).collectible = true;
+  // objects.push(otherGate);
 
   objects.sort(compareByMaxZ);
 
