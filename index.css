@@ -290,7 +290,6 @@ button {
   button {
     background: #eeceb2;
     border: solid #aa8a70;
-    color: #664422;
 
     border-left-width: 0;
     border-top-left-radius: 0;
@@ -409,6 +408,56 @@ button {
     grid-area: bottom;
     font-size: 1.2em;
   }
+
+  .cardsContainer {
+    position: relative;
+    grid-area: middle;
+    margin: 0 0 1em;
+    border: solid thick #fff4;
+    border-radius: 2em;
+
+    box-shadow:
+      inset 0.5em 0.5em 0.5em #0008,
+      inset -0.5em -0.5em 0.5em #fff6,
+      /* black outer shadow upwards to black out the top corners */ 0 -5em 0 2em black;
+
+    overflow: auto;
+
+    & > .if-empty {
+      .theCards:not(:empty) + & {
+        display: none;
+      }
+
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      font-size: 3em;
+      color: #fff4;
+      text-wrap: balance;
+      text-align: center;
+    }
+
+    container-type: size;
+
+    & > .theCards {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      /* this is calculated so cards are about 2x3 size, filling available space */
+      padding: 5cqw;
+      gap: 6cqw;
+      grid-auto-rows: 39cqw;
+
+      .card {
+        width: 100%;
+        height: 100%;
+      }
+
+      font-size: 1.2em;
+    }
+  }
 }
 
 .card {
@@ -420,28 +469,31 @@ button {
   overflow: hidden;
 
   background: #f2dec8;
+  color: #664422;
 
-  &.back {
-    /* inside sheet with gradient color */
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      transform: translateZ(-1px);
-      background: linear-gradient(34deg, #b853ff 0, #d293fe 30%, #d293fe 70%, #e7c4ff 100%);
-    }
+  /* inside sheet with gradient color */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateZ(-1px);
+    background: linear-gradient(-20deg, #b853ff 0, #d293fe 20%, #d293fe 80%, #e7c4ff 100%);
+  }
 
-    /* back cover */
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      transform: translateZ(-2px);
+  &.back::before {
+    background: linear-gradient(34deg, #b853ff 0, #d293fe 30%, #d293fe 70%, #e7c4ff 100%);
+  }
 
-      background-size: 1.3em 1.3em;
-      background-image: url('assets/gem.svg');
-      background-repeat: no-repeat;
-      background-position: 50% 50%;
-    }
+  /* back cover */
+  &.back::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateZ(-2px);
+
+    background-size: 60% auto;
+    background-image: url('assets/gem.svg');
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
   }
 }

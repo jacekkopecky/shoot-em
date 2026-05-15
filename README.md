@@ -12,10 +12,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [x] add cards button that moves us to the cards section
   - [x] style cards section so it's a transition to the left?
   - [.] cards section
-    - [ ] big part to show your cards, scrollable
-    - [.] close button
-    - [ ] buy one card button
-    - [ ] buy 9 or 12 cards button (price of 8 or 10?)
+    - [x] big part to show your cards, scrollable
+    - [x] close button
+    - [.] buy one card button
+    - [.] buy 9 or 12 cards button (price of 8 or 10?)
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
   - cards (each card with a max level)
     - common:
@@ -147,6 +147,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - the gates could be random per play because they have little effect on the level outcome
 - [ ] skills (it should take time to "learn" skills? should need a special currency? from quests?)
   - buying in bulk (9 cards for 42 gems if one is for 5, for example, or 12 for 56)
+  - "finding treasure" - more gems per level?
   - extra damage against specific objects/opponents?
   - small chance of surviving hitting a tree
   - extra damage in certain special types of runs?
@@ -245,6 +246,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] Could a Marvin that took a hit flash a bit somehow?
 - [ ] could Marvins sit down when out of energy?
 - [ ] allow use of back button for navigation at least through sections, and from a run?
+- [ ] daily gift?
+  - some coins, a card, energy, any other currencies
 
 ---
 
