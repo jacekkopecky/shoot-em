@@ -221,6 +221,6 @@ export function getUpgradablePermanentParameters(): UpgradablePermanentParameter
     playerHitPoints: dim.initialPlayerHitPoints,
     playerShotsPerSecond: dim.initialPlayerShotsPerSecond,
     startingPlayers: dim.initialStartingPlayers,
-    cardsBulkRate: 1,
+    cardsBulkBuyingRate: 1,
   };
 }

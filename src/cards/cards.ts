@@ -25,7 +25,7 @@ export function showCardsScreen() {
   updateButtonPriceAndAmount(el.buyOne, dim.cardPriceGems, 1, state);
   updateButtonPriceAndAmount(
     el.buyBulk,
-    dim.cardPriceGems * dim.cardBulkCount * params.cardsBulkRate,
+    dim.cardPriceGems * dim.cardBulkCount * params.cardsBulkBuyingRate,
     dim.cardBulkCount,
     state,
   );
