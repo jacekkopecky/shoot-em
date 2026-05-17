@@ -2,24 +2,33 @@ import type { CardType, Wallet } from '#types';
 
 // cache the cards-for-a-level computations
 const cardsToLevel: number[] = [0];
-let nextValue = generateCardsToLevel();
+const cardLevels: number[] = [0];
+let nextLevelCards = generateCardsForLevel();
 
-function* generateCardsToLevel() {
-  let upToNow = 0;
+function* generateCardsForLevel() {
   let n = 1;
   while (true) {
     for (let i = 0; i < n; i++) {
-      upToNow += n;
-      yield upToNow;
+      yield n;
     }
     n += 1;
   }
 }
 
+function addLevel() {
+  const levelCards = nextLevelCards.next().value!;
+  cardsToLevel.push(cardsToLevel.at(-1)! + levelCards);
+  const lastLevel = cardLevels.at(-1)!;
+  for (let i = 0; i < levelCards - 1; i += 1) {
+    cardLevels.push(lastLevel);
+  }
+  cardLevels.push(lastLevel + 1);
+}
+
 export function getCardsToLevel(level: number): number {
   // make sure there are enough numbers in the array
   while (level >= cardsToLevel.length) {
-    cardsToLevel.push(nextValue.next().value!);
+    addLevel();
   }
 
   return cardsToLevel[level]!;
@@ -31,15 +40,16 @@ export function getCardsToLevelAndNext(level: number): [number, number] {
 }
 
 export function lookupLevelByNumberOfCards(n: number): number {
-  while (cardsToLevel.at(-1)! < n) {
-    cardsToLevel.push(nextValue.next().value!);
+  while (cardLevels.length < n + 1) {
+    addLevel();
   }
 
-  return cardsToLevel.findLastIndex((cards) => cards <= n);
+  return cardLevels[n]!;
 }
 
 export const _test = {
   cardsToLevel,
+  cardLevels,
 };
 
 export function getCardLevel(

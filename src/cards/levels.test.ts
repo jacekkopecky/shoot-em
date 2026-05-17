@@ -7,15 +7,23 @@ import { _test, getCardLevel, getCardsToLevel, lookupLevelByNumberOfCards } from
 describe('getCardsToLevel', () => {
   it('should work', () => {
     expect(getCardsToLevel(5)).toEqual(11);
+
+    // test the insides
     expect(_test.cardsToLevel.slice(0, 6)).toEqual([0, 1, 3, 5, 8, 11]);
   });
 });
 
 describe('lookupLevelByNumberOfCards', () => {
   it('should work', () => {
+    expect(lookupLevelByNumberOfCards(11)).toBe(5);
     expect(lookupLevelByNumberOfCards(100)).toBe(22);
+
+    // test the insides
     expect(_test.cardsToLevel.slice(0, 24)).toEqual([
       0, 1, 3, 5, 8, 11, 14, 18, 22, 26, 30, 35, 40, 45, 50, 55, 61, 67, 73, 79, 85, 91, 98, 105,
+    ]);
+    expect(_test.cardLevels.slice(0, 27)).toEqual([
+      0, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9,
     ]);
   });
 });
