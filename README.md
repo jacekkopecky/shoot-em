@@ -8,59 +8,35 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] add permanent upgrades
+- [.] add first permanent upgrades
   - [x] add cards button that moves us to the cards section
+    - card button next to the track, just above upgrades
   - [x] style cards section so it's a transition to the left?
   - [.] cards section
     - [x] big part to show your cards, scrollable
     - [x] close button
-    - [.] buy one card button
-    - [.] buy 9 or 12 cards button (price of 8 or 10?)
-  - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
-  - cards (each card with a max level)
-    - common:
-      - number of colour gates in a run?
-      - increase range by 1 (most common?)
-      - decrease normal object (e.g. tree) HP
-      - increase end block award (starts from 0)
-        - amounts are assigned so that they bunch up at the end
-    - rare:
-      - decrease end block HP
-      - increase fire rate
-      - increase bullet damage
-    - epic:
-      - increase max damage upgrade
-      - increase max rate upgrade
-      - decrease price of damage upgrade
-      - decrease price of rate upgrade
-      - decrease price of player upgrade
-    - legendary:
-      - increase max player number
-      - increase starting player number
-  - [ ] Cards can have type, name and picture, also ID like type+number in case we have to rename a
-        card
-    - card button next to the track, just above upgrades
-    - cards can have minimum level from which they become available; isFeatureAllowed could use a
-      pre-computed min level from those for gems
-  - [ ] Card: 
-    - [ ] energy max plus 1, also energy plus 1 at the same time? Up to 24
-    - [ ] @ lightning bolt, electron, flash - add adjectives
-    - [ ] Coins per level plus one, coins in blocks plus one
-    - [ ] @gold nugget, credit card, rwnsCoin (R with two lines), finishing prize, treasure chest -
-          add adjectives
-    - [ ] Rarer: gems per level plus one, gems in end blocks plus one
-    - [ ] @ Emerald, ruby, sapphire; diamond, smoky quartz, obsidian - add adjectives
-    - [ ] Range: @ longbow, sniper rifle, 
-    - [ ] Fire rate: @ Gatling, robo reload
-  - [ ] Card mechanics: first one works alone, 1,2,2,3,3,3,4,4,4,4,5x5 etc
-  - [ ] State:
-    - [ ] cards:{[id]: {level, cardsTowardsNext}}
-    - [ ] max energy, coins per level, coins in end blocks, any such stuff from dim should go into
-          initial state
+    - [ ] show existing cards
+    - [.] buy one card button (todo actual buying)
+    - [x] buy 9 or 12 cards button (price of 8 or 10?) (actual buying not done)
+  - [x] State:
+    - [x] type, name and picture, also ID like type+number in case we have to rename a card
+    - [x] cards can have minimum level from which they become available; isFeatureAllowed could use
+          a pre-computed min level from those for gems
+    - [x] cards:{[id]: {level, cardsTowardsNext}}
+      - or cards:Wallet<CardType> - {[type]:number}
+  - [x] Card mechanics: first one works alone, 1,2,2,3,3,3,4,4,4,4,5x5 etc
+- [ ] more cards
+  - [ ] see in `src/cards/types.ts`
+  - [ ] any such stuff from dim should go into initial state
   - [ ] Probabilities: select what rarity level of card we get (common, rare etc.) then random pick
         from those? 
     - [ ] We could have counters since last of a rarity level so e.g. a rare comes at least every N
           cards?
+- [ ] better cards UI
+  - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
+  - [ ] add card pictures
+  - [ ] add card descriptions under a question mark?
+- [ ] 2-stage localStorage key change to just `rwns-*` and not jacekkopecky or shoot-em
 - [ ] tracks
   - using level (per type of run?)
   - waves? reset gates? multi-stage runs?
@@ -147,7 +123,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - the gates could be random per play because they have little effect on the level outcome
 - [ ] skills (it should take time to "learn" skills? should need a special currency? from quests?)
   - buying in bulk
-    - 9 cards at once
+    - 9 cards at once (not implemneted)
     - then cheaper for 42 gems if one is for 5
     - then maybe cheaper still?
   - "finding treasure" - more gems per level?
@@ -209,7 +185,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] should players get closer together so they all hit the boss?
 - [ ] add particles showing damage?
 - [ ] should some upgrades expire? should they be more/less expensive after expiry?
-- [ ] add specific bigger occasional awards like the key in ice?
+- [ ] add specific bigger occasional awards like the key in ice? what did it actually do?
 - [ ] let the world know about the game
   - reddit three.js? reddit games?
   - when all artwork is mine
@@ -249,8 +225,9 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] Could a Marvin that took a hit flash a bit somehow?
 - [ ] could Marvins sit down when out of energy?
 - [ ] allow use of back button for navigation at least through sections, and from a run?
-- [ ] daily gift?
-  - some coins, a card, energy, any other currencies
+- [ ] daily gift? (use a spinning wheel with a conic gradient)
+  - some coins, a card or three, energy or two, any other currencies, extra ticket for special
+    plays, extra roll (ensured only once)
 
 ---
 

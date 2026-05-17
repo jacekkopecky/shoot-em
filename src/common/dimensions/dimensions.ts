@@ -31,6 +31,7 @@ export const runAwardsFlyDuration = 0.8;
 export const countupMaxTime = 0.6; // for counting up when awards fly to the wallet
 
 export const initialPlayerShotsPerSecond = 1;
+export const playerBulletRangeMaxBonusPerCardType = 20;
 export const initialPlayerBulletRange = 40;
 
 export const playerSpeedPerSecond = 10;

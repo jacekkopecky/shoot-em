@@ -9,9 +9,10 @@ import type {
   State,
   UpgradablePermanentParameters,
 } from '#types';
-import { CURRENCIES, Wallet } from '#types';
+import { CARDS, CURRENCIES, Wallet } from '#types';
 import { parseNumber, parseStringArray } from '#utils';
 
+import { minLevelForCards } from './cards';
 import { parseUpgrades } from './main-screen-upgrades';
 
 const LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
@@ -19,6 +20,7 @@ const LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
 function createInitialState(): State {
   return {
     wallet: new Wallet(CURRENCIES),
+    cards: new Wallet(CARDS),
     level: 1,
     played: 0,
     energy: Infinity,
@@ -28,7 +30,7 @@ function createInitialState(): State {
   };
 }
 
-let state = createInitialState();
+let state: State;
 
 export function initState() {
   loadState();
@@ -103,7 +105,8 @@ function loadState() {
     const data = JSON.parse(dataString);
 
     state = {
-      wallet: new Wallet(data.wallet),
+      wallet: new Wallet(CURRENCIES, data.wallet),
+      cards: new Wallet(CARDS, data.cards),
       level: parseNumber(data.level, 1),
       played: parseNumber(data.played, 0),
       energy: parseNumber(data.energy, Infinity),
@@ -115,6 +118,7 @@ function loadState() {
     const newKey = LOCAL_STORAGE_KEY + new Date().toISOString();
     localStorage.setItem(newKey, dataString);
     console.warn(`cannot read state, saving in "${newKey}"`, e);
+    resetState();
   }
 }
 
@@ -133,7 +137,7 @@ export function isFeatureAllowed(upgrade: Feature, state: ReadonlyState): boolea
       return state.level >= 20;
 
     case 'cards':
-      return state.level >= 30;
+      return state.level >= minLevelForCards;
 
     case 'bulkCards':
       return false; // for now

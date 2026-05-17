@@ -74,6 +74,7 @@ export function level4Plus(
     8,
     params.maxEndBlockHitPoints * hardness,
     currObjectHP / 2,
+    params.endBlockCoinsPerLevel,
   );
 
   const extraGemsInBlocks = [...gemsWithIds(gemsInBlocks, 'block')];
