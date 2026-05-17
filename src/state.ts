@@ -12,7 +12,7 @@ import type {
 import { CARDS, CURRENCIES, Wallet } from '#types';
 import { parseNumber, parseStringArray } from '#utils';
 
-import { minLevelForCards } from './cards';
+import { cardDefinitions, lookupLevelByNumberOfCards, minLevelForCards } from './cards';
 import { parseUpgrades } from './main-screen-upgrades';
 
 const LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
@@ -201,8 +201,7 @@ export function collectGem(id: string) {
 }
 
 export function getUpgradablePermanentParameters(): UpgradablePermanentParameters {
-  // todo this will apply various upgrades the player gets
-  return {
+  const params: UpgradablePermanentParameters = {
     energyMax: dim.initialEnergyMax,
     coinsPerLevel: dim.initialCoinsPerLevel,
     gemsPerLevel: dim.initialGemsPerLevel,
@@ -223,4 +222,11 @@ export function getUpgradablePermanentParameters(): UpgradablePermanentParameter
     startingPlayers: dim.initialStartingPlayers,
     cardsBulkBuyingRate: 1,
   };
+
+  for (const [cardType, cardNumber] of state.cards.entries()) {
+    const level = lookupLevelByNumberOfCards(cardNumber);
+    cardDefinitions[cardType].performUpgrade(level, params);
+  }
+
+  return params;
 }

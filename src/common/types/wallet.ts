@@ -1,4 +1,4 @@
-export type ReadonlyWallet<T extends string> = Pick<Wallet<T>, 'read' | 'readAll'>;
+export type ReadonlyWallet<T extends string> = Pick<Wallet<T>, 'read' | 'readAll' | 'entries'>;
 
 export class Wallet<T extends string = string> {
   private wallet: Partial<Record<T, number>> = {};
@@ -41,6 +41,10 @@ export class Wallet<T extends string = string> {
 
   readAll = (): Readonly<typeof this.wallet> => {
     return this.wallet;
+  };
+
+  entries = (): [T, number][] => {
+    return Object.entries(this.wallet) as [T, number][];
   };
 
   addAll = (otherWallet: Wallet<T>) => {
