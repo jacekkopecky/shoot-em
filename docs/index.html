@@ -4,8 +4,8 @@
   <meta charset="utf8" />
   <title>RWNS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <script type="module" crossorigin src="/rwns/assets/index-BcHYcJ3f.js"></script>
-  <link rel="stylesheet" crossorigin href="/rwns/assets/index-D3DNho34.css">
+  <script type="module" crossorigin src="/rwns/assets/index-Cp6lXid3.js"></script>
+  <link rel="stylesheet" crossorigin href="/rwns/assets/index-CG4DII__.css">
 <link rel="manifest" href="/rwns/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/rwns/registerSW.js"></script></head>
 
 <body class="using-fullscreen">
@@ -13,8 +13,8 @@
     <h1>RWNS <img src="/rwns/assets/explosion-BrJVmXi7.svg"></h1>
     <button id="startBtn">Start</button>
     <p>Made with <a href="https://threejs.org/">Three.js</a>.</p>
-    <p>Works only on mobile for now.</p>
-    <h4>Not really playable yet…</h4>
+    <p>Tested in portrait view, mostly on mobile.</p>
+    <h4>It's nearly playable…</h4>
     <p id="version" class="hidden hiddenGone">Version: <span class="value">loading</span></p>
   </header>
 
@@ -69,7 +69,16 @@
         </div>
       </div>
 
-      <div id="upgradeButtons">
+      <div class="sectionButtons">
+        <button class="cards">
+          <!-- 2 background cards and one main card, rotated in CSS -->
+          <div class="card back behind"></div>
+          <div class="card back behind"></div>
+          <div class="card back"></div>
+        </button>
+      </div>
+
+      <div class="upgradeButtons">
         <button class="players">
           <span>Add player</span>
           <div class="level"><span class="value">0</span></div>
@@ -84,6 +93,30 @@
           <span>Damage</span>
           <div class="level"><span class="value">0</span></div>
           <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
+        </button>
+      </div>
+    </section>
+
+    <section id="cards" class="inactive">
+      <div class="wallet">
+        <div class="coin hiddenGone"><span class="value">0</span> <i class="i coins"></i></div>
+        <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
+      </div>
+      <div class="cardsContainer">
+        <div class="theCards"></div>
+        <div class="if-empty">Your cards will be here.</div>
+      </div>
+      <div class="sectionButtons">
+        <button class="close"><span>╳</span></button>
+      </div>
+      <div class="upgradeButtons">
+        <button class="buyOne">
+          <div><span class="amount">1</span> card</div>
+          <div><span class="cost">5</span> <i class="i gem"></i></div>
+        </button>
+        <button class="buyBulk hidden hiddenGone">
+          <div><span class="amount">9</span> cards</div>
+          <div><span class="cost">42</span> <i class="i gem"></i></div>
         </button>
       </div>
     </section>
