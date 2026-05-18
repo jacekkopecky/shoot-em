@@ -1,5 +1,6 @@
 import * as dim from '#dimensions';
 import type {
+  CardType,
   Currency,
   CurrencyType,
   CurrentLevelState,
@@ -45,6 +46,13 @@ export function resetState() {
 
 export function addAward({ type, amount }: Currency) {
   state.wallet.add(type, amount);
+  saveState();
+}
+
+export function addCards(types: CardType[]) {
+  for (const type of types) {
+    state.cards.add(type, 1);
+  }
   saveState();
 }
 

@@ -2,8 +2,8 @@ import type { UpgradablePermanentParameters } from '#types';
 
 import * as t from './templates';
 
-const RARITIES = ['common', 'rare', 'epic', 'legendary'] as const;
-type Rarity = (typeof RARITIES)[number];
+export const RARITIES = ['common', 'rare', 'epic', 'legendary'] as const;
+export type Rarity = (typeof RARITIES)[number];
 
 // short label for card types
 type TypeLabel = 'damage' | 'fire rate' | 'range' | 'income';

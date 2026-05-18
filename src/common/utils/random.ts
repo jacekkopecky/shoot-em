@@ -9,7 +9,7 @@ export function createRandom(seed = defaultSeed) {
 }
 
 export // intentionally on its line for ease of commenting out
-let random = seedrandom(defaultSeed);
+let random: () => number = seedrandom(defaultSeed);
 
 export function resetRandom(seed = defaultSeed) {
   random = createRandom(seed);
@@ -116,3 +116,29 @@ export function randomXNotTooClose(
 //     console.log(x);
 //   }
 // }
+
+export function pickWeightedItem<T extends string>(
+  items: readonly T[],
+  weightMap: Record<T, number>,
+  prng = random,
+): T {
+  if (items.length < 1) {
+    throw new Error('cannot pick an item from an empty array');
+  }
+
+  if (items.length === 1) {
+    return items[0]!;
+  }
+
+  const sum = items
+    .values()
+    .map((item) => weightMap[item])
+    .reduce((a, b) => a + b);
+  const x = prng() * sum;
+  let soFar = 0;
+  for (const item of items) {
+    soFar += weightMap[item];
+    if (x < soFar) return item;
+  }
+  return items.at(-1)!;
+}

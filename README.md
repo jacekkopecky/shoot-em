@@ -12,12 +12,13 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [x] add cards button that moves us to the cards section
     - card button next to the track, just above upgrades
   - [x] style cards section so it's a transition to the left?
-  - [.] cards section
+  - [x] cards section
     - [x] big part to show your cards, scrollable
     - [x] close button
-    - [ ] show existing cards
-    - [.] buy one card button (todo actual buying)
+    - [x] show existing cards
+    - [x] buy one card button
     - [x] buy 9 or 12 cards button (price of 8 or 10?) (actual buying not done)
+  - [ ] show available gems
   - [x] State:
     - [x] type, name and picture, also ID like type+number in case we have to rename a card
     - [x] cards can have minimum level from which they become available; isFeatureAllowed could use
@@ -37,6 +38,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] add card pictures
   - [ ] add card descriptions under a question mark?
   - [ ] style by rarity (e.g. stars for increasing rarities), but also include it in the description
+  - [ ] level/progress highlight could pulsate
+  - [ ] animation when buying cards
 - [ ] 2-stage localStorage key change to just `rwns-*` and not jacekkopecky or shoot-em
 - [ ] tracks
   - using level (per type of run?)
