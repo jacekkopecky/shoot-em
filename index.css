@@ -526,7 +526,7 @@ button {
     padding: 0.2em 0.5em 0.3em;
     border-radius: 0 0 0.5em 0.5em;
     margin-bottom: 0.5em;
-    font-size: x-small;
+    font-size: small;
     line-height: 1em;
     text-transform: uppercase;
   }
@@ -544,7 +544,7 @@ button {
     border-width: thin 0;
     background: #fff6;
     margin-top: auto;
-    font-size: x-small;
+    font-size: small;
     line-height: 1em;
     padding: 0.3em 0;
     text-transform: uppercase;
@@ -553,7 +553,7 @@ button {
   .nextLevel {
     align-self: stretch;
     position: relative;
-    font-size: smaller;
+    font-size: small;
 
     padding: 0.3em 0;
     text-align: center;
@@ -574,7 +574,7 @@ button {
 
     .box {
       position: absolute;
-      inset: 0.3em 1em;
+      inset: 0.2em 0.8em;
       background: #fce;
       z-index: 0;
       border-radius: 0.3em;

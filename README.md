@@ -9,6 +9,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## todo
 
 - [ ] add eslint (it would already have found a bug)
+- [ ] in wallets, count down when buying
 - [ ] more cards
   - [ ] see in `src/cards/types.ts`
   - [ ] any such stuff from dim should go into initial state
