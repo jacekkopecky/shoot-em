@@ -1,6 +1,6 @@
 import * as dim from '#dimensions';
 import type { CardType, ReadonlyState } from '#types';
-import { formatNumber, makeEl } from '#utils';
+import { fillOrHide, formatNumber, makeEl } from '#utils';
 
 import { showSection } from '../sections';
 import {
@@ -21,6 +21,11 @@ const el = {
   buyOne: document.querySelector('#cards button.buyOne')!,
   buyBulk: document.querySelector('#cards button.buyBulk')!,
   theCards: document.querySelector('#cards .theCards')!,
+  walletContainer: document.querySelector('#cards .wallet')!,
+  wallet: {
+    gem: document.querySelector('#cards .wallet .gem')!,
+    coin: document.querySelector('#cards .wallet .coin')!,
+  },
 };
 
 export function init() {
@@ -37,6 +42,11 @@ export function showCardsScreen(
 ) {
   const state = readState();
   const params = getUpgradablePermanentParameters();
+
+  // show wallet
+  fillOrHide(el.wallet.coin, state.wallet.read('coin'));
+  // always show even 0 for gems
+  fillOrHide(el.wallet.gem, String(state.wallet.read('gem')));
 
   updateButtonPriceAndAmount(el.buyOne, dim.cardPriceGems, 1, state);
   updateButtonPriceAndAmount(

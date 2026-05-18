@@ -8,31 +8,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [.] add first permanent upgrades
-  - [x] add cards button that moves us to the cards section
-    - card button next to the track, just above upgrades
-  - [x] style cards section so it's a transition to the left?
-  - [x] cards section
-    - [x] big part to show your cards, scrollable
-    - [x] close button
-    - [x] show existing cards
-    - [x] buy one card button
-    - [x] buy 9 or 12 cards button (price of 8 or 10?) (actual buying not done)
-  - [ ] show available gems
-  - [x] State:
-    - [x] type, name and picture, also ID like type+number in case we have to rename a card
-    - [x] cards can have minimum level from which they become available; isFeatureAllowed could use
-          a pre-computed min level from those for gems
-    - [x] cards:{[id]: {level, cardsTowardsNext}}
-      - or cards:Wallet<CardType> - {[type]:number}
-  - [x] Card mechanics: first one works alone, 1,2,2,3,3,3,4,4,4,4,5x5 etc
+- [ ] add eslint (it would already have found a bug)
 - [ ] more cards
   - [ ] see in `src/cards/types.ts`
   - [ ] any such stuff from dim should go into initial state
-  - [ ] Probabilities: select what rarity level of card we get (common, rare etc.) then random pick
-        from those? 
-    - [ ] We could have counters since last of a rarity level so e.g. a rare comes at least every N
-          cards?
 - [ ] better cards UI
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
   - [ ] add card pictures
@@ -105,8 +84,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
       can't buy the next officer rank
       - if you get an upgrade where you have a new robot, you'd then have to get all the lower ranks
         for that robot before you can upgrade the best officer
-- [ ] make end blocks give rewards? (only when you get that card)
-  - an end block with a jewel could have that jewel encrusted inside, random-rotated in x&z?
 - [ ] achievements
   - gather 100 coins
   - clear out a level
@@ -144,6 +121,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] any other randomness in runs in the same level? what should be random?
   - maybe amount of coins in bags?
   - which end blocks have what rewards?
+  - cards use Math.random()
 - [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
   - it seems to be used for explosions and flying coins only now so much of it can go
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
@@ -179,7 +157,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] use SpriteMixer? https://github.com/felixmariotto/three-SpriteMixer/
     - probably can be done with AnimationMixer and discrete tracks?
 - [ ] error handling - unhandled exceptions and promises
-- [ ] add objects beside the road in the fog
 - [ ] add slow-down areas so we can have big bosses
   - [ ] first add possibility of markings on the track?
   - when in a slow-down area, objects are updated by a different delta
@@ -189,7 +166,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] should players get closer together so they all hit the boss?
 - [ ] add particles showing damage?
 - [ ] should some upgrades expire? should they be more/less expensive after expiry?
-- [ ] add specific bigger occasional awards like the key in ice? what did it actually do?
+- [ ] add specific bigger occasional awards like the key in ice? what did it actually do? I think
+      hero upgrades
 - [ ] let the world know about the game
   - reddit three.js? reddit games?
   - when all artwork is mine
@@ -219,6 +197,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
       - but it might be expensive FPS-wise, with shadows; maybe it could work with short lamp
         fall-off
   - inside a tunnel?
+- [ ] add objects beside the road in the fog?
 - [ ] can we add some kind rolling landscape on the sides of the road? With lambert shading,
       low-poly random waves could work; tiles would need to share vertex coordinates and normals
       though
@@ -234,6 +213,33 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     plays, extra roll (ensured only once)
 
 ---
+
+## done by 2026-05-18
+
+- [x] make end blocks give rewards? (only when you get that card)
+  - an end block with a jewel could have that jewel encrusted inside, random-rotated in x&z?
+- [x] add first permanent upgrades
+  - [x] add cards button that moves us to the cards section
+    - card button next to the track, just above upgrades
+  - [x] style cards section so it's a transition to the left?
+  - [x] cards section
+    - [x] big part to show your cards, scrollable
+    - [x] close button
+    - [x] show existing cards
+    - [x] buy one card button
+    - [x] buy 9 or 12 cards button (price of 8 or 10?) (actual buying not done)
+  - [x] show available gems
+  - [x] State:
+    - [x] type, name and picture, also ID like type+number in case we have to rename a card
+    - [x] cards can have minimum level from which they become available; isFeatureAllowed could use
+          a pre-computed min level from those for gems
+    - [x] cards:{[id]: {level, cardsTowardsNext}}
+      - or cards:Wallet<CardType> - {[type]:number}
+  - [x] Card mechanics: first one works alone, 1,2,2,3,3,3,4,4,4,4,5x5 etc
+  - [x] Probabilities: select what rarity level of card we get (common, rare etc.) then random pick
+        from those? 
+    - [/] We could have counters since last of a rarity level so e.g. a rare comes at least every N
+      cards? (nah)
 
 ## done by 2026-05-11
 

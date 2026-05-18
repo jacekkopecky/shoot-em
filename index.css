@@ -193,11 +193,13 @@ button {
   padding: 0 1em 1em;
 }
 
-#mainScreenWallet {
+#mainScreenWallet,
+.wallet {
   flex-grow: 1;
 
   padding: 0.25em 0.5em;
   border-radius: 1rem;
+  min-height: 3em;
 
   display: flex;
   flex-direction: row;
@@ -396,6 +398,14 @@ button {
     'bottom bottom' 9em
     / auto 1fr;
 
+  .wallet {
+    grid-area: top;
+    margin: 0.7em;
+    min-width: 16em;
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+
   .sectionButtons {
     grid-area: l5;
 
@@ -424,8 +434,10 @@ button {
 
     box-shadow:
       inset 0.5em 0.5em 0.5em #0008,
-      inset -0.5em -0.5em 0.5em #fff6,
-      /* black outer shadow upwards to black out the top corners */ 0 -5em 0 2em black;
+      inset -0.5em -0.5em 0.5em #fff6;
+
+    /* black outer shadow upwards to black out the top corners */
+    /* 0 -5em 0 2em black; */
 
     overflow: auto;
 
@@ -522,6 +534,7 @@ button {
   .name {
     margin: auto;
     text-align: center;
+    text-wrap: balance;
   }
 
   .label {

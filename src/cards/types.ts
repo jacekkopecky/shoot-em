@@ -36,7 +36,7 @@ export const cardDefinitions = {
   range2: tCard('Longbow', t.range, 50),
   range3: tCard('Sniper Rifle', t.range, 70),
   rate1: tCard('Practice', t.rate, 30),
-  rate2: tCard('Robo Reload', t.rate, 30),
+  rate2: tCard('Reload Bot', t.rate, 30),
   rate3: tCard('Gatling Gun', t.rate, 30),
   coins1: tCard('Gold Nugget', t.inRunCoins, 30),
   coins2: tCard('Pay Raise', t.inRunCoins, 40),
