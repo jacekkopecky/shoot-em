@@ -16,7 +16,7 @@ export const rate: CardTemplate = {
   rarity: 'common',
   typeLabel: 'fire rate',
   performUpgrade(level, params) {
-    params.playerShotsPerSecond * 1.03 ** level;
+    params.playerShotsPerSecond *= 1.03 ** level;
   },
 };
 
